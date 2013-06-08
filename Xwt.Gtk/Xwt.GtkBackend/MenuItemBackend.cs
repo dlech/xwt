@@ -45,7 +45,7 @@ namespace Xwt.GtkBackend
 			: this (new Gtk.ImageMenuItem (""))
 		{
 		}
-		
+
 		public MenuItemBackend (Gtk.MenuItem item)
 		{
 			this.item = item;
@@ -95,6 +95,11 @@ namespace Xwt.GtkBackend
 				label.Text = value;
 			}
 		}
+
+		public Accelerator Accelerator {
+			get {
+				new Gtk.AccelLabel("").accel
+			}
 		
 		public bool Sensitive {
 			get {

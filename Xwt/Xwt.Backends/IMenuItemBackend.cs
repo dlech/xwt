@@ -49,6 +49,12 @@ namespace Xwt.Backends
 		/// Gets or sets the label for the menu item.
 		/// </summary>
 		string Label { get; set; }
+
+		/// <summary>
+		/// Gets or sets the accellerator.
+		/// </summary>
+		/// <value>The accellerator.</value>
+		Accelerator Accelerator { get;	set; }
 		
 		/// <summary>
 		/// Gets or sets whether the menu item is enabled.

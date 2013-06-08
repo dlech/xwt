@@ -40,6 +40,7 @@ namespace Xwt.GtkBackend
 		{
 			Window = new Gtk.Window ("");
 			Window.Add (CreateMainLayout ());
+			Window.WindowPosition = Gtk.WindowPosition.Center;
 		}
 		
 		protected virtual Gtk.Widget CreateMainLayout ()
@@ -111,7 +112,7 @@ namespace Xwt.GtkBackend
 			if (alignment.Child != null)
 				alignment.Child.QueueResize ();
 		}
-		
+
 		public void GetConstraints (Gtk.Widget target, out SizeConstraint width, out SizeConstraint height)
 		{
 			width = RequestedSize.Width;

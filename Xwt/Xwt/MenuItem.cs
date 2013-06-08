@@ -88,7 +88,12 @@ namespace Xwt
 			get { return Backend.Label; }
 			set { Backend.Label = value; }
 		}
-		
+
+		public Accelerator Accelerator {
+			get { return Backend.Accelerator; }
+			set { Backend.Accelerator = value; }
+		}
+
 		[DefaultValue (true)]
 		public bool Sensitive {
 			get { return Backend.Sensitive; }

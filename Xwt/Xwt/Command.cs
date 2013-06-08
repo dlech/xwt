@@ -41,6 +41,8 @@ namespace Xwt
 		public string Label { get; private set; }
 		
 		public Image Icon { get; private set; }
+
+		public Accelerator Accellerator { get; private set; }
 		
 		public bool IsStockButton { get; private set; }
 		
