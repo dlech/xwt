@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using Xwt;
 using Xwt.Drawing;
 
 namespace Xwt.Backends
@@ -59,6 +60,8 @@ namespace Xwt.Backends
 		bool ShowInTaskbar { get; set; }
 		void SetTransientFor (IWindowFrameBackend window);
 		bool Resizable { get; set; }
+
+		WindowPosition StartPosition { get; set; }
 
 		void SetIcon (ImageDescription image);
 		

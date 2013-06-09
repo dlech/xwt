@@ -214,6 +214,35 @@ namespace Xwt.GtkBackend
 		{
 			// TODO
 		}
+
+		public WindowPosition StartPosition
+		{
+			get
+			{
+				switch (Window.WindowPosition) {
+					case Gtk.WindowPosition.Center:
+						return WindowPosition.CenterScreen;
+					case Gtk.WindowPosition.CenterOnParent:
+						return WindowPosition.CenterParent;
+					default:
+						return WindowPosition.Manual;
+				}
+			}
+			set {
+				switch (value) {
+					case WindowPosition.Manual:
+						Window.WindowPosition = Gtk.WindowPosition.None;
+						break;
+					case WindowPosition.CenterScreen:
+						Window.WindowPosition = Gtk.WindowPosition.Center;
+						break;
+					case WindowPosition.CenterParent:
+						Window.WindowPosition = Gtk.WindowPosition.CenterOnParent;
+						break;
+				}
+			}
+		}
+
 		#endregion
 
 		public virtual void EnableEvent (object ev)

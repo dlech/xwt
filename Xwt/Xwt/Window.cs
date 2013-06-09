@@ -100,6 +100,12 @@ namespace Xwt
 			}
 		}
 
+		public WindowPosition StartPosition
+		{
+			get { return Backend.StartPosition; }
+			set { Backend.StartPosition = value; }
+		}
+
 		void UpdatePadding ()
 		{
 			Backend.SetPadding (padding.Left, padding.Top, padding.Right, padding.Bottom);

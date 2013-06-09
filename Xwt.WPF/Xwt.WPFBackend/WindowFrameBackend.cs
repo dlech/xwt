@@ -130,6 +130,35 @@ namespace Xwt.WPFBackend
 			set { window.Title = value; }
 		}
 
+		public WindowPosition StartPosition
+		{
+			get
+			{
+				switch (window.WindowStartupLocation) {
+					case WindowStartupLocation.CenterScreen:
+						return WindowPosition.CenterScreen;
+					case WindowStartupLocation.CenterOwner:
+						return WindowPosition.CenterParent;
+					default:
+						return WindowPosition.Manual;
+				}
+			}
+			set
+			{
+				switch (value) {
+					case WindowPosition.Manual:
+						window.WindowStartupLocation = WindowStartupLocation.Manual;
+						break;
+					case WindowPosition.CenterScreen:
+						window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+						break;
+					case WindowPosition.CenterParent:
+						window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+						break;
+				}
+			}
+		}
+
 		bool IWindowFrameBackend.Visible
 		{
 			get { return window.Visibility == Visibility.Visible; }
