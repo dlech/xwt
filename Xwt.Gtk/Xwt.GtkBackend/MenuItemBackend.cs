@@ -92,7 +92,7 @@ namespace Xwt.GtkBackend
 				return label != null ? label.Text : "";
 			}
 			set {
-				label.Text = value;
+				label.TextWithMnemonic = value;
 			}
 		}
 
