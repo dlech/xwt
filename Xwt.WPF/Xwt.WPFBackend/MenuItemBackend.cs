@@ -88,6 +88,12 @@ namespace Xwt.WPFBackend
 			set { this.menuItem.Header = value; }
 		}
 
+		public Accelerator Accelerator
+		{
+			get;
+			set;
+		}
+
 		public bool Sensitive {
 			get { return this.menuItem.IsEnabled; }
 			set { this.menuItem.IsEnabled = value; }

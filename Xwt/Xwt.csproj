@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,23 +12,23 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\xwt.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\build\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>True</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -360,18 +360,24 @@
     <Compile Include="Xwt.Backends\TextLayoutBackendHandler.cs" />
     <Compile Include="Xwt.Backends\ClipboardBackend.cs" />
     <Compile Include="Xwt.Backends\ApplicationContext.cs" />
-    <Compile Include="Xwt\Toolkit.cs" />
+    <Compile Include="Xwt\Toolkit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt.Drawing\DrawingPath.cs" />
     <Compile Include="Xwt.Backends\DrawingPathBackendHandler.cs" />
     <Compile Include="Xwt\Desktop.cs" />
     <Compile Include="Xwt\Screen.cs" />
     <Compile Include="Xwt.Backends\DesktopBackend.cs" />
     <Compile Include="Xwt.Backends\BackendTypeAttribute.cs" />
-    <Compile Include="Xwt.Backends\IEmbeddedWidgetBackend.cs" />
+    <Compile Include="Xwt.Backends\IEmbeddedWidgetBackend.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt\ListViewRowEventArgs.cs" />
     <Compile Include="Xwt\TreeViewRowEventArgs.cs" />
     <Compile Include="Xwt\CanvasCellView.cs" />
-    <Compile Include="Xwt\SegmentedButton.cs" />
+    <Compile Include="Xwt\SegmentedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt.Backends\ISegmentedButtonBackend.cs" />
     <Compile Include="Xwt.Backends\SystemBackend.cs" />
     <Compile Include="Xwt.Backends\WindowsSystemBackend.cs" />
@@ -383,10 +389,14 @@
     <Compile Include="Xwt.Drawing\BitmapImage.cs" />
     <Compile Include="Xwt.Formats\PlainTextFormat.cs" />
     <Compile Include="Xwt.Drawing\ImageFileType.cs" />
-    <Compile Include="Xwt\Slider.cs" />
+    <Compile Include="Xwt\Slider.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt.Backends\ISliderBackend.cs" />
     <Compile Include="Xwt.Drawing\VectorImage.cs" />
-    <Compile Include="Xwt\RadioButton.cs" />
+    <Compile Include="Xwt\RadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt.Backends\IRadioButtonBackend.cs" />
     <Compile Include="Xwt\FormattedText.cs" />
     <Compile Include="Xwt.Drawing\BackgroundTextAttribute.cs" />
@@ -405,19 +415,29 @@
     <Compile Include="Xwt.Backends\ICanvasCellViewFrontend.cs" />
     <Compile Include="Xwt.Backends\ICheckBoxCellViewFrontend.cs" />
     <Compile Include="Xwt.Backends\ExtensionMethods.cs" />
-    <Compile Include="Xwt\Scrollbar.cs" />
-    <Compile Include="Xwt\HScrollbar.cs" />
-    <Compile Include="Xwt\VScrollbar.cs" />
+    <Compile Include="Xwt\Scrollbar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Xwt\HScrollbar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Xwt\VScrollbar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt.Backends\IScrollbarBackend.cs" />
     <Compile Include="Xwt\SizeConstraint.cs" />
     <Compile Include="Xwt\WidgetAlignment.cs" />
     <Compile Include="Xwt.Backends\IChildPlacementHandler.cs" />
-    <Compile Include="Xwt\TableCalc.cs" />
-    <Compile Include="Xwt\VSlider.cs" />
-    <Compile Include="Xwt\HSlider.cs" />
+    <Compile Include="Xwt\TableCalc.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Xwt\VSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Xwt\HSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt\Accelerator.cs" />
-    <Compile Include="Xwt\Action.cs" />
-    <Compile Include="Xwt.Backends\IActionBackend.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

@@ -98,8 +98,13 @@ namespace Xwt.GtkBackend
 
 		public Accelerator Accelerator {
 			get {
-				new Gtk.AccelLabel("").accel
+				//FIXME:
+				return null;
 			}
+			set {
+				//FIXME:
+			}
+		}
 		
 		public bool Sensitive {
 			get {

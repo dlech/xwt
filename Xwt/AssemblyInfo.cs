@@ -25,3 +25,4 @@ using System.Runtime.CompilerServices;
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
 
+[assembly: AssemblyFileVersionAttribute("0.1.0.0")]

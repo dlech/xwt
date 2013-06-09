@@ -40,7 +40,6 @@ namespace Xwt.GtkBackend
 		{
 			Window = new Gtk.Window ("");
 			Window.Add (CreateMainLayout ());
-			Window.WindowPosition = Gtk.WindowPosition.Center;
 		}
 		
 		protected virtual Gtk.Widget CreateMainLayout ()
