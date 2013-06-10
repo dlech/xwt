@@ -40,6 +40,7 @@ namespace Xwt.GtkBackend
 		List<MenuItemEvent> enabledEvents;
 		bool changingCheck;
 		ApplicationContext context;
+		Command command;
 		
 		public MenuItemBackend ()
 			: this (new Gtk.ImageMenuItem (""))
@@ -85,6 +86,20 @@ namespace Xwt.GtkBackend
 			}
 			else
 				it.Image = null;
+		}
+
+		public Command Command
+		{
+			get
+			{
+				return command;
+			}
+			set
+			{
+				command = value;
+				var commandBackend = command.GetBackend () as CommandBackend;
+				item = (Gtk.MenuItem)commandBackend.Action.CreateMenuItem ();
+			}
 		}
 
 		public string Label {

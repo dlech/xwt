@@ -66,7 +66,7 @@ namespace Xwt.Backends
 		/// </summary>
 		bool Visible { get; set; }
 
-		void SetCommand (Command command);
+		Command Command { get; set; }
 	}
 	
 	public interface IMenuItemEventSink

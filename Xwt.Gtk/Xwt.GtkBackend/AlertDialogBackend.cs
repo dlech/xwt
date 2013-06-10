@@ -86,12 +86,12 @@ namespace Xwt.GtkBackend
 			if (res == null) {
 				// If the dialog is closed clicking the close window button we may have no result.
 				// In that case, try to find a cancelling button
-				if (message.Buttons.Contains (Command.Cancel))
-					return Command.Cancel;
-				else if (message.Buttons.Contains (Command.No))
-					return Command.No;
-				else if (message.Buttons.Contains (Command.Close))
-					return Command.Close;
+				if (message.Buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel) > 0)
+					return message.Buttons.First (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel);
+				else if (message.Buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No) > 0)
+					return message.Buttons.First (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No);
+				else if (message.Buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Close) > 0)
+					return message.Buttons.First (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Close);
 			}
 			return res;
 		}

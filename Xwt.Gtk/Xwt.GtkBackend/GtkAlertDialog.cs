@@ -127,7 +127,7 @@ namespace Xwt.GtkBackend
 				Gtk.Button newButton = new Gtk.Button ();
 				newButton.Label        = button.Label;
 				newButton.UseUnderline = true;
-				newButton.UseStock     = button.IsStockButton;
+				newButton.UseStock     = button.IsStockCommand;
 				if (button.Icon != null) {
 					icon = button.Icon.ToImageDescription ();
 					newButton.Image = new ImageBox (actx, icon.WithDefaultSize (Gtk.IconSize.Button));

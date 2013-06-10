@@ -72,7 +72,7 @@ namespace Xwt
 
 		public MenuItem (Command command): this ()
 		{
-			Backend.SetCommand (command);
+			Backend.Command = command;
 		}
 		
 		public MenuItem (string label): this ()
@@ -111,6 +111,8 @@ namespace Xwt
 			get { return image; }
 			set { image = value; Backend.SetImage (image != null ? image.ImageDescription : ImageDescription.Null); }
 		}
+
+		public Command Command { get { return Backend.Command; } }
 
 		public void Show ()
 		{
