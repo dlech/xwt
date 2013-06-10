@@ -53,6 +53,7 @@
     <Compile Include="Xwt.WPFBackend.Utilities\CellUtil.cs" />
     <Compile Include="Xwt.WPFBackend.Utilities\ImageToImageSourceConverter.cs" />
     <Compile Include="Xwt.WPFBackend.Utilities\TypeToStringConverter.cs" />
+    <Compile Include="Xwt.WPFBackend\AcceleratorExtension.cs" />
     <Compile Include="Xwt.WPFBackend\AlertDialogBackend.cs" />
     <Compile Include="Xwt.WPFBackend\Backend.cs" />
     <Compile Include="Xwt.WPFBackend\BooleanToValueConverter.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Xwt.WPFBackend\ComboBoxBackend.cs" />
     <Compile Include="Xwt.WPFBackend\ComboBoxEntryBackend.cs" />
     <Compile Include="Xwt.WPFBackend\ComboBoxTextEntryBackend.cs" />
+    <Compile Include="Xwt.WPFBackend\CommandBackend.cs" />
     <Compile Include="Xwt.WPFBackend\DatePickerBackend.cs" />
     <Compile Include="Xwt.WPFBackend\SpinButtonBackend.cs" />
     <Compile Include="Xwt.WPFBackend\RadioButtonBackend.cs" />

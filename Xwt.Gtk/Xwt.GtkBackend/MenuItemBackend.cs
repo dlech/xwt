@@ -98,7 +98,9 @@ namespace Xwt.GtkBackend
 
 		public Accelerator Accelerator {
 			get {
-				//FIXME:
+				var accelLabel = label as Gtk.AccelLabel;
+				if (accelLabel == null)
+					return null;
 				return null;
 			}
 			set {

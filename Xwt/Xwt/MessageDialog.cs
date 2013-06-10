@@ -49,7 +49,7 @@ namespace Xwt
 		}
 		public static void ShowError (WindowFrame parent, string primaryText, string secondaryText)
 		{
-			GenericAlert (parent, StockIcons.Error, primaryText, secondaryText, Command.Ok);
+			GenericAlert (parent, StockIcons.Error, primaryText, secondaryText, new Command (StockCommand.Ok));
 		}
 		#endregion
 		
@@ -68,7 +68,7 @@ namespace Xwt
 		}
 		public static void ShowWarning (WindowFrame parent, string primaryText, string secondaryText)
 		{
-			GenericAlert (parent, StockIcons.Warning, primaryText, secondaryText, Command.Ok);
+			GenericAlert (parent, StockIcons.Warning, primaryText, secondaryText, new Command (StockCommand.Ok));
 		}
 		#endregion
 		
@@ -88,7 +88,7 @@ namespace Xwt
 		}
 		public static void ShowMessage (WindowFrame parent, string primaryText, string secondaryText)
 		{
-			GenericAlert (parent, StockIcons.Information, primaryText, secondaryText, Command.Ok);
+			GenericAlert (parent, StockIcons.Information, primaryText, secondaryText, new Command (StockCommand.Ok));
 		}
 		#endregion
 		
@@ -100,7 +100,8 @@ namespace Xwt
 		
 		public static bool Confirm (string primaryText, string secondaryText, Command button)
 		{
-			return GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText, Command.Cancel, button) == button;
+			return GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText,
+			                     new Command(StockCommand.Cancel), button) == button;
 		}
 		public static bool Confirm (string primaryText, Command button, bool confirmIsDefault)
 		{
@@ -109,7 +110,8 @@ namespace Xwt
 		
 		public static bool Confirm (string primaryText, string secondaryText, Command button, bool confirmIsDefault)
 		{
-			return GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText, confirmIsDefault ? 0 : 1, Command.Cancel, button) == button;
+			return GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText, confirmIsDefault ? 0 : 1,
+			                     new Command (StockCommand.Cancel), button) == button;
 		}
 		
 		public static bool Confirm (ConfirmationMessage message)
@@ -292,7 +294,7 @@ namespace Xwt
 		public ConfirmationMessage ()
 		{
 			Icon = StockIcons.Question;
-			Buttons.Add (Command.Cancel);
+			Buttons.Add (new Command (StockCommand.Cancel));
 		}
 		
 		public ConfirmationMessage (Command button): this ()

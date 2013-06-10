@@ -38,9 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Xwt.Backends\CommandBackend.cs" />
+    <Compile Include="Xwt.Backends\ICommandBackend.cs" />
     <Compile Include="Xwt\ReliefFrame.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Xwt\StockCommand.cs" />
     <Compile Include="Xwt\Widget.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -177,7 +180,9 @@
     </Compile>
     <Compile Include="Xwt\ItemCollection.cs" />
     <Compile Include="Xwt.Backends\IComboBoxBackend.cs" />
-    <Compile Include="Xwt\Command.cs" />
+    <Compile Include="Xwt\Command.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Xwt\IListDataSource.cs" />
     <Compile Include="Xwt\ITreeDataSource.cs" />
     <Compile Include="Xwt\Dialog.cs">

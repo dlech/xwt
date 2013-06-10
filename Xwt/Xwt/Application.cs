@@ -137,7 +137,7 @@ namespace Xwt
 		/// This method schedules the execution of the provided function. The function
 		/// must return 'true' if it has to be executed again after the time span, or 'false'
 		/// if the timer can be discarded.
-		/// The execution of the funciton can be canceled by disposing the returned object.
+		/// The execution of the function can be canceled by disposing the returned object.
 		/// </remarks>
 		public static IDisposable TimeoutInvoke (int ms, Func<bool> action)
 		{
@@ -162,7 +162,7 @@ namespace Xwt
 		/// This method schedules the execution of the provided function. The function
 		/// must return 'true' if it has to be executed again after the time span, or 'false'
 		/// if the timer can be discarded.
-		/// The execution of the funciton can be canceled by disposing the returned object.
+		/// The execution of the function can be canceled by disposing the returned object.
 		/// </remarks>
 		public static IDisposable TimeoutInvoke (TimeSpan timeSpan, Func<bool> action)
 		{

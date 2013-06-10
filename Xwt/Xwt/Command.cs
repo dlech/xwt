@@ -25,43 +25,76 @@
 // THE SOFTWARE.
 using System;
 using Xwt.Drawing;
+using Xwt.Backends;
 
 namespace Xwt
 {
-	public class Command
+	[BackendType(typeof(ICommandBackend))]
+	public class Command : XwtComponent
 	{
+		protected class CommandBackendHost : BackendHost<Command, ICommandBackend>, ICommandEventSink
+		{
+			protected override void OnBackendCreated ()
+			{
+				base.OnBackendCreated ();
+				Backend.Initalize (this);
+			}
+
+			public void OnCommand ()
+			{
+				throw new NotImplementedException ();
+			}
+
+			public void OnEnabledChanged ()
+			{
+				throw new NotImplementedException ();
+			}
+		}
+
+		protected override Xwt.Backends.BackendHost CreateBackendHost ()
+		{
+			return new CommandBackendHost ();
+		}
+
 		public Command (string id)
+			: this (id, id) { }
+
+		public Command (string id, string label)
+			: this (id, label, null, null) { }
+
+		public Command (string id, string label, Accelerator accelerator)
+			: this(id, label, accelerator, null) { }
+
+		public Command (string id, string label, Accelerator accelerator, Image icon)
 		{
 			Id = id;
-			Label = Id;
+			Label = label;
+			Accelerator = accelerator;
+			Icon = icon;
 		}
-		
-		public string Id { get; private set; }
-		
-		public string Label { get; private set; }
-		
-		public Image Icon { get; private set; }
 
-		public Accelerator Accellerator { get; private set; }
-		
-		public bool IsStockButton { get; private set; }
-		
-		public static Command Ok = new Command ("Ok");
-		public static Command Cancel = new Command ("Cancel");
-		public static Command Yes = new Command ("Yes");
-		public static Command No = new Command ("No");
-		public static Command Close = new Command ("Close");
-		public static Command Delete = new Command ("Delete");
-		public static Command Add = new Command ("Add");
-		public static Command Remove = new Command ("Remove");
-		public static Command Clear = new Command ("Clear");
-		public static Command Copy = new Command ("Copy");
-		public static Command Cut = new Command ("Cut");
-		public static Command Paste = new Command ("Paste");
-		public static Command Save = new Command ("Save");
-		public static Command SaveAs = new Command ("SaveAs");
-		public static Command Stop = new Command ("Stop");
-		public static Command Apply = new Command ("Apply");
+		public Command (StockCommand command)
+		{
+			Id = command.ToString ();
+			StockCommand = command;
+		}
+
+		public string Id { get; internal set; }
+
+		public string Label { get; internal set; }
+
+		public Image Icon { get; internal set; }
+
+		public Accelerator Accelerator { get; internal set; }
+
+		public StockCommand? StockCommand { get; internal set; }
+
+		public bool IsStockCommand { get { return StockCommand != null; } }
+
+		ICommandBackend Backend
+		{
+			get { return (ICommandBackend)base.BackendHost.Backend; }
+		}
 	}
 }
 

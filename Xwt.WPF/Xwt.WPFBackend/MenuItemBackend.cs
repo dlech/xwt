@@ -44,7 +44,8 @@ namespace Xwt.WPFBackend
 		SWC.MenuItem menuItem;
 		MenuBackend subMenu;
 		MenuItemType type;
-		IMenuItemEventSink eventSink;
+		IMenuItemEventSink menuItemEventSink;
+		ICommandEventSink commandEventSink;
 
 		public MenuItemBackend ()
 			: this (new SWC.MenuItem())
@@ -59,7 +60,12 @@ namespace Xwt.WPFBackend
 
 		public void Initialize (IMenuItemEventSink eventSink)
 		{
-			this.eventSink = eventSink;
+			this.menuItemEventSink = eventSink;
+		}
+
+		public void Initialize (ICommandEventSink eventSink)
+		{
+			this.commandEventSink = eventSink;
 		}
 
 		public object Item {
@@ -71,7 +77,7 @@ namespace Xwt.WPFBackend
 		}
 
 		public IMenuItemEventSink EventSink {
-			get { return eventSink; }
+			get { return menuItemEventSink; }
 		}
 
 		public bool Checked {
@@ -90,8 +96,8 @@ namespace Xwt.WPFBackend
 
 		public Accelerator Accelerator
 		{
-			get;
-			set;
+			get { return null; }
+			set { menuItem.InputGestureText = value.ToInputGesture (); }
 		}
 
 		public bool Sensitive {
@@ -120,7 +126,6 @@ namespace Xwt.WPFBackend
 					subMenu.RemoveFromParentItem ();
 					subMenu = null;
 				}
-
 				return;
 			}
 
@@ -147,6 +152,24 @@ namespace Xwt.WPFBackend
 			}
 
 			this.type = type;
+		}
+
+		public void SetCommand (Command command)
+		{
+			var commandBackend = command.GetBackend() as CommandBackend;
+			menuItem.Command = commandBackend.Command;
+			System.Windows.Input.ExecutedRoutedEventHandler execute = (sender, e) =>
+			{
+
+			};
+			System.Windows.Input.CanExecuteRoutedEventHandler canExecute = (sender, e) =>
+			{
+				e.CanExecute = true;
+				// TODO: get value from command
+				// e.CanExecute = command.Sensitive;
+			};
+			var binding = new System.Windows.Input.CommandBinding (menuItem.Command, execute, canExecute);
+			menuItem.CommandBindings.Add (binding);
 		}
 
 		public override void EnableEvent (object eventId)
@@ -179,7 +202,7 @@ namespace Xwt.WPFBackend
 
 		void MenuItemClickHandler (object sender, EventArgs args)
 		{
-			Context.InvokeUserCode (eventSink.OnClicked);
+			Context.InvokeUserCode (menuItemEventSink.OnClicked);
 		}
 	}
 }

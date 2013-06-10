@@ -51,10 +51,10 @@ namespace Xwt.Backends
 		string Label { get; set; }
 
 		/// <summary>
-		/// Gets or sets the accellerator.
+		/// Gets or sets the accelerator.
 		/// </summary>
-		/// <value>The accellerator.</value>
-		Accelerator Accelerator { get;	set; }
+		/// <value>The accelerator.</value>
+		Accelerator Accelerator { get; set; }
 		
 		/// <summary>
 		/// Gets or sets whether the menu item is enabled.
@@ -65,6 +65,8 @@ namespace Xwt.Backends
 		/// Gets or sets whether the menu item is visible.
 		/// </summary>
 		bool Visible { get; set; }
+
+		void SetCommand (Command command);
 	}
 	
 	public interface IMenuItemEventSink

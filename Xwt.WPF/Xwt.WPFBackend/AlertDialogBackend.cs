@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Linq;
 
 using Xwt.Backends;
 
@@ -39,6 +40,10 @@ namespace Xwt.WPFBackend
 		MessageBoxImage icon;
 		MessageBoxOptions options;
 		MessageBoxResult defaultResult;
+		Command OkCommand;
+		Command CancelCommand;
+		Command YesCommand;
+		Command NoCommand;
 
 		public AlertDialogBackend()
 		{
@@ -66,10 +71,10 @@ namespace Xwt.WPFBackend
 			var wb = (WindowFrameBackend)Toolkit.GetBackend (transientFor);
 			if (wb != null) {
 				this.dialogResult = MessageBox.Show (wb.Window, message.Text,message.SecondaryText,
-													this.buttons, this.icon, this.defaultResult, this.options);
+				                                     this.buttons, this.icon, this.defaultResult, this.options);
 			} else {
 				this.dialogResult = MessageBox.Show (message.Text, message.SecondaryText, this.buttons, 
-													this.icon, this.defaultResult, this.options);
+				                                     this.icon, this.defaultResult, this.options);
 			}
 
 			return ConvertResultToCommand (this.dialogResult);
@@ -98,17 +103,17 @@ namespace Xwt.WPFBackend
 		{
 			switch (dialogResult) {
 			case MessageBoxResult.None:
-				return Command.No;
+				return NoCommand;
 			case MessageBoxResult.Cancel:
-				return Command.Cancel;
+				return CancelCommand;
 			case MessageBoxResult.No:
-				return Command.No;
+				return NoCommand;
 			case MessageBoxResult.Yes:
-				return Command.Yes;
+				return YesCommand;
 			case MessageBoxResult.OK:
-				return Command.Ok;
+				return OkCommand;
 			default:
-				return Command.Cancel;
+				return CancelCommand;
 			}
 		}
 
@@ -116,25 +121,34 @@ namespace Xwt.WPFBackend
 		{
 			MessageBoxButton result;
 
+			OkCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Ok);
+			CancelCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel);
+			YesCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Yes);
+			NoCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No);
+
 			switch (buttons.Count){
 			case 1:
-				if (buttons.Contains(Command.Ok)) {
+				if (buttons.Count(command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Ok) > 0) {
 					result = MessageBoxButton.OK;
 				} else {
 					throw new NotImplementedException ();
 				}
 				break;
 			case 2:
-				if (buttons.Contains (Command.Ok) && buttons.Contains (Command.Cancel)) {
+				if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Ok) > 0 &&
+				    buttons.Count(command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel) > 0) {
 					result = MessageBoxButton.OKCancel;
-				} else if (buttons.Contains (Command.Yes) && buttons.Contains (Command.No)) {
+				} else if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Yes) > 0 &&
+				           buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No) > 0) {
 					result = MessageBoxButton.YesNo;
 				} else {
 					throw new NotImplementedException ();
 				}
 				break;
 			case 3:
-				if (buttons.Contains (Command.Yes) && buttons.Contains (Command.No) && buttons.Contains (Command.Cancel)) {
+				if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Yes) > 0 &&
+				    buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No) > 0 &&
+				    buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel) > 0) {
 					result = MessageBoxButton.YesNoCancel;
 				} else {
 					throw new NotImplementedException ();

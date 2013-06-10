@@ -83,7 +83,8 @@ namespace Xwt
 		/// <summary>
 		/// Gets the screen scale factor.
 		/// </summary>
-		/// <value>This is the scale of user space pixels in relation to phisical pixels. The normal value is 1. In a retina display the value is 2.</value>
+		/// <value>This is the scale of user space pixels in relation to physical pixels.
+		/// The normal value is 1. In a retina display the value is 2.</value>
 		public double ScaleFactor {
 			get {
 				return ToolkitEngine.DesktopBackend.GetScaleFactor (Backend);

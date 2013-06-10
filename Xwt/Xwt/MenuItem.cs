@@ -68,10 +68,11 @@ namespace Xwt
 		{
 		}
 		
+		public MenuItem (StockCommand command) : this (new Command(command)) { }
+
 		public MenuItem (Command command): this ()
 		{
-			Label = command.Label;
-			Image = command.Icon;
+			Backend.SetCommand (command);
 		}
 		
 		public MenuItem (string label): this ()
@@ -110,7 +111,7 @@ namespace Xwt
 			get { return image; }
 			set { image = value; Backend.SetImage (image != null ? image.ImageDescription : ImageDescription.Null); }
 		}
-		
+
 		public void Show ()
 		{
 			Visible = true;
