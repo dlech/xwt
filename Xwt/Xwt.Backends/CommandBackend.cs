@@ -164,6 +164,12 @@ namespace Xwt.Backends
 					case StockCommand.Preferences:
 						command.Label = "Preferences";
 						break;
+					case StockCommand.Import:
+						command.Label = "_Import\u2026";
+						break;
+					case StockCommand.Export:
+						command.Label = "_Export\u2026";
+						break;
 					default:
 						command.Label = command.Id;
 						break;

@@ -23,9 +23,11 @@ namespace Xwt
 		Delete,
 		DeselectAll,
 		Duplicate,
+		Export,
 		Find,
 		FindNext,
 		FindPrevious,
+		Import,
 		New,
 		No,
 		Ok,
@@ -49,7 +51,6 @@ namespace Xwt
 		SendTo,
 		Stop,
 		Undo,
-		Yes,
-		File
+		Yes
 	}
 }

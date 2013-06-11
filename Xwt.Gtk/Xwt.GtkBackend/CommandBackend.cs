@@ -27,7 +27,10 @@ namespace Xwt.GtkBackend
 
 			if (frontendCommand.IsStockCommand) {
 				switch (frontendCommand.StockCommand.Value) {
-					// TODO: check for mismatches or manually check all cases.
+					case StockCommand.Import:
+					case StockCommand.Export:
+						break;
+					// TODO: check for mismatches and missing items or manually check all cases.
 					default:
 						var gtkStockType = typeof(Gtk.Stock);
 						var gtkStockProperty = gtkStockType.GetProperty (frontendCommand.StockCommand.Value.ToString ());
