@@ -49,6 +49,7 @@ namespace Xwt
 		SendTo,
 		Stop,
 		Undo,
-		Yes
+		Yes,
+		File
 	}
 }

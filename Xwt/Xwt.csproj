@@ -42,7 +42,7 @@
     <Compile Include="Xwt.Backends\ICommandManagerBackend.cs" />
     <Compile Include="Xwt.Backends\CommandBackend.cs" />
     <Compile Include="Xwt.Backends\ICommandBackend.cs" />
-    <Compile Include="Xwt\CommandManager.cs" />
+    <Compile Include="Xwt\ICommandTarget.cs" />
     <Compile Include="Xwt\ReliefFrame.cs">
       <SubType>Component</SubType>
     </Compile>

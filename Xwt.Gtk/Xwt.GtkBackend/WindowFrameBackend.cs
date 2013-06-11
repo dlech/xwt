@@ -32,18 +32,34 @@ namespace Xwt.GtkBackend
 {
 	public class WindowFrameBackend: IWindowFrameBackend
 	{
+		const string actionGroupName = "Default";
+
 		Gtk.Window window;
+		Gtk.AccelGroup accelGroup;
+		Gtk.ActionGroup actionGroup;
 		IWindowFrameEventSink eventSink;
 		WindowFrame frontend;
 		Size requestedSize;
 
 		public WindowFrameBackend ()
 		{
+			accelGroup = new Gtk.AccelGroup ();
+			actionGroup = new Gtk.ActionGroup (actionGroupName);
+			CommandCollectionListener = new CommandCollectionListenerImp (this);
 		}
 		
 		public Gtk.Window Window {
 			get { return window; }
-			set { window = value; }
+			set
+			{
+				if (ReferenceEquals (window, value))
+					return;
+				if (window != null)
+					window.RemoveAccelGroup (accelGroup);
+				if (value != null)
+					value.AddAccelGroup (accelGroup);
+				window = value;
+			}
 		}
 		
 		protected WindowFrame Frontend {
@@ -316,6 +332,45 @@ namespace Xwt.GtkBackend
 
 		public virtual Size ImplicitMinSize {
 			get { return new Size (0,0); }
+		}
+
+		public ICollectionListener CommandCollectionListener { get; private set; }
+
+		class CommandCollectionListenerImp : ICollectionListener
+		{
+			WindowFrameBackend backend;
+
+			public CommandCollectionListenerImp (WindowFrameBackend backend)
+			{
+				this.backend = backend;
+			}
+
+			public void ItemAdded (object collection, object item)
+			{
+				var command = item as Command;
+				var commandBackend = command.GetBackend () as CommandBackend;
+				string accelerator = null;
+				// Commands with StockId will get accelerator without us generating it
+				if (commandBackend.Action.StockId == null && command.Accelerator != null) {
+					accelerator = string.Empty;
+					if (command.Accelerator.HasModifiers) {
+						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Control))
+							accelerator += "<Primary>";
+						accelerator += command.Accelerator.Key.ToString ().ToLower();
+					}
+				}
+				backend.actionGroup.Add (commandBackend.Action, accelerator);
+				commandBackend.Action.AccelGroup = backend.accelGroup;
+				commandBackend.Action.AccelPath =
+					string.Format ("<Actions>/{0}/{1}", actionGroupName, commandBackend.Action.Name);
+			}
+
+			public void ItemRemoved (object collection, object item)
+			{
+				var command = item as Command;
+				var commandBackend = command.GetBackend () as CommandBackend;
+				backend.actionGroup.Remove (commandBackend.Action);
+			}
 		}
 	}
 }

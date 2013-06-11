@@ -39,6 +39,11 @@ namespace Xwt
 		{
 			items = new MenuItemCollection (this);
 		}
+
+		public Menu (IMenuBackend backend) : this ()
+		{
+			base.BackendHost.SetCustomBackend (backend);
+		}
 		
 		internal IMenuBackend Backend {
 			get { return (IMenuBackend) BackendHost.Backend; }

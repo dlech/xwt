@@ -34,7 +34,14 @@ namespace Xwt.GtkBackend
 	public class MenuBackend: IMenuBackend
 	{
 		Gtk.MenuShell menu;
-		
+
+		public MenuBackend () { }
+
+		public MenuBackend (Gtk.Menu menu)
+		{
+			this.menu = menu;
+		}
+
 		public void InitializeBackend (object frontend, ApplicationContext context)
 		{
 			menu = new Gtk.Menu ();

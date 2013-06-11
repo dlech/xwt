@@ -32,6 +32,8 @@ namespace Xwt
 	[BackendType(typeof(ICommandBackend))]
 	public class Command : XwtComponent
 	{
+		ICommandTarget target;
+
 		protected class CommandBackendHost : BackendHost<Command, ICommandBackend>, ICommandEventSink
 		{
 			protected override void OnBackendCreated ()
@@ -89,11 +91,36 @@ namespace Xwt
 
 		public StockCommand? StockCommand { get; internal set; }
 
+		public ICommandTarget Target { 
+			get { return target; }
+			set
+			{
+				if (ReferenceEquals(value, target))
+					return;
+				if (target != null)
+					target.Commands.Remove (this);
+				if (value != null)
+					value.Commands.Add (this);
+			}
+		}
+
 		public bool IsStockCommand { get { return StockCommand != null; } }
 
 		ICommandBackend Backend
 		{
 			get { return (ICommandBackend)base.BackendHost.Backend; }
+		}
+
+		public MenuItem CreateMenuItem ()
+		{
+			var menuItemBackend = Backend.CreateMenuItem ();
+			return Toolkit.CurrentEngine.Backend.CreateFrontend<MenuItem> (menuItemBackend);
+		}
+
+		public Menu CreateMenu ()
+		{
+			var menuBackend = Backend.CreateMenu ();
+			return Toolkit.CurrentEngine.Backend.CreateFrontend<Menu> (menuBackend);
 		}
 	}
 }

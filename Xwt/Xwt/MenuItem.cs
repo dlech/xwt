@@ -68,16 +68,14 @@ namespace Xwt
 		{
 		}
 		
-		public MenuItem (StockCommand command) : this (new Command(command)) { }
-
-		public MenuItem (Command command): this ()
-		{
-			Backend.Command = command;
-		}
-		
 		public MenuItem (string label): this ()
 		{
 			Label = label;
+		}
+
+		public MenuItem (IMenuItemBackend backend)
+		{
+			base.BackendHost.SetCustomBackend (backend);
 		}
 		
 		IMenuItemBackend Backend {

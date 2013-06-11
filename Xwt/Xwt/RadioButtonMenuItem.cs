@@ -39,11 +39,7 @@ namespace Xwt
 		public RadioButtonMenuItem ()
 		{
 		}
-		
-		public RadioButtonMenuItem (Command command): base (command)
-		{
-		}
-		
+
 		public RadioButtonMenuItem (string label): base (label)
 		{
 		}

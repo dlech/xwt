@@ -181,6 +181,9 @@ namespace Xwt.Backends
 			command.Accelerator = accelerator;
 		}
 
+		public abstract IMenuItemBackend CreateMenuItem ();
+		public abstract IMenuBackend CreateMenu ();
+
 		public virtual void InitializeBackend(object frontend, ApplicationContext context)
 		{
 			// TODO:

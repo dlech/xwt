@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Xwt.GtkBackend\CommandBackend.cs" />
-    <Compile Include="Xwt.GtkBackend\CommandManagerBackend.cs" />
     <Compile Include="Xwt.GtkBackend\LabelBackend.cs" />
     <Compile Include="Xwt.GtkBackend\WidgetBackend.cs" />
     <Compile Include="Xwt.GtkBackend\WindowBackend.cs" />

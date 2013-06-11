@@ -22,6 +22,9 @@ namespace Xwt.Backends
 	public interface ICommandBackend : IBackend
 	{
 		void Initalize (ICommandEventSink backendHost);
+
+		IMenuItemBackend CreateMenuItem ();
+		IMenuBackend CreateMenu ();
 	}
 
 	public interface ICommandEventSink

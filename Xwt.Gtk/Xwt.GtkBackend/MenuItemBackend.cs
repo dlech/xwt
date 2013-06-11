@@ -98,7 +98,10 @@ namespace Xwt.GtkBackend
 			{
 				command = value;
 				var commandBackend = command.GetBackend () as CommandBackend;
+				var parent = item.Parent;
+				item.Destroy();
 				item = (Gtk.MenuItem)commandBackend.Action.CreateMenuItem ();
+				item.Parent = parent;
 			}
 		}
 

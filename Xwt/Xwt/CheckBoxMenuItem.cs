@@ -35,11 +35,7 @@ namespace Xwt
 		public CheckBoxMenuItem ()
 		{
 		}
-		
-		public CheckBoxMenuItem (Command command): base (command)
-		{
-		}
-		
+
 		public CheckBoxMenuItem (string label): base (label)
 		{
 		}
