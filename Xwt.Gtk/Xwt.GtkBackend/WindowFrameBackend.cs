@@ -354,9 +354,13 @@ namespace Xwt.GtkBackend
 				if (commandBackend.Action.StockId == null && command.Accelerator != null) {
 					accelerator = string.Empty;
 					if (command.Accelerator.HasModifiers) {
+						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Shift))
+							accelerator += "<Shift>";
+						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Alt))
+							accelerator += "<Alt>";
 						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Control))
-							accelerator += "<Primary>";
-						accelerator += command.Accelerator.Key.ToString ().ToLower();
+							accelerator += "<Control>";
+						accelerator += command.Accelerator.Key.ToString ();
 					}
 				}
 				backend.actionGroup.Add (commandBackend.Action, accelerator);
