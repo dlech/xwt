@@ -29,7 +29,13 @@ namespace Xwt.Backends
 
 	public interface ICommandEventSink
 	{
-		void OnCommand ();
-		void OnEnabledChanged ();
+		void OnActivated ();
+		void OnSensitiveChanged ();
+	}
+
+	public enum CommandEvent
+	{
+		Activated = 1,
+		SensitiveChanged
 	}
 }

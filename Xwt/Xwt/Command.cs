@@ -42,12 +42,12 @@ namespace Xwt
 				Backend.Initalize (this);
 			}
 
-			public void OnCommand ()
+			public void OnActivated ()
 			{
-				throw new NotImplementedException ();
+				Parent.Activate ();
 			}
 
-			public void OnEnabledChanged ()
+			public void OnSensitiveChanged ()
 			{
 				throw new NotImplementedException ();
 			}
@@ -121,6 +121,24 @@ namespace Xwt
 		{
 			var menuBackend = Backend.CreateMenu ();
 			return Toolkit.CurrentEngine.Backend.CreateFrontend<Menu> (menuBackend);
+		}
+
+		EventHandler activated;
+		public event EventHandler Activated {
+			add {
+				base.BackendHost.OnBeforeEventAdd (CommandEvent.Activated, activated);
+				activated += value;
+			}
+			remove {
+				activated -= value;
+				base.BackendHost.OnAfterEventRemove (CommandEvent.Activated, activated);
+			}
+		}
+
+		public void Activate ()
+		{
+			if (activated != null)
+				activated (this, EventArgs.Empty);
 		}
 	}
 }

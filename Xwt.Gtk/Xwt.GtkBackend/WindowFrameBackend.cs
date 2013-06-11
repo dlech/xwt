@@ -361,8 +361,7 @@ namespace Xwt.GtkBackend
 				}
 				backend.actionGroup.Add (commandBackend.Action, accelerator);
 				commandBackend.Action.AccelGroup = backend.accelGroup;
-				commandBackend.Action.AccelPath =
-					string.Format ("<Actions>/{0}/{1}", actionGroupName, commandBackend.Action.Name);
+				commandBackend.Action.ConnectAccelerator ();
 			}
 
 			public void ItemRemoved (object collection, object item)

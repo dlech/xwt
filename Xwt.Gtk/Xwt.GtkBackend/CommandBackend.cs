@@ -50,12 +50,17 @@ namespace Xwt.GtkBackend
 			return new MenuBackend (menu);
 		}
 
-		public override void InitializeBackend (object frontend, Backends.ApplicationContext context)
+		public Gtk.Action Action { get { return action; } }
+
+		protected override void AddCommandActivatedHandler (EventHandler handler)
 		{
-			// TODO: anything needed here?
+			action.Activated += handler;
 		}
 
-		public Gtk.Action Action { get { return action; } }
+		protected override void RemoveCommandActivatedHandler (EventHandler handler)
+		{
+			action.Activated -= handler;
+		}
 
 	}
 }

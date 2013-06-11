@@ -17,6 +17,8 @@ namespace Xwt.Backends
 	public abstract class CommandBackend : ICommandBackend
 	{
 		ICommandEventSink eventSink;
+		List<CommandEvent> enabledEvents;
+		ApplicationContext context;
 
 		public virtual void Initalize (ICommandEventSink eventSink)
 		{
@@ -186,17 +188,46 @@ namespace Xwt.Backends
 
 		public virtual void InitializeBackend(object frontend, ApplicationContext context)
 		{
-			// TODO:
+			this.context = context;
 		}
 
 		public virtual void EnableEvent(object eventId)
 		{
-			throw new NotImplementedException();
+			var commandEventId = eventId as CommandEvent?;
+			if (commandEventId.HasValue) {
+				if (enabledEvents == null)
+					enabledEvents = new List<CommandEvent> ();
+				enabledEvents.Add (commandEventId.Value);
+				switch (commandEventId.Value) {
+					case CommandEvent.Activated:
+						AddCommandActivatedHandler(HandleCommandActivated);
+						break;
+				}
+			}
 		}
 
 		public void DisableEvent(object eventId)
 		{
-			throw new NotImplementedException();
+			var commandEventId = eventId as CommandEvent?;
+			if (commandEventId.HasValue) {
+				enabledEvents.Remove (commandEventId.Value);
+				switch (commandEventId.Value) {
+					case CommandEvent.Activated:
+						RemoveCommandActivatedHandler (HandleCommandActivated);
+						break;
+				}
+			}
 		}
+
+		void HandleCommandActivated (object sender, EventArgs e)
+		{
+			context.InvokeUserCode (delegate
+			{
+				eventSink.OnActivated ();
+			});
+		}
+
+		protected abstract void AddCommandActivatedHandler (EventHandler handler);
+		protected abstract void RemoveCommandActivatedHandler (EventHandler handler);
 	}
 }
