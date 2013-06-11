@@ -350,8 +350,10 @@ namespace Xwt.GtkBackend
 				var command = item as Command;
 				var commandBackend = command.GetBackend () as CommandBackend;
 				string accelerator = null;
-				// Commands with StockId will get accelerator without us generating it
-				if (commandBackend.Action.StockId == null && command.Accelerator != null) {
+				// Most Commands with StockId will get accelerator without us generating it
+				var needsAccelerator = commandBackend.Action.StockId == null ||
+				                       commandBackend.Action.StockId == Gtk.Stock.Print;
+				if (needsAccelerator && command.Accelerator != null) {
 					accelerator = string.Empty;
 					if (command.Accelerator.HasModifiers) {
 						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Shift))
