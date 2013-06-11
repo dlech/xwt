@@ -32,7 +32,7 @@ namespace Xwt
 	[BackendType(typeof(ICommandBackend))]
 	public class Command : XwtComponent
 	{
-		ICommandTarget target;
+		internal ICommandTarget target;
 
 		protected class CommandBackendHost : BackendHost<Command, ICommandBackend>, ICommandEventSink
 		{
