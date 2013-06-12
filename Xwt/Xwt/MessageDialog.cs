@@ -72,7 +72,6 @@ namespace Xwt
 		}
 		#endregion
 		
-		
 		#region ShowMessage
 		public static void ShowMessage (string primaryText)
 		{
@@ -91,35 +90,156 @@ namespace Xwt
 			GenericAlert (parent, StockIcons.Information, primaryText, secondaryText, new Command (StockCommand.Ok));
 		}
 		#endregion
-		
+
 		#region Confirm
-		public static bool Confirm (string primaryText, Command button)
+
+		/// <summary>
+		/// Displays a MessageDialog for user confirmation.
+		/// </summary>
+		/// <param name="primaryText">
+		/// The primary message to display to the user. Generally, a short title.
+		/// </param>
+		/// <returns>True if the user clicks the OK button</returns>
+		/// <remarks>
+		/// The MessageDialog will have a Cancel button and an OK button.
+		/// The OK button will be selected as the default button.
+		/// </remarks>
+		public static bool Confirm (string primaryText)
 		{
-			return Confirm (primaryText, null, button);
+			return Confirm (primaryText, (string)null);
+		}
+
+		/// <summary>
+		/// Displays a MessageDialog for user confirmation.
+		/// </summary>
+		/// <param name="primaryText">
+		/// The primary message to display to the user. Generally, a short title.
+		/// </param>
+		/// <returns>True if the user clicks the OK button</returns>
+		/// <remarks>
+		/// The MessageDialog will have a Cancel button and an OK button.
+		/// The OK button will be selected as the default button.
+		/// </remarks>
+		public static bool Confirm (string primaryText, string secondaryText)
+		{
+			return Confirm (primaryText, secondaryText, new Command (StockCommand.Ok));
+		}
+
+		/// <summary>
+		/// Displays a MessageDialog for user confirmation.
+		/// </summary>
+		/// <param name="primaryText">
+		/// The primary message to display to the user. Generally, a short title.
+		/// </param>
+		/// <param name="confirmCommand">
+		/// The <see cref="Command"/> that is activated when the user responds in the affirmative.
+		/// A button will be created using the properties of the Command
+		/// </param>
+		/// <returns>True if the user clicks the confirm button</returns>
+		/// <remarks>
+		/// The MessageDialog will have a Cancel button in addition to the user specified
+		/// confirm button. The confirm button will be selected as the default button.
+		/// </remarks>
+		public static bool Confirm (string primaryText, Command confirmCommand)
+		{
+			return Confirm (primaryText, null, confirmCommand);
+		}
+
+		/// <summary>
+		/// Displays a MessageDialog for user confirmation.
+		/// </summary>
+		/// <param name="primaryText">
+		/// The primary message to display to the user. Generally, a short title.
+		/// </param>
+		/// <param name="secondaryText">
+		/// The secondary message to display to the user. Provides more descriptive
+		/// information than the primary message.
+		/// </param>
+		/// <param name="confirmCommand">
+		/// The <see cref="Command"/> that is activated when the user responds in the affirmative.
+		/// A button will be created using the properties of the Command
+		/// </param>
+		/// <returns>True if the user clicks the confirm button</returns>
+		/// <remarks>
+		/// The MessageDialog will have a Cancel button in addition to the user specified
+		/// confirm button. The confirm button will be selected as the default button.
+		/// </remarks>
+		public static bool Confirm (string primaryText, string secondaryText, Command confirmCommand)
+		{
+			var result = GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText,
+			                           new Command(StockCommand.Cancel), confirmCommand);
+			return ReferenceEquals (result, confirmCommand);
+		}
+
+		/// <summary>
+		/// Displays a MessageDialog for user confirmation.
+		/// </summary>
+		/// <param name="primaryText">
+		/// The primary message to display to the user. Generally, a short title.
+		/// </param>
+		/// <param name="confirmCommand">
+		/// The <see cref="Command"/> that is activated when the user responds in the affirmative.
+		/// A button will be created using the properties of the Command
+		/// </param>
+		/// <param name="confirmIsDefault">
+		/// When true, the confirm button will be the default button. When false, the
+		/// Cancel button will be the default button.
+		/// </param>
+		/// <returns>True if the user clicks the confirm button</returns>
+		/// <remarks>
+		/// The MessageDialog will have a Cancel button in addition to the user specified
+		/// confirm button.
+		/// </remarks>
+		public static bool Confirm (string primaryText, Command confirmCommand, bool confirmIsDefault)
+		{
+			return Confirm (primaryText, null, confirmCommand, confirmIsDefault);
+		}
+
+		/// <summary>
+		/// Displays a MessageDialog for user confirmation.
+		/// </summary>
+		/// <param name="primaryText">
+		/// The primary message to display to the user. Generally, a short title.
+		/// </param>
+		/// <param name="secondaryText">
+		/// The secondary message to display to the user. Provides more descriptive
+		/// information than the primary message.
+		/// </param>
+		/// <param name="confirmCommand">
+		/// The <see cref="Command"/> that is activated when the user responds in the affirmative.
+		/// A button will be created using the properties of the Command
+		/// </param>
+		/// <param name="confirmIsDefault">
+		/// When true, the confirm button will be the default button. When false, the
+		/// Cancel button will be the default button.
+		/// </param>
+		/// <returns>True if the user clicks the confirm button</returns>
+		/// <remarks>
+		/// The MessageDialog will have a Cancel button in addition to the user specified
+		/// confirm button.
+		/// </remarks>
+		public static bool Confirm (string primaryText, string secondaryText, Command confirmCommand, bool confirmIsDefault)
+		{
+			var result = GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText,
+			                           confirmIsDefault ? 0 : 1, new Command (StockCommand.Cancel), confirmCommand);
+			return ReferenceEquals (result, confirmCommand);
 		}
 		
-		public static bool Confirm (string primaryText, string secondaryText, Command button)
-		{
-			return GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText,
-			                     new Command(StockCommand.Cancel), button) == button;
-		}
-		public static bool Confirm (string primaryText, Command button, bool confirmIsDefault)
-		{
-			return Confirm (primaryText, null, button, confirmIsDefault);
-		}
-		
-		public static bool Confirm (string primaryText, string secondaryText, Command button, bool confirmIsDefault)
-		{
-			return GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText, confirmIsDefault ? 0 : 1,
-			                     new Command (StockCommand.Cancel), button) == button;
-		}
-		
+		/// <summary>
+		/// Displays a MessageDialog for user confirmation.
+		/// </summary>
+		/// <param name="message">
+		/// The message to display
+		/// </param>
+		/// <returns>
+		/// True if the user clicks the confirm button specified by the message.
+		/// </returns>
 		public static bool Confirm (ConfirmationMessage message)
 		{
-			return GenericAlert (RootWindow, message) == message.ConfirmButton;
+			return GenericAlert (RootWindow, message) == message.ConfirmCommand;
 		}
 		#endregion
-		
+
 		#region AskQuestion
 		public static Command AskQuestion (string primaryText, params Command[] buttons)
 		{
@@ -146,29 +266,29 @@ namespace Xwt
 		}
 		#endregion
 		
-		static Command GenericAlert (WindowFrame parent, Xwt.Drawing.Image icon, string primaryText, string secondaryText, params Command[] buttons)
+		static Command GenericAlert (WindowFrame parent, Xwt.Drawing.Image icon, string primaryText, string secondaryText, params Command[] commands)
 		{
-			return GenericAlert (parent, icon, primaryText, secondaryText, buttons.Length - 1, buttons);
+			return GenericAlert (parent, icon, primaryText, secondaryText, commands.Length - 1, commands);
 		}
 		
-		static Command GenericAlert (WindowFrame parent, Xwt.Drawing.Image icon, string primaryText, string secondaryText, int defaultButton, params Command[] buttons)
+		static Command GenericAlert (WindowFrame parent, Xwt.Drawing.Image icon, string primaryText, string secondaryText, int defaultCommand, params Command[] commands)
 		{
 			GenericMessage message = new GenericMessage () {
 				Icon = icon,
 				Text = primaryText,
 				SecondaryText = secondaryText,
-				DefaultButton = defaultButton
+				DefaultCommandIndex = defaultCommand
 			};
-			foreach (Command but in buttons)
-				message.Buttons.Add (but);
+			foreach (Command command in commands)
+				message.Commands.Add (command);
 			
 			return GenericAlert (parent, message);
 		}
 		
 		static Command GenericAlert (WindowFrame parent, MessageDescription message)
 		{
-			if (message.ApplyToAllButton != null)
-				return message.ApplyToAllButton;
+			if (message.ApplyToAllCommand != null)
+				return message.ApplyToAllCommand;
 
 			IAlertDialogBackend backend = Toolkit.CurrentEngine.Backend.CreateBackend<IAlertDialogBackend> ();
 			backend.Initialize (Toolkit.CurrentEngine.Context);
@@ -177,7 +297,7 @@ namespace Xwt
 				var res = backend.Run (parent ?? RootWindow, message);
 				
 				if (backend.ApplyToAll)
-					message.ApplyToAllButton = res;
+					message.ApplyToAllCommand = res;
 				
 				return res;
 			}
@@ -188,22 +308,28 @@ namespace Xwt
 	{
 		internal MessageDescription ()
 		{
-			DefaultButton = -1;
-			Buttons = new List<Command> ();
+			DefaultCommandIndex = -1;
+			ButtonCommands = new List<Command> ();
 			Options = new List<AlertOption> ();
 		}
 		
-		public IList<Command> Buttons { get; private set; }
+		public IList<Command> ButtonCommands { get; private set; }
 		public IList<AlertOption> Options { get; private set; }
 		
-		internal Command ApplyToAllButton { get; set; }
-		
+		internal Command ApplyToAllCommand { get; set; }
+
+		/// <summary>
+		/// CancelCommand will be activated if the MessageDialog is closed instead
+		/// of clicking a button
+		/// </summary>
+		public Command CancelCommand { get; set; }
+
 		public Xwt.Drawing.Image Icon { get; set; }
 		
 		public string Text { get; set; }
 		public string SecondaryText { get; set; }
 		public bool AllowApplyToAll { get; set; }
-		public int DefaultButton { get; set; }
+		public int DefaultCommandIndex { get; set; }
 		
 		public void AddOption (string id, string text, bool setByDefault)
 		{
@@ -217,7 +343,7 @@ namespace Xwt
 					return op.Value;
 			throw new ArgumentException ("Invalid option id");
 		}
-		
+
 		public void SetOptionValue (string id, bool value)
 		{
 			foreach (var op in Options) {
@@ -259,8 +385,8 @@ namespace Xwt
 			SecondaryText = secondaryText;
 		}
 		
-		public new IList<Command> Buttons {
-			get { return base.Buttons; }
+		public new IList<Command> Commands {
+			get { return base.ButtonCommands; }
 		}
 	}
 	
@@ -282,55 +408,58 @@ namespace Xwt
 			SecondaryText = secondaryText;
 		}
 		
-		public new IList<Command> Buttons {
-			get { return base.Buttons; }
+		public new IList<Command> Commands {
+			get { return base.ButtonCommands; }
 		}
 	}
 	
 	public sealed class ConfirmationMessage: MessageDescription
 	{
-		Command confirmButton;
+		Command confirmCommand;
 		
 		public ConfirmationMessage ()
 		{
 			Icon = StockIcons.Question;
-			Buttons.Add (new Command (StockCommand.Cancel));
+			var cancelCommand = new Command (StockCommand.Cancel);
+			ButtonCommands.Add (cancelCommand);
+			CancelCommand = cancelCommand;
 		}
 		
-		public ConfirmationMessage (Command button): this ()
+		public ConfirmationMessage (Command confirmCommand): this ()
 		{
-			ConfirmButton = button;
+			ConfirmCommand = confirmCommand;
 		}
 		
-		public ConfirmationMessage (string primaryText, Command button): this (button)
+		public ConfirmationMessage (string primaryText, Command confirmCommand): this (confirmCommand)
 		{
 			Text = primaryText;
 		}
 		
-		public ConfirmationMessage (string primaryText, string secondaryText, Command button): this (primaryText, button)
+		public ConfirmationMessage (string primaryText, string secondaryText, Command confirmCommand)
+			: this (primaryText, confirmCommand)
 		{
 			SecondaryText = secondaryText;
 		}
 		
-		public Command ConfirmButton {
-			get { return confirmButton; }
+		public Command ConfirmCommand {
+			get { return confirmCommand; }
 			set {
-				if (Buttons.Count == 2)
-					Buttons.RemoveAt (1);
-				Buttons.Add (value);
-				confirmButton = value;
+				if (ButtonCommands.Count == 2)
+					ButtonCommands.RemoveAt (1);
+				ButtonCommands.Add (value);
+				confirmCommand = value;
 			}
 		}
 		
 		public bool ConfirmIsDefault {
 			get {
-				return DefaultButton == 1;
+				return DefaultCommandIndex == 1;
 			}
 			set {
 				if (value)
-					DefaultButton = 1;
+					DefaultCommandIndex = 1;
 				else
-					DefaultButton = 0;
+					DefaultCommandIndex = 0;
 			}
 		}
 	}

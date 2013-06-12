@@ -40,7 +40,7 @@ namespace Xwt.GtkBackend
 	internal class GtkAlertDialog : Gtk.Dialog
 	{
 		ApplicationContext actx;
-		Command resultButton = null;
+		Command resultCommand = null;
 		Command[] buttons;
 		
 		Gtk.HBox  hbox  = new Gtk.HBox ();
@@ -48,9 +48,9 @@ namespace Xwt.GtkBackend
 		Gtk.Label label = new Gtk.Label ();
 		Gtk.VBox labelsBox = new Gtk.VBox (false, 6);
 		
-		public Command ResultButton {
+		public Command ResultCommand {
 			get {
-				return resultButton;
+				return resultCommand;
 			}
 		}
 		
@@ -93,7 +93,7 @@ namespace Xwt.GtkBackend
 		{
 			this.actx = actx;
 			Init ();
-			this.buttons = message.Buttons.ToArray ();
+			this.buttons = message.ButtonCommands.ToArray ();
 			
 			string primaryText;
 			string secondaryText;
@@ -123,16 +123,27 @@ namespace Xwt.GtkBackend
 			label.Selectable = true;
 			label.CanFocus = false;
 			
-			foreach (Command button in message.Buttons) {
-				Gtk.Button newButton = new Gtk.Button ();
-				newButton.Label        = button.Label;
+			foreach (Command command in message.ButtonCommands) {
+				var commandBackend = (CommandBackend)command.GetBackend ();
+				var stockId = commandBackend.Action.StockId;
+				Gtk.Button newButton = new Gtk.Button (stockId);
+				commandBackend.Action.ConnectProxy (newButton);
+				newButton.Label = command.Label;
 				newButton.UseUnderline = true;
-				newButton.UseStock     = button.IsStockCommand;
-				if (button.Icon != null) {
-					icon = button.Icon.ToImageDescription ();
+				newButton.UseStock = stockId != null;
+				if (command.Icon != null) {
+					icon = command.Icon.ToImageDescription ();
 					newButton.Image = new ImageBox (actx, icon.WithDefaultSize (Gtk.IconSize.Button));
 				}
-				newButton.Clicked += ButtonClicked;
+				// if we use the iterator directly in the anonymous method, we will get incorrect results
+				// workaround it to create a new local reference
+				var commandRef = command;
+				commandBackend.Action.Activated += (sender, e) =>
+				{
+					resultCommand = commandRef;
+					Destroy ();
+				};
+				//newButton.Clicked += ButtonClicked;
 				ActionArea.Add (newButton);
 			}
 			
@@ -162,19 +173,6 @@ namespace Xwt.GtkBackend
 			if (buttonNumber == -1)
 				buttonNumber = ActionArea.Children.Length - 1;
 			ActionArea.Children[buttonNumber].GrabFocus ();
-		}
-			
-		
-		void ButtonClicked (object sender, EventArgs e) 
-		{
-			Gtk.Button clickButton = (Gtk.Button)sender;
-			foreach (Command alertButton in buttons) {
-				if (clickButton.Label == alertButton.Label) {
-					resultButton = alertButton;
-					break;
-				}
-			}
-			this.Destroy ();
 		}
 	}
 }

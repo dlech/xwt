@@ -117,10 +117,10 @@ namespace Xwt
 			return Toolkit.CurrentEngine.Backend.CreateFrontend<MenuItem> (menuItemBackend);
 		}
 
-		public Menu CreateMenu ()
+		public Button CreateButton ()
 		{
-			var menuBackend = Backend.CreateMenu ();
-			return Toolkit.CurrentEngine.Backend.CreateFrontend<Menu> (menuBackend);
+			var buttonBackend = Backend.CreateButton ();
+			return Toolkit.CurrentEngine.Backend.CreateFrontend<Button> (buttonBackend);
 		}
 
 		EventHandler activated;
@@ -140,6 +140,10 @@ namespace Xwt
 			if (activated != null)
 				activated (this, EventArgs.Empty);
 		}
+
+		public bool Visible { get; set; }
+
+		public bool Sensitive { get; set; }
 	}
 }
 

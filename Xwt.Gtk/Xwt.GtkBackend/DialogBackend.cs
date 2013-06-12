@@ -33,7 +33,7 @@ namespace Xwt.GtkBackend
 {
 	public class DialogBackend: WindowBackend, IDialogBackend
 	{
-		DialogButton[] dialogButtons;
+		Command[] commands;
 		Gtk.Button[] buttons;
 		
 		public DialogBackend ()
@@ -56,7 +56,7 @@ namespace Xwt.GtkBackend
 			get { return (IDialogEventSink) base.EventSink; }
 		}
 		
-		public void SetButtons (IEnumerable<DialogButton> newButtons)
+		public void SetCommands (IEnumerable<Command> newCommands)
 		{
 			if (buttons != null) {
 				foreach (var b in buttons) {
@@ -64,16 +64,15 @@ namespace Xwt.GtkBackend
 					b.Destroy ();
 				}
 			}
-			dialogButtons = newButtons.ToArray ();
-			buttons = new Gtk.Button [dialogButtons.Length];
+			commands = newCommands.ToArray ();
+			buttons = new Gtk.Button [commands.Length];
 			
-			for (int n=0; n<dialogButtons.Length; n++) {
-				var db = dialogButtons[n];
+			for (int n=0; n<commands.Length; n++) {
+				var db = commands[n];
 				Gtk.Button b = new Gtk.Button ();
 				b.Show ();
 				b.Label = db.Label;
 				Window.ActionArea.Add (b);
-				UpdateButton (db, b);
 				buttons[n] = b;
 				buttons[n].Clicked += HandleButtonClicked;
 			}
@@ -85,25 +84,25 @@ namespace Xwt.GtkBackend
 			Window.ActionArea.Visible = Window.ActionArea.Children.Any (c => c.Visible);
 		}
 		
-		void UpdateButton (DialogButton btn, Gtk.Button b)
+		void UpdateButton (Command command, Gtk.Button b)
 		{
-			if (!string.IsNullOrEmpty (btn.Label) && btn.Image == null) {
-				b.Label = btn.Label;
-			} else if (string.IsNullOrEmpty (btn.Label) && btn.Image != null) {
-				var pix = btn.Image.ToImageDescription ();
+			if (!string.IsNullOrEmpty (command.Label) && command.Icon == null) {
+				b.Label = command.Label;
+			} else if (string.IsNullOrEmpty (command.Label) && command.Icon != null) {
+				var pix = command.Icon.ToImageDescription ();
 				b.Image = new ImageBox (ApplicationContext, pix);
-			} else if (!string.IsNullOrEmpty (btn.Label)) {
+			} else if (!string.IsNullOrEmpty (command.Label)) {
 				Gtk.Box box = new Gtk.HBox (false, 3);
-				var pix = btn.Image.ToImageDescription ();
+				var pix = command.Icon.ToImageDescription ();
 				box.PackStart (new ImageBox (ApplicationContext, pix), false, false, 0);
-				box.PackStart (new Gtk.Label (btn.Label), true, true, 0);
+				box.PackStart (new Gtk.Label (command.Label), true, true, 0);
 				b.Image = box;
 			}
-			if (btn.Visible)
+			if (command.Visible)
 				b.ShowAll ();
 			else
 				b.Hide ();
-			b.Sensitive = btn.Sensitive;
+			b.Sensitive = command.Sensitive;
 			UpdateActionAreaVisibility ();
 		}
 		
@@ -111,14 +110,14 @@ namespace Xwt.GtkBackend
 		{
 			int i = Array.IndexOf (buttons, (Gtk.Button) o);
 			ApplicationContext.InvokeUserCode (delegate {
-				EventSink.OnDialogButtonClicked (dialogButtons[i]);
+				EventSink.OnDialogButtonClicked (commands[i]);
 			});
 		}
 
-		public void UpdateButton (DialogButton btn)
+		public void UpdateButton (Command command)
 		{
-			int i = Array.IndexOf (dialogButtons, btn);
-			UpdateButton (btn, buttons[i]);
+			int i = Array.IndexOf (commands, command);
+			UpdateButton (command, buttons[i]);
 		}
 
 		public void RunLoop (IWindowFrameBackend parent)

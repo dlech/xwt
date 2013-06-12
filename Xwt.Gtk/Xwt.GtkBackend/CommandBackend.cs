@@ -47,10 +47,19 @@ namespace Xwt.GtkBackend
 			return new MenuItemBackend (menuItem);
 		}
 
-		public override IMenuBackend CreateMenu ()
+		public override IButtonBackend CreateButton ()
 		{
-			var menu = (Gtk.Menu)action.CreateMenu ();
-			return new MenuBackend (menu);
+			var button = new Gtk.Button (action.StockId);
+			if (action.StockId == null) {
+				button.Name = action.Name;
+				button.Label = action.Label;
+				button.TooltipText = action.Tooltip;
+				if (action.IconName != null) {
+					var icon = action.CreateIcon (Gtk.IconSize.Button);
+					button.Image = icon;
+				}
+			}
+			return new ButtonBackend (button);
 		}
 
 		public Gtk.Action Action { get { return action; } }

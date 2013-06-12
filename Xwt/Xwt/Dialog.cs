@@ -33,13 +33,11 @@ namespace Xwt
 	[BackendType (typeof(IDialogBackend))]
 	public class Dialog: Window
 	{
-		DialogButtonCollection commands;
 		Command resultCommand;
 		bool loopEnded;
 		
 		public Dialog ()
 		{
-			commands = new DialogButtonCollection ((WindowBackendHost)BackendHost);
 		}
 		
 		protected new class WindowBackendHost: Window.WindowBackendHost, ICollectionListener, IDialogEventSink
@@ -48,25 +46,21 @@ namespace Xwt
 			
 			public virtual void ItemAdded (object collection, object item)
 			{
-				if (collection == Parent.commands) {
-					((DialogButton)item).ParentDialog = Parent;
-					Parent.Backend.SetButtons (Parent.commands);
+				if (collection == Parent.Commands) {
+					((Command)item).Target = Parent;
 				}
 			}
 
 			public virtual void ItemRemoved (object collection, object item)
 			{
-				if (collection == Parent.commands) {
-					((DialogButton)item).ParentDialog = null;
-					Parent.Backend.SetButtons (Parent.commands);
+				if (collection == Parent.Commands) {
+					((Command)item).Target = null;
 				}
 			}
 			
-			public void OnDialogButtonClicked (DialogButton btn)
+			public void OnDialogButtonClicked (Command command)
 			{
-				btn.RaiseClicked ();
-				if (btn.Command != null)
-					Parent.OnCommandActivated (btn.Command);
+				Parent.OnCommandActivated (command);
 			}
 		}
 		
@@ -77,10 +71,6 @@ namespace Xwt
 		
 		IDialogBackend Backend {
 			get { return (IDialogBackend) BackendHost.Backend; } 
-		}
-		
-		public DialogButtonCollection Buttons {
-			get { return commands; }
 		}
 		
 		protected virtual void OnCommandActivated (Command cmd)
@@ -112,132 +102,6 @@ namespace Xwt
 				Backend.EndLoop ();
 			}
 		}
-		
-		public void EnableCommand (Command cmd)
-		{
-			var btn = Buttons.GetCommandButton (cmd);
-			if (btn != null)
-				btn.Sensitive = true;
-		}
-		
-		public void DisableCommand (Command cmd)
-		{
-			var btn = Buttons.GetCommandButton (cmd);
-			if (btn != null)
-				btn.Sensitive = false;
-		}
-		
-		public void ShowCommand (Command cmd)
-		{
-			var btn = Buttons.GetCommandButton (cmd);
-			if (btn != null)
-				btn.Visible = true;
-		}
-		
-		public void HideCommand (Command cmd)
-		{
-			var btn = Buttons.GetCommandButton (cmd);
-			if (btn != null)
-				btn.Visible = false;
-		}
-		
-		internal void UpdateButton (DialogButton btn)
-		{
-			Backend.UpdateButton (btn);
-		}
-	}
-	
-	public class DialogButton
-	{
-		Command command;
-		string label;
-		Image image;
-		bool visible = true;
-		bool sensitive = true;
-		internal Dialog ParentDialog;
-		
-		public DialogButton (string label)
-		{
-			this.label = label;
-		}
-		
-		public DialogButton (string label, Command cmd)
-		{
-			this.label = label;
-			this.command = cmd;
-		}
-		
-		public DialogButton (string label, Image icon)
-		{
-			this.label = label;
-			this.image = icon;
-		}
-		
-		public DialogButton (string label, Image icon, Command cmd)
-		{
-			this.label = label;
-			this.command = cmd;
-			this.image = icon;
-		}
-		
-		public DialogButton (Command cmd)
-		{
-			this.command = cmd;
-		}
-		
-		public Command Command {
-			get { return command; }
-		}
-		
-		public string Label {
-			get {
-				if (label != null)
-					return label;
-				if (command != null)
-					return command.Label;
-				return "";
-			}
-			set {
-				label = value;
-				ParentDialog.UpdateButton (this);
-			}
-		}
-		
-		public Image Image {
-			get {
-				if (image != null)
-					return image;
-				return null;
-			}
-			set {
-				image = value;
-				ParentDialog.UpdateButton (this);
-			}
-		}
-		
-		public bool Visible { 
-			get { return visible; }
-			set {
-				visible = value;
-				ParentDialog.UpdateButton (this);
-			}
-		}
-		
-		public bool Sensitive { 
-			get { return sensitive; }
-			set {
-				sensitive = value;
-				ParentDialog.UpdateButton (this);
-			}
-		}
-		
-		internal void RaiseClicked ()
-		{
-			if (Clicked != null)
-				Clicked (this, EventArgs.Empty);
-		}
-		
-		public event EventHandler Clicked;
 	}
 }
 

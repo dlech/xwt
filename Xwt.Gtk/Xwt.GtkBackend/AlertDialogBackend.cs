@@ -73,25 +73,19 @@ namespace Xwt.GtkBackend
 		}
 
 		public Command Run (WindowFrame transientFor, MessageDescription message)
-		{			
+		{
 			GtkAlertDialog alertDialog = new GtkAlertDialog (context, message);
-			alertDialog.FocusButton (message.DefaultButton);
-			var wb = (WindowFrameBackend)Toolkit.GetBackend (transientFor);
-			var win = wb != null ? wb.Window : null;
-			MessageService.ShowCustomDialog (alertDialog, win);
+			alertDialog.FocusButton (message.DefaultCommandIndex);
+			var windowFrameBackend = (WindowFrameBackend)Toolkit.GetBackend (transientFor);
+			var window = windowFrameBackend != null ? windowFrameBackend.Window : null;
+			MessageService.ShowCustomDialog (alertDialog, window);
 			if (alertDialog.ApplyToAll)
 				ApplyToAll = true;
-			var res = alertDialog.ResultButton;
+			var res = alertDialog.ResultCommand;
 			
 			if (res == null) {
 				// If the dialog is closed clicking the close window button we may have no result.
-				// In that case, try to find a cancelling button
-				if (message.Buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel) > 0)
-					return message.Buttons.First (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel);
-				else if (message.Buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No) > 0)
-					return message.Buttons.First (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No);
-				else if (message.Buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Close) > 0)
-					return message.Buttons.First (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Close);
+				return message.CancelCommand;
 			}
 			return res;
 		}

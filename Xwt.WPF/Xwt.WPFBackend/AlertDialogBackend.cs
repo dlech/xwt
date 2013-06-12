@@ -60,7 +60,7 @@ namespace Xwt.WPFBackend
 		public Command Run (WindowFrame transientFor, MessageDescription message)
 		{
 			this.icon = GetIcon (message.Icon);
-			this.buttons = ConvertButtons (message.Buttons);
+			this.buttons = ConvertButtons (message.ButtonCommands);
 			if (message.SecondaryText == null)
 				message.SecondaryText = String.Empty;
 			else {

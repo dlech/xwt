@@ -40,10 +40,16 @@ namespace Xwt.GtkBackend
 		{
 		}
 
+		public ButtonBackend (Gtk.Button button)
+		{
+			Widget = button;
+			Widget.Show ();
+		}
+
 		public override void Initialize ()
 		{
 			Widget = new Gtk.Button ();
-			base.Widget.Show ();
+			Widget.Show ();
 			
 		}
 		

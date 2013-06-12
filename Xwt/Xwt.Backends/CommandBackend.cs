@@ -190,7 +190,7 @@ namespace Xwt.Backends
 		}
 
 		public abstract IMenuItemBackend CreateMenuItem ();
-		public abstract IMenuBackend CreateMenu ();
+		public abstract IButtonBackend CreateButton ();
 
 		public virtual void InitializeBackend(object frontend, ApplicationContext context)
 		{

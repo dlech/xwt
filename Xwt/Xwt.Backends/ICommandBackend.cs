@@ -24,7 +24,7 @@ namespace Xwt.Backends
 		void Initalize (ICommandEventSink backendHost);
 
 		IMenuItemBackend CreateMenuItem ();
-		IMenuBackend CreateMenu ();
+		IButtonBackend CreateButton ();
 	}
 
 	public interface ICommandEventSink

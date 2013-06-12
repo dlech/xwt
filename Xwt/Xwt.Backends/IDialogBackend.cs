@@ -31,16 +31,6 @@ namespace Xwt.Backends
 	public interface IDialogBackend: IWindowBackend
 	{
 		/// <summary>
-		/// Sets the buttons to be shown in the dialog. It can be called multiple times.
-		/// </summary>
-		void SetButtons (IEnumerable<DialogButton> buttons);
-		
-		/// <summary>
-		/// Called when the properties of a button have changed
-		/// </summary>
-		void UpdateButton (DialogButton btn);
-		
-		/// <summary>
 		/// Shows the dialog and starts running the gui loop. The method has to return when EndLoop is called.
 		/// </summary>
 		/// <param name='parent'>
@@ -62,7 +52,7 @@ namespace Xwt.Backends
 		/// <param name='btn'>
 		/// The clicked button
 		/// </param>
-		void OnDialogButtonClicked (DialogButton btn);
+		void OnDialogButtonClicked (Command command);
 	}
 }
 
