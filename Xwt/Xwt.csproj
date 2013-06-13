@@ -38,11 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Xwt\CommandCollection.cs" />
     <Compile Include="Xwt.Backends\ICommandManagerBackend.cs" />
     <Compile Include="Xwt.Backends\CommandBackend.cs" />
     <Compile Include="Xwt.Backends\ICommandBackend.cs" />
-    <Compile Include="Xwt\ICommandTarget.cs" />
     <Compile Include="Xwt\ReliefFrame.cs">
       <SubType>Component</SubType>
     </Compile>

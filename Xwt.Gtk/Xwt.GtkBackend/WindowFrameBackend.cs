@@ -45,7 +45,6 @@ namespace Xwt.GtkBackend
 		{
 			accelGroup = new Gtk.AccelGroup ();
 			actionGroup = new Gtk.ActionGroup (actionGroupName);
-			CommandCollectionListener = new CommandCollectionListenerImp (this);
 		}
 		
 		public Gtk.Window Window {
@@ -332,50 +331,6 @@ namespace Xwt.GtkBackend
 
 		public virtual Size ImplicitMinSize {
 			get { return new Size (0,0); }
-		}
-
-		public ICollectionListener CommandCollectionListener { get; private set; }
-
-		class CommandCollectionListenerImp : ICollectionListener
-		{
-			WindowFrameBackend backend;
-
-			public CommandCollectionListenerImp (WindowFrameBackend backend)
-			{
-				this.backend = backend;
-			}
-
-			public void ItemAdded (object collection, object item)
-			{
-				var command = item as Command;
-				var commandBackend = command.GetBackend () as CommandBackend;
-				string accelerator = null;
-				// Most Commands with StockId will get accelerator without us generating it
-				var needsAccelerator = commandBackend.Action.StockId == null ||
-				                       commandBackend.Action.StockId == Gtk.Stock.Print;
-				if (needsAccelerator && command.Accelerator != null) {
-					accelerator = string.Empty;
-					if (command.Accelerator.HasModifiers) {
-						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Shift))
-							accelerator += "<Shift>";
-						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Alt))
-							accelerator += "<Alt>";
-						if (command.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Control))
-							accelerator += "<Control>";
-						accelerator += command.Accelerator.Key.ToString ();
-					}
-				}
-				backend.actionGroup.Add (commandBackend.Action, accelerator);
-				commandBackend.Action.AccelGroup = backend.accelGroup;
-				commandBackend.Action.ConnectAccelerator ();
-			}
-
-			public void ItemRemoved (object collection, object item)
-			{
-				var command = item as Command;
-				var commandBackend = command.GetBackend () as CommandBackend;
-				backend.actionGroup.Remove (commandBackend.Action);
-			}
 		}
 	}
 }

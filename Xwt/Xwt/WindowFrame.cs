@@ -58,13 +58,12 @@ using Xwt.Drawing;
 namespace Xwt
 {
 	[BackendType (typeof(IWindowFrameBackend))]
-	public class WindowFrame: XwtComponent, ICommandTarget
+	public class WindowFrame: XwtComponent
 	{
 		EventHandler boundsChanged;
 		EventHandler shown;
 		EventHandler hidden;
 		CloseRequestedHandler closeRequested;
-		CommandCollection commands;
 
 		Point location;
 		Size size;
@@ -115,7 +114,6 @@ namespace Xwt
 		{
 			if (!(base.BackendHost is WindowBackendHost))
 				throw new InvalidOperationException ("CreateBackendHost for WindowFrame did not return a WindowBackendHost instance");
-			commands = new CommandCollection (this, Backend.CommandCollectionListener);
 		}
 		
 		public WindowFrame (string title): this ()
@@ -273,8 +271,6 @@ namespace Xwt
 				return Desktop.GetScreen (Backend.Screen);
 			}
 		}
-
-		public CommandCollection Commands { get { return commands; } }
 
 		public void Show ()
 		{

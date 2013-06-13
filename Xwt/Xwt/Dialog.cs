@@ -40,23 +40,9 @@ namespace Xwt
 		{
 		}
 		
-		protected new class WindowBackendHost: Window.WindowBackendHost, ICollectionListener, IDialogEventSink
+		protected new class WindowBackendHost: Window.WindowBackendHost, IDialogEventSink
 		{
 			new Dialog Parent { get { return (Dialog) base.Parent; } }
-			
-			public virtual void ItemAdded (object collection, object item)
-			{
-				if (collection == Parent.Commands) {
-					((Command)item).Target = Parent;
-				}
-			}
-
-			public virtual void ItemRemoved (object collection, object item)
-			{
-				if (collection == Parent.Commands) {
-					((Command)item).Target = null;
-				}
-			}
 			
 			public void OnDialogButtonClicked (Command command)
 			{

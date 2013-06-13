@@ -82,8 +82,6 @@ namespace Xwt.Backends
 		/// </summary>
 		/// <value>The screen.</value>
 		object Screen { get; }
-
-		ICollectionListener CommandCollectionListener { get; }
 	}
 	
 	public interface IWindowFrameEventSink
