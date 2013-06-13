@@ -65,8 +65,6 @@ namespace Xwt.Backends
 		/// Gets or sets whether the menu item is visible.
 		/// </summary>
 		bool Visible { get; set; }
-
-		Command Command { get; set; }
 	}
 	
 	public interface IMenuItemEventSink

@@ -110,8 +110,6 @@ namespace Xwt
 			set { image = value; Backend.SetImage (image != null ? image.ImageDescription : ImageDescription.Null); }
 		}
 
-		public Command Command { get { return Backend.Command; } }
-
 		public void Show ()
 		{
 			Visible = true;
