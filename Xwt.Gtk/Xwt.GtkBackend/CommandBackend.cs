@@ -25,15 +25,15 @@ namespace Xwt.GtkBackend
 
 			string stockId = null;
 
-			if (frontendCommand.IsStockCommand) {
-				switch (frontendCommand.StockCommand.Value) {
-					case StockCommand.Import:
-					case StockCommand.Export:
+			if (frontendCommand.IsGlobalCommand) {
+				switch (frontendCommand.GlobalCommand.Value) {
+					case GlobalCommand.Import:
+					case GlobalCommand.Export:
 						break;
 					// TODO: check for mismatches and missing items or manually check all cases.
 					default:
 						var gtkStockType = typeof(Gtk.Stock);
-						var gtkStockProperty = gtkStockType.GetProperty (frontendCommand.StockCommand.Value.ToString ());
+						var gtkStockProperty = gtkStockType.GetProperty (frontendCommand.GlobalCommand.Value.ToString ());
 						stockId = gtkStockProperty.GetValue (null, null) as string;
 						break;
 				}

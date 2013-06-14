@@ -27,147 +27,147 @@ namespace Xwt.Backends
 			// TODO: this typecast is a hack to access other objects
 			var backendHost = eventSink as BackendHost<Command, ICommandBackend>;
 			var command = backendHost.Parent;
-			if (command.IsStockCommand) {
-				switch (command.StockCommand) {
-					case StockCommand.Ok:
+			if (command.IsGlobalCommand) {
+				switch (command.GlobalCommand) {
+					case GlobalCommand.Ok:
 						command.Label = "_OK";
 						break;
-					case StockCommand.Cancel:
+					case GlobalCommand.Cancel:
 						command.Label = "_Cancel";
 						break;
-					case StockCommand.Yes:
+					case GlobalCommand.Yes:
 						command.Label = "_Yes";
 						break;
-					case StockCommand.No:
+					case GlobalCommand.No:
 						command.Label = "_No";
 						break;
-					case StockCommand.Add:
+					case GlobalCommand.Add:
 						command.Label = "_Add";
 						break;
-					case StockCommand.Remove:
+					case GlobalCommand.Remove:
 						command.Label = "_Remove";
 						break;
-					case StockCommand.Clear:
+					case GlobalCommand.Clear:
 						command.Label = "_Clear";
 						break;
-					case StockCommand.Stop:
+					case GlobalCommand.Stop:
 						command.Label = "_Stop";
 						break;
-					case StockCommand.Apply:
+					case GlobalCommand.Apply:
 						command.Label = "_Apply";
 						break;
-					case StockCommand.New:
+					case GlobalCommand.New:
 						command.Label = "_New\u2026";
 						command.Accelerator = new Accelerator (Key.N, ModifierKeys.Control);
 						break;
-					case StockCommand.Open:
+					case GlobalCommand.Open:
 						command.Label = "_Open\u2026";
 						command.Accelerator = new Accelerator (Key.O, ModifierKeys.Control);
 						break;
-					case StockCommand.Save:
+					case GlobalCommand.Save:
 						command.Label = "_Save";
 						command.Accelerator = new Accelerator (Key.S, ModifierKeys.Control);
 						break;
-					case StockCommand.SaveAs:
+					case GlobalCommand.SaveAs:
 						command.Label = "Save _As\u2026";
 						command.Accelerator = new Accelerator (Key.N, ModifierKeys.Control | ModifierKeys.Shift);
 						break;
-					case StockCommand.SaveCopy:
+					case GlobalCommand.SaveCopy:
 						command.Label = "Save a Copy\u2026";
 						break;
-					case StockCommand.Revert:
+					case GlobalCommand.Revert:
 						command.Label = "Revert";
 						break;
-					case StockCommand.PageSetup:
+					case GlobalCommand.PageSetup:
 						command.Label = "Page Setup\u2026";
 						break;
-					case StockCommand.PrintPreview:
+					case GlobalCommand.PrintPreview:
 						command.Label = "Print Preview\u2026";
 						command.Accelerator = new Accelerator (Key.P, ModifierKeys.Shift | ModifierKeys.Control);
 						break;
-					case StockCommand.Print:
+					case GlobalCommand.Print:
 						command.Label = "Print\u2026";
 						command.Accelerator = new Accelerator (Key.P, ModifierKeys.Control);
 						break;
-					case StockCommand.SendTo:
+					case GlobalCommand.SendTo:
 						command.Label = "Send To\u2026";
 						command.Accelerator = new Accelerator (Key.M, ModifierKeys.Control);
 						break;
-					case StockCommand.Properties:
+					case GlobalCommand.Properties:
 						command.Label = "Pr_operties\u2026";
 						command.Accelerator = new Accelerator (Key.Return, ModifierKeys.Alt);
 						break;
-					case StockCommand.Close:
+					case GlobalCommand.Close:
 						command.Label = "_Close";
 						command.Accelerator = new Accelerator (Key.W, ModifierKeys.Control);
 						break;
-					case StockCommand.Quit:
+					case GlobalCommand.Quit:
 						command.Label = "_Quit";
 						command.Accelerator = new Accelerator (Key.Q, ModifierKeys.Control);
 						break;
-					case StockCommand.Undo:
+					case GlobalCommand.Undo:
 						command.Label = "_Undo";
 						command.Accelerator = new Accelerator (Key.Z, ModifierKeys.Control);
 						break;
-					case StockCommand.Redo:
+					case GlobalCommand.Redo:
 						command.Label = "_Redo";
 						command.Accelerator = new Accelerator (Key.Z, ModifierKeys.Shift | ModifierKeys.Control);
 						break;
-					case StockCommand.Cut:
+					case GlobalCommand.Cut:
 						command.Label = "Cu_t";
 						command.Accelerator = new Accelerator (Key.X, ModifierKeys.Control);
 						break;
-					case StockCommand.Copy:
+					case GlobalCommand.Copy:
 						command.Label = "_Copy";
 						command.Accelerator = new Accelerator (Key.C, ModifierKeys.Control);
 						break;
-					case StockCommand.Paste:
+					case GlobalCommand.Paste:
 						command.Label = "_Paste";
 						command.Accelerator = new Accelerator (Key.V, ModifierKeys.Control);
 						break;
-					case StockCommand.PasteSpecial:
+					case GlobalCommand.PasteSpecial:
 						command.Label = "Paste Special\u2026";
 						command.Accelerator = new Accelerator (Key.V, ModifierKeys.Shift | ModifierKeys.Control);
 						break;
-					case StockCommand.Duplicate:
+					case GlobalCommand.Duplicate:
 						command.Label = "_Duplicate";
 						command.Accelerator = new Accelerator (Key.U, ModifierKeys.Control);
 						break;
-					case StockCommand.Delete:
+					case GlobalCommand.Delete:
 						command.Label = "_Delete";
 						command.Accelerator = new Accelerator (Key.Delete);
 						break;
-					case StockCommand.SelectAll:
+					case GlobalCommand.SelectAll:
 						command.Label = "Select _All";
 						command.Accelerator = new Accelerator (Key.A, ModifierKeys.Control);
 						break;
-					case StockCommand.DeselectAll:
+					case GlobalCommand.DeselectAll:
 						command.Label = "Deselect All";
 						command.Accelerator = new Accelerator (Key.A, ModifierKeys.Shift | ModifierKeys.Control);
 						break;
-					case StockCommand.Find:
+					case GlobalCommand.Find:
 						command.Label = "_Find\u2026";
 						command.Accelerator = new Accelerator (Key.F, ModifierKeys.Control);
 						break;
-					case StockCommand.FindNext:
+					case GlobalCommand.FindNext:
 						command.Label = "Find Ne_xt";
 						command.Accelerator = new Accelerator (Key.G, ModifierKeys.Control);
 						break;
-					case StockCommand.FindPrevious:
+					case GlobalCommand.FindPrevious:
 						command.Label = "Find Previous";
 						command.Accelerator = new Accelerator (Key.G, ModifierKeys.Shift | ModifierKeys.Control);
 						break;
-					case StockCommand.Replace:
+					case GlobalCommand.Replace:
 						command.Label = "_Replace\u2026";
 						command.Accelerator = new Accelerator (Key.H, ModifierKeys.Control);
 						break;
-					case StockCommand.Preferences:
+					case GlobalCommand.Preferences:
 						command.Label = "Preferences";
 						break;
-					case StockCommand.Import:
+					case GlobalCommand.Import:
 						command.Label = "_Import\u2026";
 						break;
-					case StockCommand.Export:
+					case GlobalCommand.Export:
 						command.Label = "_Export\u2026";
 						break;
 					default:
