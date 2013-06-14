@@ -34,33 +34,14 @@ namespace Xwt.GtkBackend
 	{
 		const string actionGroupName = "Default";
 
-		Gtk.Window window;
-		Gtk.AccelGroup accelGroup;
-		Gtk.ActionGroup actionGroup;
 		IWindowFrameEventSink eventSink;
 		WindowFrame frontend;
 		Size requestedSize;
 
-		public WindowFrameBackend ()
-		{
-			accelGroup = new Gtk.AccelGroup ();
-			actionGroup = new Gtk.ActionGroup (actionGroupName);
-		}
+		public WindowFrameBackend () { }
 		
-		public Gtk.Window Window {
-			get { return window; }
-			set
-			{
-				if (ReferenceEquals (window, value))
-					return;
-				if (window != null)
-					window.RemoveAccelGroup (accelGroup);
-				if (value != null)
-					value.AddAccelGroup (accelGroup);
-				window = value;
-			}
-		}
-		
+		public Gtk.WindowEx Window { get; set; }
+
 		protected WindowFrame Frontend {
 			get { return frontend; }
 		}
@@ -159,10 +140,10 @@ namespace Xwt.GtkBackend
 
 		bool IWindowFrameBackend.Visible {
 			get {
-				return window.Visible;
+				return Window.Visible;
 			}
 			set {
-				window.Visible = value;
+				Window.Visible = value;
 			}
 		}
 

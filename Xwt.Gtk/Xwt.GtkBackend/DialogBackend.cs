@@ -46,11 +46,8 @@ namespace Xwt.GtkBackend
 			Window.VBox.PackStart (CreateMainLayout ());
 			Window.ActionArea.Hide ();
 		}
-		
-		new Gtk.Dialog Window {
-			get { return (Gtk.Dialog) base.Window; }
-			set { base.Window = value; }
-		}
+
+		new Gtk.Dialog Window { get; set; }
 		
 		new IDialogEventSink EventSink {
 			get { return (IDialogEventSink) base.EventSink; }

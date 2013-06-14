@@ -213,7 +213,7 @@ namespace Xwt.GtkBackend
 		public override IWindowFrameBackend GetBackendForWindow (object nativeWindow)
 		{
 			var win = new WindowFrameBackend ();
-			win.Window = (Gtk.Window) nativeWindow;
+			win.Window = (Gtk.WindowEx) nativeWindow;
 			return win;
 		}
 		
