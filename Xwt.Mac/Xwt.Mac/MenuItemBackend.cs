@@ -108,6 +108,9 @@ namespace Xwt.Mac
 					item.State = NSCellStateValue.Off;
 			}
 		}
+
+		// TODO: implement me
+		public Accelerator Accelerator { get; set; }
 		
 		#region IBackend implementation
 		public void InitializeBackend (object frontend, ApplicationContext context)

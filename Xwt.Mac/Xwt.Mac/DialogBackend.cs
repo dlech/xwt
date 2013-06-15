@@ -36,7 +36,7 @@ namespace Xwt.Mac
 		HBox buttonBox;
 		Widget dialogChild;
 		Size minSize;
-		Dictionary<DialogButton,Button> buttons = new Dictionary<DialogButton, Button> ();
+		Dictionary<Command ,Button> buttons = new Dictionary<Command, Button> ();
 
 		public DialogBackend ()
 		{
@@ -79,11 +79,11 @@ namespace Xwt.Mac
 
 		#region IDialogBackend implementation
 
-		public void SetButtons (System.Collections.Generic.IEnumerable<DialogButton> buttonList)
+		public void SetButtons (System.Collections.Generic.IEnumerable<Command> commandList)
 		{
 			buttonBox.Clear ();
 
-			foreach (var b in buttonList) {
+			foreach (var b in commandList) {
 				var button = new Button ();
 				var tb = b;
 				button.Clicked += delegate {
@@ -97,26 +97,26 @@ namespace Xwt.Mac
 				SetMinSize (minSize);
 		}
 
-		void OnClicked (DialogButton button)
+		void OnClicked (Command command)
 		{
 			ApplicationContext.InvokeUserCode (delegate {
-				((IDialogEventSink)EventSink).OnDialogButtonClicked (button);
+				((IDialogEventSink)EventSink).OnDialogButtonClicked (command);
 			});
 		}
-		public void UpdateButton (DialogButton b)
+		public void UpdateButton (Command command)
 		{
 			Button realButton;
-			if (buttons.TryGetValue (b, out realButton)) {
-				UpdateButton (b, realButton);
+			if (buttons.TryGetValue (command, out realButton)) {
+				UpdateButton (command, realButton);
 				if (minSize != Size.Zero)
 					SetMinSize (minSize);
 			}
 		}
 
-		public void UpdateButton (DialogButton b, Button realButton)
+		public void UpdateButton (Command b, Button realButton)
 		{
 			realButton.Label = b.Label;
-			realButton.Image = b.Image;
+			realButton.Image = b.Icon;
 			realButton.Sensitive = b.Sensitive;
 			realButton.Visible = b.Visible;
 		}

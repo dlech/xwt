@@ -53,11 +53,11 @@ namespace Xwt.Mac
 			this.InformativeText = (message.SecondaryText != null) ? message.SecondaryText : String.Empty;
 			//TODO Set Icon
 			//TODO Sort Buttons to have the default button first
-			foreach (Command cmd in message.Buttons) {
+			foreach (Command cmd in message.ButtonCommands) {
 				this.AddButton (cmd.Label);
 			}
 
-			return message.Buttons [this.RunModal () - 1000];
+			return message.ButtonCommands [this.RunModal () - 1000];
 		}
 
 		public bool ApplyToAll { get; set; }

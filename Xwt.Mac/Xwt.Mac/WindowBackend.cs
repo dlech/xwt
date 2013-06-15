@@ -399,6 +399,9 @@ namespace Xwt.Mac
 			
 //			base.Menu = m;
 		}
+
+		// TODO: implement me
+		public WindowPosition StartPosition { get; set; }
 		
 		#endregion
 
