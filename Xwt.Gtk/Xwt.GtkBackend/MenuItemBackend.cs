@@ -64,12 +64,12 @@ namespace Xwt.GtkBackend
 			if (menuItem == null)
 				return;
 
-			var window = menuItem.Toplevel as Gtk.WindowEx;
+			var window = menuItem.Toplevel as Gtk.Window;
 			if (window == null)
 				return;
 
-			window.DefaultActionGroup.Add (menuItem.Action, null);
-			menuItem.Action.AccelGroup = window.DefualtAccelGroup;
+			window.GetDefaultActionGroup().Add (menuItem.Action, null);
+			menuItem.Action.AccelGroup = window.GetDefaultAccelGroup();
 			menuItem.Action.ConnectAccelerator ();
 		}
 		

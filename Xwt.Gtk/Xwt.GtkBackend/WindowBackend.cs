@@ -38,7 +38,7 @@ namespace Xwt.GtkBackend
 		
 		public override void Initialize ()
 		{
-			Window = new Gtk.WindowEx ("");
+			Window = new Gtk.Window ("");
 			Window.Add (CreateMainLayout ());
 			AccelGroup = new Gtk.AccelGroup();
 			Window.AddAccelGroup(AccelGroup);

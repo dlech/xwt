@@ -40,7 +40,7 @@ namespace Xwt.GtkBackend
 
 		public WindowFrameBackend () { }
 		
-		public Gtk.WindowEx Window { get; set; }
+		public Gtk.Window Window { get; set; }
 
 		protected WindowFrame Frontend {
 			get { return frontend; }
