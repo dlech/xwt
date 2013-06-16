@@ -67,10 +67,10 @@ namespace Xwt.Mac
 
 		public string Label {
 			get {
-				return item.Title;
+				return item.Title.Replace("&", "_");
 			}
 			set {
-				item.Title = value;
+				item.SetTitleWithMnemonic(value.Replace ("_", "&"));
 			}
 		}
 		

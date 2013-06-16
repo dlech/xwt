@@ -57,9 +57,9 @@ namespace Xwt.Mac
 		{
 			mainMenuMode = true;
 			for (int n=0; n<Count; n++) {
-				var it = ItemAt (n);
-				if (it.Menu != null)
-					it.Submenu.Title = it.Title;
+				var item = ItemAt (n);
+				if (item.Menu != null)
+					item.Submenu.Title = item.Title;
 			}
 		}
 
