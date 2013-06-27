@@ -34,13 +34,18 @@ namespace Xwt.Mac
 {
 	public class MenuBackend: NSMenu, IMenuBackend
 	{
+		bool mainMenuMode = false;
+
 		public void InitializeBackend (object frontend, ApplicationContext context)
 		{
 		}
 
 		public void InsertItem (int index, IMenuItemBackend menuItem)
 		{
-			base.InsertItem (((MenuItemBackend)menuItem).Item, index);
+			var nsMenuItem = ((MenuItemBackend)menuItem).Item;
+			base.InsertItem (nsMenuItem, index);
+			if (mainMenuMode && nsMenuItem.Submenu != null)
+				nsMenuItem.Submenu.Title = nsMenuItem.Title;
 		}
 
 		public void RemoveItem (IMenuItemBackend menuItem)
@@ -50,10 +55,11 @@ namespace Xwt.Mac
 		
 		public void SetMainMenuMode ()
 		{
+			mainMenuMode = true;
 			for (int n=0; n<Count; n++) {
-				var it = ItemAt (n);
-				if (it.Menu != null)
-					it.Submenu.Title = it.Title;
+				var item = ItemAt (n);
+				if (item.Menu != null)
+					item.Submenu.Title = item.Title;
 			}
 		}
 

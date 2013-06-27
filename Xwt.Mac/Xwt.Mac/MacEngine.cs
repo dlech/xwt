@@ -113,6 +113,7 @@ namespace Xwt.Mac
 			RegisterBackend <Xwt.Backends.IScrollbarBackend, ScrollbarBackend> ();
 			RegisterBackend <Xwt.Backends.IDatePickerBackend, DatePickerBackend> ();
 			RegisterBackend <Xwt.Backends.ISliderBackend, SliderBackend> ();
+			RegisterBackend <Xwt.Backends.ICommandBackend, CommandBackend> ();
 		}
 
 		public override void RunApplication ()

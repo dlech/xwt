@@ -48,8 +48,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="MonoMac">
-    </Reference>
+    <Reference Include="MonoMac" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -121,6 +120,7 @@
     <Compile Include="Xwt.Mac\ScrollbarBackend.cs" />
     <Compile Include="Xwt.Mac\DatePickerBackend.cs" />
     <Compile Include="Xwt.Mac\SliderBackend.cs" />
+    <Compile Include="Xwt.Mac\CommandBackend.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
