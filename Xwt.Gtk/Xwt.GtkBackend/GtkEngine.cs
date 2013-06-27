@@ -37,6 +37,11 @@ namespace Xwt.GtkBackend
 		static Gtk.ActionGroup globalActionGroup;
 		static Gtk.AccelGroup globalAccelGroup;
 
+		public override ToolkitType ToolkitType
+		{
+			get { return ToolkitType.Gtk; }
+		}
+
 		public static Gtk.ActionGroup GlobalActionGroup
 		{
 			get

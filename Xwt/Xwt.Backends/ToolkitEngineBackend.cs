@@ -41,6 +41,8 @@ namespace Xwt.Backends
 		Toolkit toolkit;
 		bool isGuest;
 
+		public abstract ToolkitType ToolkitType { get; }
+
 		internal void Initialize (Toolkit toolkit, bool isGuest)
 		{
 			this.toolkit = toolkit;
