@@ -49,15 +49,18 @@ namespace Xwt.Mac
 		#region IAlertDialogBackend implementation
 		public Command Run (WindowFrame transientFor, MessageDescription message)
 		{
-			this.MessageText = (message.Text != null) ? message.Text : String.Empty;
-			this.InformativeText = (message.SecondaryText != null) ? message.SecondaryText : String.Empty;
+			this.MessageText = message.Text ?? String.Empty;
+			this.InformativeText = message.SecondaryText ?? String.Empty;
 			//TODO Set Icon
 			//TODO Sort Buttons to have the default button first
+
+			// AddButton throws exception if argument is null, crashes if argument is string.Empty
 			foreach (Command cmd in message.ButtonCommands) {
-				this.AddButton (cmd.Label ?? string.Empty);
+				this.AddButton (string.IsNullOrWhiteSpace(cmd.Label) ? "?" : cmd.Label);
 			}
 
-			return message.ButtonCommands [this.RunModal () - 1000];
+			var result = this.RunModal ();
+			return message.ButtonCommands [result - 1000];
 		}
 
 		public bool ApplyToAll { get; set; }
