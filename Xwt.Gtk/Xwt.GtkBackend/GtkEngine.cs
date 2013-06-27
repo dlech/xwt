@@ -132,6 +132,12 @@ namespace Xwt.GtkBackend
 			RegisterBackend<ICommandBackend, CommandBackend> ();
 		}
 
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			GtkTextLayoutBackendHandler.DisposeResources ();
+		}
+
 		public override void RunApplication ()
 		{
 			Gtk.Application.Run ();

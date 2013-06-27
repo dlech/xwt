@@ -84,6 +84,12 @@ namespace Xwt
 			get { return backend.ToolkitType; }
 		}
 
+		internal static void DisposeAll ()
+		{
+			foreach (var t in toolkits.Values)
+				t.Backend.Dispose ();
+		}
+
 		public static Toolkit Load (string fullTypeName)
 		{
 			return Load (fullTypeName, true);
@@ -281,7 +287,7 @@ namespace Xwt
 					Application.NotifyException (error);
 				});
 			}
-			if (inUserCode == 1) {
+			if (inUserCode == 1 && !exitCallbackRegistered) {
 				while (exitActions.Count > 0) {
 					try {
 						exitActions.Dequeue ()();
