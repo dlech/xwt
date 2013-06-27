@@ -45,13 +45,15 @@ namespace Xwt.GtkBackend
 			if (needsAccelerator && frontendCommand.Accelerator != null) {
 				accelerator = string.Empty;
 				if (frontendCommand.Accelerator.HasModifiers) {
-					if (frontendCommand.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Shift))
+					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Shift))
 						accelerator += "<Shift>";
-					if (frontendCommand.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Alt))
+					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Alt))
 						accelerator += "<Alt>";
-					if (frontendCommand.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Control))
+					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Control))
 						accelerator += "<Control>";
-					accelerator += frontendCommand.Accelerator.Key.ToString ();
+					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Command))
+						accelerator += "<Primary>";
+					accelerator += (char)frontendCommand.Accelerator.Key;
 				}
 			}
 			GtkEngine.GlobalActionGroup.Add (action, accelerator);

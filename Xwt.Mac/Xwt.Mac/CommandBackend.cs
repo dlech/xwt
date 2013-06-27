@@ -17,18 +17,30 @@ namespace Xwt.Mac
 		public override void Initalize (ICommandEventSink eventSink)
 		{
 			base.Initalize (eventSink);
-
+			// TODO: this typecast is a hack to access other objects
+			
 			var backendHost = eventSink as BackendHost<Command, ICommandBackend>;
 			frontendCommand = backendHost.Parent;
+
+			if (frontendCommand.IsGlobalCommand) {
+				switch (frontendCommand.GlobalCommand.Value) {
+				case GlobalCommand.Preferences:
+					SetLabel(frontendCommand, "&Preferences\u2026");
+					SetAccelerator(frontendCommand, new Accelerator (Key.Comma, ModifierKeys.Command));
+					break;
+				default:
+					break;
+				}
+			}
 		}
 
 		public override IMenuItemBackend CreateMenuItem() {
 			var menuItem = new NSMenuItem ();
 			menuItem.SetTitleWithMnemonic (frontendCommand.Label.Replace("_", "&"));
 			if (frontendCommand.Accelerator  != null) {
-			menuItem.KeyEquivalent = frontendCommand.Accelerator.Key.ToString ();
+			menuItem.KeyEquivalent = char.ToString((char)frontendCommand.Accelerator.Key);
 			if (frontendCommand.Accelerator.HasModifiers) {
-				var modifier = frontendCommand.Accelerator.Modifiers.Value;
+				var modifier = frontendCommand.Accelerator.Modifiers;
 				if (modifier.HasFlag (ModifierKeys.Alt))
 					menuItem.KeyEquivalentModifierMask |= NSEventModifierMask.AlternateKeyMask;
 				else
@@ -47,7 +59,6 @@ namespace Xwt.Mac
 					menuItem.KeyEquivalentModifierMask &= ~NSEventModifierMask.ShiftKeyMask;
 				}
 		    }
-			menuItem.KeyEquivalentModifierMask = NSEventModifierMask.CommandKeyMask;
 			menuItem.Activated += (sender, e) => frontendCommand.Activate();
 			return new MenuItemBackend(menuItem);
 		}

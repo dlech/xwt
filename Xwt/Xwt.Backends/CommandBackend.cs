@@ -27,6 +27,8 @@ namespace Xwt.Backends
 			// TODO: this typecast is a hack to access other objects
 			var backendHost = eventSink as BackendHost<Command, ICommandBackend>;
 			var command = backendHost.Parent;
+
+			// IMPORTANT: Capital letter for accelerator key implies shift modifier
 			if (command.IsGlobalCommand) {
 				switch (command.GlobalCommand) {
 					case GlobalCommand.Ok:
@@ -58,19 +60,19 @@ namespace Xwt.Backends
 						break;
 					case GlobalCommand.New:
 						command.Label = "_New\u2026";
-						command.Accelerator = new Accelerator (Key.N, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.n, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Open:
 						command.Label = "_Open\u2026";
-						command.Accelerator = new Accelerator (Key.O, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.o, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Save:
 						command.Label = "_Save";
-						command.Accelerator = new Accelerator (Key.S, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.s, ModifierKeys.Command);
 						break;
 					case GlobalCommand.SaveAs:
 						command.Label = "Save _As\u2026";
-						command.Accelerator = new Accelerator (Key.N, ModifierKeys.Control | ModifierKeys.Shift);
+						command.Accelerator = new Accelerator (Key.N, ModifierKeys.Command);
 						break;
 					case GlobalCommand.SaveCopy:
 						command.Label = "Save a Copy\u2026";
@@ -83,15 +85,15 @@ namespace Xwt.Backends
 						break;
 					case GlobalCommand.PrintPreview:
 						command.Label = "Print Preview\u2026";
-						command.Accelerator = new Accelerator (Key.P, ModifierKeys.Shift | ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.P, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Print:
 						command.Label = "Print\u2026";
-						command.Accelerator = new Accelerator (Key.P, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.p, ModifierKeys.Command);
 						break;
 					case GlobalCommand.SendTo:
 						command.Label = "Send To\u2026";
-						command.Accelerator = new Accelerator (Key.M, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.m, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Properties:
 						command.Label = "Pr_operties\u2026";
@@ -99,39 +101,39 @@ namespace Xwt.Backends
 						break;
 					case GlobalCommand.Close:
 						command.Label = "_Close";
-						command.Accelerator = new Accelerator (Key.W, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.w, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Quit:
 						command.Label = "_Quit";
-						command.Accelerator = new Accelerator (Key.Q, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.q, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Undo:
 						command.Label = "_Undo";
-						command.Accelerator = new Accelerator (Key.Z, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.z, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Redo:
 						command.Label = "_Redo";
-						command.Accelerator = new Accelerator (Key.Z, ModifierKeys.Shift | ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.Z, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Cut:
 						command.Label = "Cu_t";
-						command.Accelerator = new Accelerator (Key.X, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.x, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Copy:
 						command.Label = "_Copy";
-						command.Accelerator = new Accelerator (Key.C, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.c, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Paste:
 						command.Label = "_Paste";
-						command.Accelerator = new Accelerator (Key.V, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.v, ModifierKeys.Command);
 						break;
 					case GlobalCommand.PasteSpecial:
 						command.Label = "Paste Special\u2026";
-						command.Accelerator = new Accelerator (Key.V, ModifierKeys.Shift | ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.V, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Duplicate:
 						command.Label = "_Duplicate";
-						command.Accelerator = new Accelerator (Key.U, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.u, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Delete:
 						command.Label = "_Delete";
@@ -139,27 +141,27 @@ namespace Xwt.Backends
 						break;
 					case GlobalCommand.SelectAll:
 						command.Label = "Select _All";
-						command.Accelerator = new Accelerator (Key.A, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.a, ModifierKeys.Command);
 						break;
 					case GlobalCommand.DeselectAll:
 						command.Label = "Deselect All";
-						command.Accelerator = new Accelerator (Key.A, ModifierKeys.Shift | ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.A, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Find:
 						command.Label = "_Find\u2026";
-						command.Accelerator = new Accelerator (Key.F, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.f, ModifierKeys.Command);
 						break;
 					case GlobalCommand.FindNext:
 						command.Label = "Find Ne_xt";
-						command.Accelerator = new Accelerator (Key.G, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.g, ModifierKeys.Command);
 						break;
 					case GlobalCommand.FindPrevious:
 						command.Label = "Find Previous";
-						command.Accelerator = new Accelerator (Key.G, ModifierKeys.Shift | ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.G, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Replace:
 						command.Label = "_Replace\u2026";
-						command.Accelerator = new Accelerator (Key.H, ModifierKeys.Control);
+						command.Accelerator = new Accelerator (Key.h, ModifierKeys.Command);
 						break;
 					case GlobalCommand.Preferences:
 						command.Label = "Preferences";

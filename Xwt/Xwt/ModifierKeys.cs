@@ -27,6 +27,14 @@ using System;
 
 namespace Xwt
 {
+	/// <summary>
+	/// Modifier keys.
+	/// </summary>
+	/// <remarks>
+	/// Command in GTK should translated as "Primary", which is "Command" on OS X
+	/// and "Control" on platforms other than OS X. Command in WPF should be translated
+	/// as "Control"
+	/// </remarks>
 	[Flags]
 	public enum ModifierKeys
 	{
