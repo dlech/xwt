@@ -54,7 +54,7 @@ namespace Xwt.Mac
 			//TODO Set Icon
 			//TODO Sort Buttons to have the default button first
 			foreach (Command cmd in message.ButtonCommands) {
-				this.AddButton (cmd.Label);
+				this.AddButton (cmd.Label ?? string.Empty);
 			}
 
 			return message.ButtonCommands [this.RunModal () - 1000];
