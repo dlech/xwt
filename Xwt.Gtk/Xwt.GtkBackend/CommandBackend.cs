@@ -39,6 +39,24 @@ namespace Xwt.GtkBackend
 				}
 			}
 			action = new Gtk.Action (frontendCommand.Id, frontendCommand.Label, null, stockId);
+			string accelerator = null;
+			// Most Commands with StockId will get accelerator without us generating it
+			var needsAccelerator = Action.StockId == null || Action.StockId == Gtk.Stock.Print;
+			if (needsAccelerator && frontendCommand.Accelerator != null) {
+				accelerator = string.Empty;
+				if (frontendCommand.Accelerator.HasModifiers) {
+					if (frontendCommand.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Shift))
+						accelerator += "<Shift>";
+					if (frontendCommand.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Alt))
+						accelerator += "<Alt>";
+					if (frontendCommand.Accelerator.Modifiers.Value.HasFlag (ModifierKeys.Control))
+						accelerator += "<Control>";
+					accelerator += frontendCommand.Accelerator.Key.ToString ();
+				}
+			}
+			GtkEngine.GlobalActionGroup.Add (action, accelerator);
+			action.AccelGroup = GtkEngine.GlobalAccelGroup;
+			action.ConnectAccelerator ();
 		}
 
 		public override IMenuItemBackend CreateMenuItem ()

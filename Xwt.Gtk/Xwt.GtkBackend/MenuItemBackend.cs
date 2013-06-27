@@ -50,29 +50,10 @@ namespace Xwt.GtkBackend
 		public MenuItemBackend (Gtk.MenuItem item)
 		{
 			this.item = item;
-			item.HierarchyChanged += item_HierarchyChanged;
 			label = (Gtk.Label) item.Child;
 			item.ShowAll ();
 		}
 
-		void item_HierarchyChanged (object sender, Gtk.HierarchyChangedArgs e)
-		{
-			if (item.Action == null)
-				return;
-
-			var menuItem = sender as Gtk.MenuItem;
-			if (menuItem == null)
-				return;
-
-			var window = menuItem.Toplevel as Gtk.Window;
-			if (window == null)
-				return;
-
-			window.GetDefaultActionGroup().Add (menuItem.Action, null);
-			menuItem.Action.AccelGroup = window.GetDefaultAccelGroup();
-			menuItem.Action.ConnectAccelerator ();
-		}
-		
 		public Gtk.MenuItem MenuItem {
 			get { return item; }
 		}

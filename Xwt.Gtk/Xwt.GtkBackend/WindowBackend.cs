@@ -40,8 +40,7 @@ namespace Xwt.GtkBackend
 		{
 			Window = new Gtk.Window ("");
 			Window.Add (CreateMainLayout ());
-			AccelGroup = new Gtk.AccelGroup();
-			Window.AddAccelGroup(AccelGroup);
+			Window.AddAccelGroup(GtkEngine.GlobalAccelGroup);
 		}
 		
 		protected virtual Gtk.Widget CreateMainLayout ()
@@ -52,11 +51,6 @@ namespace Xwt.GtkBackend
 			mainBox.PackStart (alignment, true, true, 0);
 			alignment.Show ();
 			return mainBox;
-		}
-
-		public Gtk.AccelGroup AccelGroup {
-			get;
-			private set;
 		}
 
 		public Gtk.VBox MainBox {

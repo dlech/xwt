@@ -34,6 +34,29 @@ namespace Xwt.GtkBackend
 {
 	public class GtkEngine: ToolkitEngineBackend
 	{
+		static Gtk.ActionGroup globalActionGroup;
+		static Gtk.AccelGroup globalAccelGroup;
+
+		public static Gtk.ActionGroup GlobalActionGroup
+		{
+			get
+			{
+				if (globalActionGroup == null)
+					globalActionGroup = new Gtk.ActionGroup ("Global");
+				return globalActionGroup;
+			}
+		}
+
+		public static Gtk.AccelGroup GlobalAccelGroup
+		{
+			get
+			{
+				if (globalAccelGroup == null)
+					globalAccelGroup = new Gtk.AccelGroup ();
+				return globalAccelGroup;
+			}
+		}
+
 		public override void InitializeApplication ()
 		{
 			Gtk.Application.Init ();
