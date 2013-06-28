@@ -93,7 +93,11 @@ namespace Xwt
 
 		public Image Icon { get; internal set; }
 
-		public Accelerator Accelerator { get; internal set; }
+		public Accelerator Accelerator
+		{
+			get { return Backend.Accelerator; }
+			set { Backend.Accelerator = value; }
+		}
 
 		public GlobalCommand? GlobalCommand { get; internal set; }
 

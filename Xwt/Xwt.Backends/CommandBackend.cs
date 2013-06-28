@@ -185,6 +185,8 @@ namespace Xwt.Backends
 
 		public virtual string ToolTip { get; set; }
 
+		public virtual Accelerator Accelerator { get; set; }
+
 		public virtual bool Sensitive { get; set; }
 
 		public virtual bool Visible { get; set; }

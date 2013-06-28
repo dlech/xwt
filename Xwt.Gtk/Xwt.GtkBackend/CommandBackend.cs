@@ -1,16 +1,37 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="CommandBackend.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿// 
+// CommandBackend.cs
+//  
+// Author:
+//       David Lechner <david@lechnology.com>
+// 
+// Copyright (c) 2013 David Lechner
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+using System;
+using Xwt.Backends;
 
 namespace Xwt.GtkBackend
 {
-	using System;
-	using Xwt.Backends;
 
 	/// <summary>
-	/// TODO: Update summary.
+	/// Gtk implementation of CommandBackend
 	/// </summary>
 	public class CommandBackend : Xwt.Backends.CommandBackend
 	{
@@ -38,29 +59,11 @@ namespace Xwt.GtkBackend
 						break;
 				}
 			}
-			action = new Gtk.Action (frontendCommand.Id, frontendCommand.Label, null, stockId);
-			action.Tooltip = frontendCommand.Tooltip;
-
-			string accelerator = null;
-			// Most Commands with StockId will get accelerator without us generating it
-			var needsAccelerator = Action.StockId == null || Action.StockId == Gtk.Stock.Print;
-			if (needsAccelerator && frontendCommand.Accelerator != null) {
-				accelerator = string.Empty;
-				if (frontendCommand.Accelerator.HasModifiers) {
-					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Shift))
-						accelerator += "<Shift>";
-					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Alt))
-						accelerator += "<Alt>";
-					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Control))
-						accelerator += "<Control>";
-					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Command))
-						accelerator += "<Primary>";
-					accelerator += (char)frontendCommand.Accelerator.Key;
-				}
-			}
-			GtkEngine.GlobalActionGroup.Add (action, accelerator);
-			action.AccelGroup = GtkEngine.GlobalAccelGroup;
-			action.ConnectAccelerator ();
+			action = new Gtk.Action (frontendCommand.Id, frontendCommand.Label, null, stockId)
+			{
+				Tooltip = frontendCommand.Tooltip
+			};
+			Accelerator = frontendCommand.Accelerator;
 		}
 
 		public override IMenuItemBackend CreateMenuItem ()
@@ -120,6 +123,68 @@ namespace Xwt.GtkBackend
 					action.Tooltip = value;
 				}
 			}
+		}
+
+		public override Accelerator Accelerator {
+			get {
+				return base.Accelerator;
+			}
+			set {
+				if (action == null) {
+					base.Accelerator = value;
+				} else {
+					Gtk.StockItem stockItem;
+					if (Gtk.StockManager.LookupItem(action.StockId, out stockItem)) {
+						var gtkKey = stockItem.Keyval;
+						var gtkModifier = stockItem.Modifier;
+						var modifer = ModifierKeys.None;
+						if (gtkModifier.HasFlag (Gdk.ModifierType.ControlMask))
+							modifer |= ModifierKeys.Control;
+						if (gtkModifier.HasFlag (Gdk.ModifierType.ShiftMask))
+							modifer |= ModifierKeys.Shift;
+						if (gtkModifier.HasFlag (Gdk.ModifierType.Mod1Mask))
+							modifer |= ModifierKeys.Alt;
+						base.Accelerator = new Accelerator ((Key)gtkKey, modifer);
+					} else {
+						base.Accelerator = value;
+					}
+					GtkEngine.GlobalActionGroup.Remove (action);
+					action.DisconnectAccelerator();
+					string accelPath = null;
+					// Most Commands with StockId will get accelerator without us generating it
+					var needsAccelerator = Action.StockId == null || Action.StockId == Gtk.Stock.Print;
+					if (needsAccelerator && value != null) {
+						accelPath = ParseAccelerator(value);
+					}
+					if (needsAccelerator || Action.StockId != null) {
+						GtkEngine.GlobalActionGroup.Add (action, accelPath);
+						action.AccelGroup = GtkEngine.GlobalAccelGroup;
+						action.ConnectAccelerator ();
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Converts Xwt Accelerator to Gtk AccelPath
+		/// </summary>
+		/// <param name="accelerator">The Xwt Accelerator</param>
+		/// <returns>the Gtk AccelPath</returns>
+		string ParseAccelerator(Accelerator accelerator)
+		{
+			var accelPath = string.Empty;
+			if (accelerator.HasModifiers) {
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Shift))
+					accelPath += "<Shift>";
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Alt))
+					accelPath += "<Alt>";
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Control))
+					accelPath += "<Control>";
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Command))
+					accelPath += "<Primary>";
+				accelPath += (char)accelerator.Key;
+			}
+			return accelPath;
 		}
 	}
 }

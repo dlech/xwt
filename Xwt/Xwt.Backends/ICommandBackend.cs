@@ -23,6 +23,7 @@ namespace Xwt.Backends
 	{
 		string Label { get; set; }
 		string ToolTip { get; set; }
+		Accelerator Accelerator { get; set; }
 		bool Sensitive { get; set; }
 		bool Visible { get; set; }
 
