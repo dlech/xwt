@@ -67,9 +67,11 @@ namespace Xwt.Mac
 
 		public string Label {
 			get {
+				// TODO: add a proper escape function for replacing the mnemonic
 				return item.Title.Replace("&", "_");
 			}
 			set {
+				// TODO: add a proper escape function for replacing the mnemonic
 				item.SetTitleWithMnemonic(value.Replace ("_", "&"));
 			}
 		}

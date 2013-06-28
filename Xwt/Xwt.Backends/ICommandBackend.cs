@@ -21,6 +21,11 @@ namespace Xwt.Backends
 	/// </remarks>
 	public interface ICommandBackend : IBackend
 	{
+		string Label { get; set; }
+		string ToolTip { get; set; }
+		bool Sensitive { get; set; }
+		bool Visible { get; set; }
+
 		void Initalize (ICommandEventSink backendHost);
 
 		IMenuItemBackend CreateMenuItem ();

@@ -181,10 +181,13 @@ namespace Xwt.Backends
 			}
 		}
 
-		protected void SetLabel (Command command, string label)
-		{
-			command.Label = label;
-		}
+		public virtual string Label { get; set; }
+
+		public virtual string ToolTip { get; set; }
+
+		public virtual bool Sensitive { get; set; }
+
+		public virtual bool Visible { get; set; }
 
 		protected void SetAccelerator (Command command, Accelerator accelerator)
 		{

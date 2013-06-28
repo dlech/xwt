@@ -25,7 +25,7 @@ namespace Xwt.Mac
 			if (frontendCommand.IsGlobalCommand) {
 				switch (frontendCommand.GlobalCommand.Value) {
 				case GlobalCommand.Preferences:
-					SetLabel(frontendCommand, "&Preferences\u2026");
+					Label = "&Preferences\u2026";
 					SetAccelerator(frontendCommand, new Accelerator (Key.Comma, ModifierKeys.Command));
 					break;
 				default:
@@ -36,6 +36,7 @@ namespace Xwt.Mac
 
 		public override IMenuItemBackend CreateMenuItem() {
 			var menuItem = new NSMenuItem ();
+			// TODO: add a proper escape function for replacing the mnemonic
 			menuItem.SetTitleWithMnemonic (frontendCommand.Label.Replace("_", "&"));
 			if (frontendCommand.Accelerator  != null) {
 			menuItem.KeyEquivalent = char.ToString((char)frontendCommand.Accelerator.Key);

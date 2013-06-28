@@ -39,6 +39,8 @@ namespace Xwt.GtkBackend
 				}
 			}
 			action = new Gtk.Action (frontendCommand.Id, frontendCommand.Label, null, stockId);
+			action.Tooltip = frontendCommand.Tooltip;
+
 			string accelerator = null;
 			// Most Commands with StockId will get accelerator without us generating it
 			var needsAccelerator = Action.StockId == null || Action.StockId == Gtk.Stock.Print;
@@ -94,5 +96,30 @@ namespace Xwt.GtkBackend
 			action.Activated -= handler;
 		}
 
+		public override string Label {
+			get {
+				return (action == null) ? base.Label : action.Label;
+			}
+			set {
+				if (action == null) {
+					base.Label = value;
+				} else {
+					action.Label = value;
+				}
+			}
+		}
+
+		public override string ToolTip {
+			get {
+				return (action == null) ? base.ToolTip : action.Tooltip;
+			}
+			set {
+				if (action == null) {
+					base.ToolTip = value;
+				} else {
+					action.Tooltip = value;
+				}
+			}
+		}
 	}
 }

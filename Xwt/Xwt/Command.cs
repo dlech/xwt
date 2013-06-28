@@ -79,9 +79,17 @@ namespace Xwt
 			GlobalCommand = command;
 		}
 
-		public string Id { get; internal set; }
+		public string Id { get; private set; }
 
-		public string Label { get; internal set; }
+		public string Label {
+			get { return Backend.Label; } 
+			set { Backend.Label = value; }
+		}
+
+		public string Tooltip {
+			get { return Backend.Label; } 
+			set { Backend.Label = value; }
+		}
 
 		public Image Icon { get; internal set; }
 
