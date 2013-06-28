@@ -22,9 +22,9 @@ namespace Xwt.WPFBackend
 				return null;
 			var text = string.Empty;
 			if (accelerator.HasModifiers) {
-				if (accelerator.Modifiers.Value.HasFlag (ModifierKeys.Control))
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Control))
 					text += "Ctrl+";
-				if (accelerator.Modifiers.Value.HasFlag (ModifierKeys.Shift))
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Shift))
 					text += "Shift+";
 			}
 			switch (accelerator.Key) {

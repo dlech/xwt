@@ -40,9 +40,25 @@ namespace Xwt.WPFBackend
 		System.Windows.Window window;
 		IWindowFrameEventSink eventSink;
 		WindowFrame frontend;
+		CommandCollectionListenerImp commandCollectionListener;
+
+		class CommandCollectionListenerImp : ICollectionListener
+		{
+			
+			public void ItemAdded (object collection, object item)
+			{
+				// TODO: anything needed here?
+			}
+
+			public void ItemRemoved (object collection, object item)
+			{
+				// TODO: anything needed here?
+			}
+		}
 
 		public WindowFrameBackend ()
 		{
+			commandCollectionListener = new CommandCollectionListenerImp ();
 		}
 
 		void IBackend.InitializeBackend (object frontend, ApplicationContext context)
@@ -355,8 +371,8 @@ namespace Xwt.WPFBackend
 			loc.Y += border.Height;
 
 			if (((IWindowFrameBackend)this).Decorated) {
-                size.Height -= SystemParameters.WindowCaptionHeight;
-                loc.Y += SystemParameters.WindowCaptionHeight;
+				size.Height -= SystemParameters.WindowCaptionHeight;
+				loc.Y += SystemParameters.WindowCaptionHeight;
 			}
 			if (HasMenu) {
 				size.Height -= SystemParameters.MenuBarHeight;
@@ -367,6 +383,11 @@ namespace Xwt.WPFBackend
 			size.Height = Math.Max (0, size.Height);
 
 			return new Rectangle (loc, size);
+		}
+
+		public ICollectionListener CommandCollectionListener
+		{
+			get { return commandCollectionListener; }
 		}
 	}
 }

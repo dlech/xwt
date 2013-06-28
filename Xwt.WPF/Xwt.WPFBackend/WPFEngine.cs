@@ -42,6 +42,11 @@ namespace Xwt.WPFBackend
 	{
 		System.Windows.Application application;
 
+		public override ToolkitType ToolkitType
+		{
+			get { return ToolkitType.Wpf; }
+		}
+
 		public override void InitializeApplication ()
 		{
 			application = System.Windows.Application.Current;

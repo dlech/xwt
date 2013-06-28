@@ -55,7 +55,7 @@ namespace Xwt.WPFBackend
 
 		public DialogBackend()
 		{
-			cmd = new DelegatedCommand<DialogButton> (OnButtonClicked);
+			cmd = new DelegatedCommand<Command> (OnButtonClicked);
 
 			this.buttonContainer.ItemsPanel = PanelTemplate;
 			this.buttonContainer.ItemTemplateSelector =  new DialogButtonTemplateSelector (ButtonStyle, cmd);
@@ -85,23 +85,11 @@ namespace Xwt.WPFBackend
 			base.SetMinSize (s);
 		}
 
-		public void SetButtons (IEnumerable<DialogButton> newButtons)
+		public void SetCommands (IEnumerable<Command> newCommands)
 		{
 			this.buttons.Clear();
-			foreach (var button in newButtons) {
+			foreach (var button in newCommands) {
 				this.buttons.Add (button);
-			}
-		}
-
-		public void UpdateButton (DialogButton updatedButton)
-		{
-			for (int i = 0; i < this.buttons.Count; ++i) {
-				var button = this.buttons [i];
-				if (button == updatedButton) {
-					this.buttons.RemoveAt (i);
-					this.buttons.Insert (i, updatedButton);
-					break;
-				}
 			}
 		}
 
@@ -119,16 +107,16 @@ namespace Xwt.WPFBackend
 		}
 
 		private readonly ItemsControl buttonContainer = new ItemsControl();
-		private readonly ObservableCollection<DialogButton> buttons = new ObservableCollection<DialogButton> ();
+		private readonly ObservableCollection<Command> buttons = new ObservableCollection<Command> ();
 		readonly SWC.Separator separator;
 
 		protected IDialogEventSink DialogEventSink {
 			get { return (IDialogEventSink) EventSink; }
 		}
 
-		private void OnButtonClicked (DialogButton button)
+		private void OnButtonClicked (Command command)
 		{
-			Context.InvokeUserCode (() => DialogEventSink.OnDialogButtonClicked (button));
+			Context.InvokeUserCode (() => DialogEventSink.OnDialogButtonClicked (command));
 		}
 
 		private static readonly ItemsPanelTemplate PanelTemplate;
@@ -178,11 +166,11 @@ namespace Xwt.WPFBackend
 
 			public override DataTemplate SelectTemplate (object item, DependencyObject container)
 			{
-				var button = item as DialogButton;
-				if (button == null)
+				var command = item as Command;
+				if (command == null)
 					return base.SelectTemplate (item, container);
 
-				return (button.Image == null) ? this.normalTemplate : this.imageTemplate;
+				return (command.Icon == null) ? this.normalTemplate : this.imageTemplate;
 			}
 
 			private static readonly BooleanToVisibilityConverter VisibilityConverter = new BooleanToVisibilityConverter ();

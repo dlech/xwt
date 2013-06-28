@@ -32,6 +32,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using SWC = System.Windows.Controls;
+using SWI = System.Windows.Input;
 using SWMI = System.Windows.Media.Imaging;
 using Xwt.Backends;
 
@@ -158,17 +159,17 @@ namespace Xwt.WPFBackend
 		{
 			var commandBackend = command.GetBackend() as CommandBackend;
 			menuItem.Command = commandBackend.Command;
-			System.Windows.Input.ExecutedRoutedEventHandler execute = (sender, e) =>
+			SWI.ExecutedRoutedEventHandler execute = (sender, e) =>
 			{
 
 			};
-			System.Windows.Input.CanExecuteRoutedEventHandler canExecute = (sender, e) =>
+			SWI.CanExecuteRoutedEventHandler canExecute = (sender, e) =>
 			{
 				e.CanExecute = true;
 				// TODO: get value from command
 				// e.CanExecute = command.Sensitive;
 			};
-			var binding = new System.Windows.Input.CommandBinding (menuItem.Command, execute, canExecute);
+			var binding = new SWI.CommandBinding (menuItem.Command, execute, canExecute);
 			menuItem.CommandBindings.Add (binding);
 		}
 
