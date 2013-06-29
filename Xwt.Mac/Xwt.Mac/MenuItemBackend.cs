@@ -140,7 +140,14 @@ namespace Xwt.Mac
 			}
 		}
 		#endregion
-		
+
+		internal void HandleItemHighlighted(object sender, MenuBackend.ItemHighlightedEventArgs e)
+		{
+			// mimic Gtk behavoir of triggering activated event when showing submenu
+			if (ReferenceEquals(e.Item, Item) && Item.HasSubmenu)
+			    HandleItemActivated(this, EventArgs.Empty);
+		}
+
 		void HandleItemActivated (object sender, EventArgs e)
 		{
 			context.InvokeUserCode (delegate {

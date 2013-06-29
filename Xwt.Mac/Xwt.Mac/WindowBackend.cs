@@ -44,6 +44,7 @@ namespace Xwt.Mac
 		Window frontend;
 		ViewBackend child;
 		bool sensitive = true;
+		MenuBackend mainMenu;
 		
 		public WindowBackend (IntPtr ptr): base (ptr)
 		{
@@ -59,6 +60,8 @@ namespace Xwt.Mac
 
 			// TODO: do it only if mouse move events are enabled in a widget
 			AcceptsMouseMovedEvents = true;
+
+			DidBecomeMain += OnDidBecomeMain;
 
 			Center ();
 		}
@@ -393,12 +396,17 @@ namespace Xwt.Mac
 		
 		public void SetMainMenu (IMenuBackend menu)
 		{
-			var m = (MenuBackend) menu;
-			m.SetMainMenuMode ();
-			NSApplication.SharedApplication.Menu = m;
-			
-//			base.Menu = m;
+			mainMenu = (MenuBackend) menu;
+			mainMenu.SetMainMenuMode ();
+			if (IsMainWindow)
+				OnDidBecomeMain (this, EventArgs.Empty);
 		}
+
+		void OnDidBecomeMain (object sender, EventArgs e)
+		{
+			NSApplication.SharedApplication.Menu = mainMenu;
+		}
+
 
 		// TODO: implement me
 		public WindowPosition StartPosition { get; set; }
