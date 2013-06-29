@@ -126,6 +126,7 @@ namespace Xwt.WPFBackend
 				if (subMenu != null) {
 					subMenu.RemoveFromParentItem ();
 					subMenu = null;
+					MenuItem.MouseEnter -= OnMouseEnter;
 				}
 				return;
 			}
@@ -136,8 +137,26 @@ namespace Xwt.WPFBackend
 			foreach (var itemBackend in menuBackend.Items)
 				this.menuItem.Items.Add (itemBackend.Item);
 
+			/* If we have no items in the submenu, add a dummy item so that the arrow
+			 * indicating that this has a submenu is visible. This is to make the
+			 * behavior consistent with other platforms.
+			 */
+			if (!menuItem.HasItems)
+				menuItem.Items.Add (menuBackend.dummyItem);
+			
+
+			// perform click event when hovering menu items to mimic Gtk.
+			MenuItem.MouseEnter += OnMouseEnter;
+
 			menuBackend.ParentItem = this;
 			subMenu = menuBackend;
+
+		}
+
+		void OnMouseEnter(object sender, SWI.MouseEventArgs e)
+		{
+			if (!menuItem.IsSubmenuOpen)
+				MenuItemClickHandler (sender, e);
 		}
 
 		public void SetType (MenuItemType type)

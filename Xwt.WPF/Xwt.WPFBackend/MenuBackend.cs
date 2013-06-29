@@ -40,6 +40,12 @@ namespace Xwt.WPFBackend
 	public class MenuBackend : Backend, IMenuBackend
 	{
 		List<MenuItemBackend> items;
+		internal MenuItem dummyItem;
+
+		public MenuBackend()
+		{
+			dummyItem = new MenuItem ();
+		}
 
 		public override void InitializeBackend (object frontend, ApplicationContext context)
 		{
@@ -67,24 +73,39 @@ namespace Xwt.WPFBackend
 		{
 			var itemBackend = (MenuItemBackend)item;
 			items.Insert (index, itemBackend);
-			if (ParentItem != null && ParentItem.MenuItem != null)
+			if (ParentItem != null && ParentItem.MenuItem != null) {
+				ParentItem.MenuItem.Items.Remove (dummyItem);
 				ParentItem.MenuItem.Items.Insert (index, itemBackend.Item);
-			else if (ParentWindow != null)
+			} else if (ParentWindow != null) {
+				ParentWindow.mainMenu.Items.Remove (dummyItem);
 				ParentWindow.mainMenu.Items.Insert (index, itemBackend.Item);
-			else if (this.menu != null)
-				this.menu.Items.Insert (index, itemBackend.Item);
+			} else if (this.menu != null) {
+				menu.Items.Remove (dummyItem);
+				menu.Items.Insert (index, itemBackend.Item);
+			}
 		}
 
 		public void RemoveItem (IMenuItemBackend item)
 		{
+			/* If we have no items in the submenu, add a dummy item so that the arrow
+			 * indicating that this has a submenu is visible. This is to make the
+			 * behavior consistent with other platforms.
+			 */
 			var itemBackend = (MenuItemBackend)item;
 			items.Remove (itemBackend);
-			if (ParentItem != null)
+			if (ParentItem != null) {
 				ParentItem.MenuItem.Items.Remove (itemBackend.Item);
-			else if (ParentWindow != null)
+				if (!ParentItem.MenuItem.HasItems)
+					ParentItem.MenuItem.Items.Add (dummyItem);
+			} else if (ParentWindow != null) {
 				ParentWindow.mainMenu.Items.Remove (itemBackend.Item);
-			else if (this.menu != null)
-				this.menu.Items.Remove (itemBackend.Item);
+				if (!ParentWindow.mainMenu.HasItems)
+					ParentWindow.mainMenu.Items.Add (dummyItem);
+			} else if (this.menu != null) {
+				menu.Items.Remove (itemBackend.Item);
+				if (!menu.HasItems)
+					menu.Items.Add (dummyItem);
+			}
 		}
 
 		public void RemoveFromParentItem ()
