@@ -25,9 +25,10 @@
 // THE SOFTWARE.
 
 using System;
-using Xwt.Backends;
-
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Xwt.Backends;
 
 namespace Xwt
 {
@@ -36,6 +37,7 @@ namespace Xwt
 		static Toolkit toolkit;
 		static ToolkitEngineBackend engine;
 		static UILoop mainLoop;
+		static List<WindowFrame> windows;
 
 		public static TaskScheduler UITaskScheduler {
 			get { return Toolkit.CurrentEngine.Scheduler; }
@@ -43,6 +45,57 @@ namespace Xwt
 
 		public static UILoop MainLoop {
 			get { return mainLoop; }
+		}
+
+		public static ReadOnlyCollection<WindowFrame> Windows
+		{
+			get { return windows.AsReadOnly (); }
+		}
+
+		internal static void AddWindow(WindowFrame window)
+		{
+			windows.Add (window);
+			OnWindowAdded (window);
+		}
+
+		internal static bool RemoveWindow (WindowFrame window)
+		{
+			if (windows.Remove (window)) {
+				OnWindowRemoved (window);
+				return true;
+			}
+			return false;
+		}
+
+		public class WindowEventArgs : EventArgs
+		{
+			public WindowFrame Window { get; private set; }
+
+			public WindowEventArgs (WindowFrame window)
+			{
+				Window = window;
+			}
+		}
+
+		// no 'sender' object since this is a static class
+		public delegate void WindowEventHandler(WindowEventArgs e);
+
+		public static event WindowEventHandler WindowAdded;
+
+		public static event WindowEventHandler WindowRemoved;
+
+		static void OnWindowAdded (WindowFrame window)
+		{
+			if (WindowAdded != null) {
+				WindowAdded (new WindowEventArgs (window));
+			}
+		}
+
+		static void OnWindowRemoved (WindowFrame window)
+		{
+			if (WindowRemoved != null) {
+				WindowRemoved (new WindowEventArgs (window));
+			}
 		}
 
 		internal static System.Threading.Thread UIThread {
@@ -71,6 +124,7 @@ namespace Xwt
 			toolkit.SetActive ();
 			engine = toolkit.Backend;
 			mainLoop = new UILoop (toolkit);
+			windows = new List<WindowFrame> ();
 
 			UIThread = System.Threading.Thread.CurrentThread;
 

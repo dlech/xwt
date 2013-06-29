@@ -114,6 +114,7 @@ namespace Xwt
 		{
 			if (!(base.BackendHost is WindowBackendHost))
 				throw new InvalidOperationException ("CreateBackendHost for WindowFrame did not return a WindowBackendHost instance");
+			Application.AddWindow (this);
 		}
 		
 		public WindowFrame (string title): this ()
