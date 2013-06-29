@@ -117,17 +117,7 @@ namespace Xwt.WPFBackend
 			}
 			if (Command == null) {
 				Command = new SWI.RoutedUICommand (frontendCommand.Label ?? string.Empty, frontendCommand.Id, frontendCommand.GetType ());
-				if (frontendCommand.Accelerator != null) {
-					var modifiers = SWI.ModifierKeys.None;
-					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Command) ||
-					    frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Control))
-						modifiers |= SWI.ModifierKeys.Control;
-					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Shift))
-						modifiers |= SWI.ModifierKeys.Shift;
-					if (frontendCommand.Accelerator.Modifiers.HasFlag (ModifierKeys.Alt))
-						modifiers |= SWI.ModifierKeys.Alt;
-					Command.InputGestures.Add(new SWI.KeyGesture (ConvertKey(frontendCommand.Accelerator.Key), modifiers));
-				}
+				Accelerator = frontendCommand.Accelerator;
 			}
 			CommandBinding = new SWI.CommandBinding (Command);
 		}
@@ -181,6 +171,29 @@ namespace Xwt.WPFBackend
 					base.Label = value;
 				} else {
 					Command.Text = value;
+				}
+			}
+		}
+
+		public override Accelerator Accelerator
+		{
+			get
+			{
+				return base.Accelerator;
+			}
+			set
+			{
+				base.Accelerator = value;
+				if (Command != null && value != null) {
+					var modifiers = SWI.ModifierKeys.None;
+					if (value.Modifiers.HasFlag (ModifierKeys.Command) ||
+							value.Modifiers.HasFlag (ModifierKeys.Control))
+						modifiers |= SWI.ModifierKeys.Control;
+					if (value.Modifiers.HasFlag (ModifierKeys.Shift))
+						modifiers |= SWI.ModifierKeys.Shift;
+					if (value.Modifiers.HasFlag (ModifierKeys.Alt))
+						modifiers |= SWI.ModifierKeys.Alt;
+					Command.InputGestures.Add (new SWI.KeyGesture (ConvertKey (value.Key), modifiers));
 				}
 			}
 		}
