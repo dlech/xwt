@@ -36,6 +36,11 @@ namespace Xwt.Mac
 	{
 		bool mainMenuMode = false;
 
+		public MenuBackend()
+		{
+			Delegate = new MenuDelegate (OnItemHighlighted);
+		}
+
 		public void InitializeBackend (object frontend, ApplicationContext context)
 		{
 		}
@@ -46,11 +51,13 @@ namespace Xwt.Mac
 			base.InsertItem (nsMenuItem, index);
 			if (mainMenuMode && nsMenuItem.Submenu != null)
 				nsMenuItem.Submenu.Title = nsMenuItem.Title;
+			ItemHighlighted += ((MenuItemBackend)menuItem).HandleItemHighlighted;
 		}
 
 		public void RemoveItem (IMenuItemBackend menuItem)
 		{
 			RemoveItem (((MenuItemBackend)menuItem).Item);
+			ItemHighlighted -= ((MenuItemBackend)menuItem).HandleItemHighlighted;
 		}
 		
 		public void SetMainMenuMode ()
@@ -81,6 +88,39 @@ namespace Xwt.Mac
 		{
 			NSMenu.PopUpContextMenu (this, NSApplication.SharedApplication.CurrentEvent, ((ViewBackend)widget).Widget, null);
 		}
+
+		internal delegate void ItemHighlightedHandler(object sender, ItemHighlightedEventArgs e);
+		internal event ItemHighlightedHandler ItemHighlighted;
+
+		internal class ItemHighlightedEventArgs : EventArgs
+		{
+			public ItemHighlightedEventArgs (NSMenuItem item)
+			{
+				Item = item;
+			}
+
+			public NSMenuItem Item { get; private set; }
+		}
+
+		void OnItemHighlighted(NSMenuItem item)
+		{
+			if (ItemHighlighted != null)
+				ItemHighlighted(this, new ItemHighlightedEventArgs(item));
+		}
+
+		class MenuDelegate : NSMenuDelegate
+		{
+			Action<NSMenuItem> itemHighlightedHander;
+
+			public 	MenuDelegate(Action<NSMenuItem> handler)
+			{
+				itemHighlightedHander = handler;
+			}
+
+			public override void MenuWillHighlightItem (NSMenu menu, NSMenuItem item)
+			{
+				itemHighlightedHander.Invoke (item);
+			}
+		}
 	}
 }
-
