@@ -69,6 +69,7 @@
     <Compile Include="Xwt.WPFBackend\ComboBoxEntryBackend.cs" />
     <Compile Include="Xwt.WPFBackend\ComboBoxTextEntryBackend.cs" />
     <Compile Include="Xwt.WPFBackend\CommandBackend.cs" />
+    <Compile Include="Xwt.WPFBackend\CommandPool.cs" />
     <Compile Include="Xwt.WPFBackend\DatePickerBackend.cs" />
     <Compile Include="Xwt.WPFBackend\SpinButtonBackend.cs" />
     <Compile Include="Xwt.WPFBackend\RadioButtonBackend.cs" />

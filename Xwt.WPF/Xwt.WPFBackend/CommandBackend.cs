@@ -120,6 +120,7 @@ namespace Xwt.WPFBackend
 				Accelerator = frontendCommand.Accelerator;
 			}
 			CommandBinding = new SWI.CommandBinding (Command);
+			CommandPool.Commands.Add (this);
 		}
 
 		public override IMenuItemBackend CreateMenuItem ()
@@ -127,14 +128,12 @@ namespace Xwt.WPFBackend
 			var menuItemBackend = new MenuItemBackend ();
 			menuItemBackend.Label = Command.Text;
 			menuItemBackend.MenuItem.Command = Command;
-			menuItemBackend.MenuItem.CommandBindings.Add (CommandBinding);
 			return menuItemBackend;
 		}
 
 		public override IButtonBackend CreateButton ()
 		{
 			var buttonBackend = new ButtonBackend ();
-			buttonBackend.Widget.CommandBindings.Add (CommandBinding);
 			return buttonBackend;
 		}
 
