@@ -34,7 +34,6 @@ using MonoMac.ObjCRuntime;
 using MonoMac.Foundation;
 using System.Collections.Generic;
 using Xwt.Backends;
-using System.Runtime.InteropServices;
 
 namespace Xwt.Mac
 {
@@ -334,6 +333,44 @@ namespace Xwt.Mac
 				}
 			}
 			return ns;
+		}
+
+		/// <summary>
+		/// Removes the mnemonics (underscore character) from a string.
+		/// </summary>
+		/// <returns>The string with the mnemonics unescaped.</returns>
+		/// <param name="text">The string.</param>
+		/// <remarks>
+		/// Single underscores are removed. Double underscores are replaced with single underscores (unescaped).
+		/// 
+		/// Mnemonics are depritiated on OS X.
+		/// </remarks>
+		public static string RemoveMnemonics(this string str)
+		{
+			string newText = string.Empty;
+			for (int i = 0; i < str.Length; i++) {
+				if (str [i] != '_')
+					newText += str [i];
+				else if (i < str.Length && str [i + 1] == '_') {
+					newText += '_';
+					i++;
+				}
+			}
+			return newText;
+		}
+
+		public static NSEventModifierMask ToNSEventModifierMask(this ModifierKeys modifiers)
+		{
+			NSEventModifierMask mask = (NSEventModifierMask)0;
+			if (modifiers.HasFlag (ModifierKeys.Alt))
+				mask |= NSEventModifierMask.AlternateKeyMask;
+			if (modifiers.HasFlag (ModifierKeys.Command))
+				mask |= NSEventModifierMask.CommandKeyMask;
+			if (modifiers.HasFlag (ModifierKeys.Control))
+				mask |= NSEventModifierMask.ControlKeyMask;
+			if (modifiers.HasFlag (ModifierKeys.Shift))
+				mask |= NSEventModifierMask.ShiftKeyMask;
+			return mask;
 		}
 	}
 

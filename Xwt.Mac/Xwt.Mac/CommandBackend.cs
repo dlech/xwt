@@ -42,6 +42,9 @@ namespace Xwt.Mac
 //				case StockCommand.Help:
 //					action = new MonoMac.ObjCRuntime.Selector ("showHelp:");
 //					break;
+				case StockCommand.New:
+					action = new MonoMac.ObjCRuntime.Selector ("new:");
+					break;
 				case StockCommand.Open:
 					action = new MonoMac.ObjCRuntime.Selector ("open:");
 					break;
@@ -49,7 +52,7 @@ namespace Xwt.Mac
 					action = new MonoMac.ObjCRuntime.Selector ("paste:");
 					break;
 				case StockCommand.Preferences:
-					Label = "&Preferences\u2026";
+					Label = "Preferences\u2026";
 					SetAccelerator(frontendCommand, new Accelerator (Key.Comma, ModifierKeys.Command));
 					break;
 				case StockCommand.Print:
@@ -87,29 +90,12 @@ namespace Xwt.Mac
 
 		public override IMenuItemBackend CreateMenuItem() {
 			var menuItem = new NSMenuItem ();
-			// TODO: add a proper escape function for replacing the mnemonic
-			menuItem.SetTitleWithMnemonic (frontendCommand.Label.Replace("_", "&"));
+			menuItem.Title = frontendCommand.Label.RemoveMnemonics ();
 			if (frontendCommand.Accelerator  != null) {
-			menuItem.KeyEquivalent = char.ToString((char)frontendCommand.Accelerator.Key);
-			if (frontendCommand.Accelerator.HasModifiers) {
-				var modifier = frontendCommand.Accelerator.Modifiers;
-				if (modifier.HasFlag (ModifierKeys.Alt))
-					menuItem.KeyEquivalentModifierMask |= NSEventModifierMask.AlternateKeyMask;
-				else
-					menuItem.KeyEquivalentModifierMask &= ~NSEventModifierMask.AlternateKeyMask;
-				if (modifier.HasFlag (ModifierKeys.Command))
-					menuItem.KeyEquivalentModifierMask |= NSEventModifierMask.CommandKeyMask;
-				else
-					menuItem.KeyEquivalentModifierMask &= ~NSEventModifierMask.CommandKeyMask;
-				if (modifier.HasFlag (ModifierKeys.Control))
-					menuItem.KeyEquivalentModifierMask |= NSEventModifierMask.ControlKeyMask;
-				else
-					menuItem.KeyEquivalentModifierMask &= ~NSEventModifierMask.ControlKeyMask;
-				if (modifier.HasFlag (ModifierKeys.Shift))
-					menuItem.KeyEquivalentModifierMask |= NSEventModifierMask.ShiftKeyMask;
-				else
-					menuItem.KeyEquivalentModifierMask &= ~NSEventModifierMask.ShiftKeyMask;
-				}
+				menuItem.KeyEquivalent = char.ToString((char)frontendCommand.Accelerator.Key);
+				if (frontendCommand.Accelerator.HasModifiers)
+					menuItem.KeyEquivalentModifierMask =
+						frontendCommand.Accelerator.Modifiers.ToNSEventModifierMask ();
 		    }
 			menuItem.Action = action;
 			menuItem.Target = null;
@@ -117,7 +103,17 @@ namespace Xwt.Mac
 		}
 
 		public override IButtonBackend CreateButton() {
-			return new ButtonBackend();
+			var button = new ButtonBackend();
+			button.Widget.Title = frontendCommand.Label.RemoveMnemonics ();
+			if (frontendCommand.Accelerator  != null) {
+				button.Widget.KeyEquivalent = char.ToString((char)frontendCommand.Accelerator.Key);
+				if (frontendCommand.Accelerator.HasModifiers)
+					button.Widget.KeyEquivalentModifierMask =
+						frontendCommand.Accelerator.Modifiers.ToNSEventModifierMask ();
+			}
+			button.Widget.Action = action;
+			button.Widget.Target = null;
+			return button;
 		}
 
 		protected override void AddCommandActivatedHandler(EventHandler handler)
