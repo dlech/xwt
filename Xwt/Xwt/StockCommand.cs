@@ -12,7 +12,7 @@ namespace Xwt
 	/// <summary>
 	/// TODO: Update summary.
 	/// </summary>
-	public enum GlobalCommand
+	public enum StockCommand
 	{
 		Add,
 		Apply,
@@ -53,23 +53,5 @@ namespace Xwt
 		Stop,
 		Undo,
 		Yes
-	}
-
-	public static class GlobalCommandExt
-	{
-		static Dictionary<GlobalCommand, Command> commands;
-
-		static GlobalCommandExt ()
-		{
-			commands = new Dictionary<GlobalCommand, Command> ();
-		}
-
-		public static Command Get(this GlobalCommand command)
-		{
-			if (!commands.ContainsKey (command)) {
-				commands.Add (command, new Command (command));
-			}
-			return commands[command];
-		}
 	}
 }

@@ -73,10 +73,10 @@ namespace Xwt
 			Icon = icon;
 		}
 
-		internal Command (GlobalCommand command)
+		internal Command (StockCommand command)
 		{
 			Id = command.ToString ();
-			GlobalCommand = command;
+			StockCommand = command;
 		}
 
 		public string Id { get; private set; }
@@ -99,9 +99,9 @@ namespace Xwt
 			set { Backend.Accelerator = value; }
 		}
 
-		public GlobalCommand? GlobalCommand { get; internal set; }
+		public StockCommand? StockCommand { get; internal set; }
 
-		public bool IsGlobalCommand { get { return GlobalCommand != null; } }
+		public bool IsStockCommand { get { return StockCommand != null; } }
 
 		ICommandBackend Backend
 		{
