@@ -14,6 +14,7 @@ namespace Xwt
 	/// </summary>
 	public enum StockCommand
 	{
+		About,
 		Add,
 		Apply,
 		Cancel,
@@ -28,7 +29,10 @@ namespace Xwt
 		Find,
 		FindNext,
 		FindPrevious,
+		Help,
 		Import,
+		Maximize,
+		Minimize,
 		New,
 		No,
 		Ok,

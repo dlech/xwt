@@ -8,13 +8,13 @@ namespace Xwt.Mac
 	public class CommandBackend : Xwt.Backends.CommandBackend
 	{
 		Command frontendCommand;
-		internal MonoMac.ObjCRuntime.Selector action;
+		internal Selector action;
 		static int commandCount;
 
 		public CommandBackend ()
 		{
 			var internalCommandId = string.Format("xwtCommand{0}:", commandCount++);
-			action = new MonoMac.ObjCRuntime.Selector (internalCommandId);
+			action = new Selector (internalCommandId);
 		}
 
 		public override void Initalize (ICommandEventSink eventSink)
@@ -27,60 +27,72 @@ namespace Xwt.Mac
 
 			if (frontendCommand.IsStockCommand) {
 				switch (frontendCommand.StockCommand.Value) {
+				case StockCommand.About:
+					action = new Selector ("orderedFrontStandardAboutPanel:");
+					Label = string.Format ("About {0}", NSApplication.SharedApplication.Description);
+					break;
 				case StockCommand.Close:
-					action = new MonoMac.ObjCRuntime.Selector ("close:");
+					action = new Selector ("close:");
 					break;
 				case StockCommand.Copy:
-					action = new MonoMac.ObjCRuntime.Selector ("copy:");
+					action = new Selector ("copy:");
 					break;
 				case StockCommand.Cut:
-					action = new MonoMac.ObjCRuntime.Selector ("cut:");
+					action = new Selector ("cut:");
 					break;
 				case StockCommand.Delete:
-					action = new MonoMac.ObjCRuntime.Selector ("delete:");
+					action = new Selector ("delete:");
 					break;
-//				case StockCommand.Help:
-//					action = new MonoMac.ObjCRuntime.Selector ("showHelp:");
-//					break;
+				case StockCommand.Help:
+					action = new Selector ("showHelp:");
+					break;
+				case StockCommand.Maximize:
+					Label = "Zoom";
+					action = new Selector("performZoom:");
+					break;
+				case StockCommand.Minimize:
+					Accelerator = new Accelerator(Key.m, ModifierKeys.Command);
+					action = new Selector("performMiniaturize:");
+					break;
 				case StockCommand.New:
-					action = new MonoMac.ObjCRuntime.Selector ("new:");
+					action = new Selector ("new:");
 					break;
 				case StockCommand.Open:
-					action = new MonoMac.ObjCRuntime.Selector ("open:");
+					action = new Selector ("open:");
 					break;
 				case StockCommand.Paste:
-					action = new MonoMac.ObjCRuntime.Selector ("paste:");
+					action = new Selector ("paste:");
 					break;
 				case StockCommand.Preferences:
 					Label = "Preferences\u2026";
 					SetAccelerator(frontendCommand, new Accelerator (Key.Comma, ModifierKeys.Command));
 					break;
 				case StockCommand.Print:
-					action = new MonoMac.ObjCRuntime.Selector ("print:");
+					action = new Selector ("print:");
 					break;
 				case StockCommand.Quit:
-					action = new MonoMac.ObjCRuntime.Selector ("terminate:");
+					action = new Selector ("terminate:");
 					break;
 				case StockCommand.Redo:
-					action = new MonoMac.ObjCRuntime.Selector ("redo:");
+					action = new Selector ("redo:");
 					break;					
 				case StockCommand.Replace:
-					action = new MonoMac.ObjCRuntime.Selector ("replace:");
+					action = new Selector ("replace:");
 					break;
 				case StockCommand.Revert:
-					action = new MonoMac.ObjCRuntime.Selector ("revert:");
+					action = new Selector ("revert:");
 					break;					
 				case StockCommand.Save:
-					action = new MonoMac.ObjCRuntime.Selector ("save:");
+					action = new Selector ("save:");
 					break;
 				case StockCommand.SelectAll:
-					action = new MonoMac.ObjCRuntime.Selector ("selectAll:");
+					action = new Selector ("selectAll:");
 					break;
 				case StockCommand.Stop:
-					action = new MonoMac.ObjCRuntime.Selector ("stop:");
+					action = new Selector ("stop:");
 					break;
 				case StockCommand.Undo:
-					action = new MonoMac.ObjCRuntime.Selector ("undo:");
+					action = new Selector ("undo:");
 					break;
 				default:
 					break;
