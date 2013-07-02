@@ -25,13 +25,13 @@
 // THE SOFTWARE.
 
 using System;
-
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
 using MonoMac.CoreGraphics;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Xwt.Backends;
 
 namespace Xwt.Mac
@@ -230,6 +230,7 @@ namespace Xwt.Mac
 	{
 		bool launched;
 		List<WindowBackend> pendingWindows = new List<WindowBackend> ();
+		Dictionary<string, Action<NSObject>> targets = new Dictionary<string, Action<NSObject>> ();
 		
 		public AppDelegate (bool launched)
 		{
@@ -257,6 +258,21 @@ namespace Xwt.Mac
 		{
 			if (MacDesktopBackend.Instance != null)
 				MacDesktopBackend.Instance.NotifyScreensChanged ();
+		}
+
+		void OnCommandActivated(NSObject sender)
+		{
+			var senderType = sender.GetType ();
+			var senderActionProperty = senderType.GetProperty ("Action");
+			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
+			targets [senderAction.Name].Invoke (sender);
+		}
+
+		public void AddTargetMethod(Selector selector, Action<NSObject> method)
+		{
+			var onCommandActivatedMethodInfo = GetType ().GetMethod ("OnCommandActivated", BindingFlags.NonPublic | BindingFlags.Instance);
+			Runtime.ConnectMethod (onCommandActivatedMethodInfo, selector);
+			targets.Add (selector.Name, method);
 		}
 	}
 }

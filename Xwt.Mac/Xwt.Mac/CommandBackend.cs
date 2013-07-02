@@ -1,4 +1,6 @@
 using System;
+using MonoMac.ObjCRuntime;
+using MonoMac.Foundation;
 using MonoMac.AppKit;
 using Xwt;
 using Xwt.Backends;
@@ -130,7 +132,10 @@ namespace Xwt.Mac
 
 		protected override void AddCommandActivatedHandler(EventHandler handler)
 		{
-
+			Action<NSObject> method = (sender) => {
+				handler (sender, EventArgs.Empty);
+			};
+			MacEngine.App.AddTargetMethod (action, method);
 		}
 
 		protected override void RemoveCommandActivatedHandler(EventHandler handler)
