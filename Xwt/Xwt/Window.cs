@@ -35,7 +35,7 @@ namespace Xwt
 	{
 		Widget child;
 		WidgetSpacing padding;
-		Menu mainMenu;
+		Menu mainMenu, servicesMenu, windowMenu;
 		bool shown;
 		
 		protected new class WindowBackendHost: WindowFrame.WindowBackendHost
@@ -120,7 +120,27 @@ namespace Xwt
 				Backend.SetMainMenu ((IMenuBackend)BackendHost.ToolkitEngine.GetSafeBackend (mainMenu));
 			}
 		}
+
+		public Menu ServicesMenu {
+			get {
+				return servicesMenu;
+			}
+			set {
+				servicesMenu = value;
+				Backend.SetServicesMenu ((IMenuBackend)BackendHost.ToolkitEngine.GetSafeBackend (servicesMenu));
+			}
+		}
 		
+		public Menu WindowMenu {
+			get {
+				return windowMenu;
+			}
+			set {
+				windowMenu = value;
+				Backend.SetWindowMenu ((IMenuBackend)BackendHost.ToolkitEngine.GetSafeBackend (windowMenu));
+			}
+		}
+
 		public Widget Content {
 			get {
 				return child;

@@ -66,10 +66,6 @@ namespace Xwt.Backends
 					command.Label = "Deselect All";
 					command.Accelerator = new Accelerator (Key.A, ModifierKeys.Command);
 					break;
-				case StockCommand.Duplicate:
-					command.Label = "_Duplicate";
-					command.Accelerator = new Accelerator (Key.u, ModifierKeys.Command);
-					break;
 				case StockCommand.Export:
 					command.Label = "_Export\u2026";
 					break;
@@ -119,8 +115,8 @@ namespace Xwt.Backends
 					command.Label = "_Paste";
 					command.Accelerator = new Accelerator (Key.v, ModifierKeys.Command);
 					break;
-				case StockCommand.PasteSpecial:
-					command.Label = "Paste Special\u2026";
+				case StockCommand.PasteAsText:
+					command.Label = "Paste As Text\u2026";
 					command.Accelerator = new Accelerator (Key.V, ModifierKeys.Command);
 					break;
 				case StockCommand.PrintPreview:

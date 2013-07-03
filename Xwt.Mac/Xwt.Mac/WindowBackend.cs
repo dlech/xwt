@@ -44,7 +44,7 @@ namespace Xwt.Mac
 		Window frontend;
 		ViewBackend child;
 		bool sensitive = true;
-		MenuBackend mainMenu;
+		MenuBackend mainMenu, servicesMenu, windowMenu;
 		
 		public WindowBackend (IntPtr ptr): base (ptr)
 		{
@@ -402,11 +402,30 @@ namespace Xwt.Mac
 				OnDidBecomeMain (this, EventArgs.Empty);
 		}
 
-		void OnDidBecomeMain (object sender, EventArgs e)
+		public void SetServicesMenu (IMenuBackend menu)
 		{
-			NSApplication.SharedApplication.Menu = mainMenu;
+			servicesMenu = (MenuBackend) menu;
+			if (IsMainWindow)
+				OnDidBecomeMain (this, EventArgs.Empty);
 		}
 
+		public void SetWindowMenu (IMenuBackend menu)
+		{
+			windowMenu = (MenuBackend) menu;
+			if (IsMainWindow)
+				OnDidBecomeMain (this, EventArgs.Empty);
+		}
+
+		void OnDidBecomeMain (object sender, EventArgs e)
+		{
+			var app = NSApplication.SharedApplication;
+			if (mainMenu != null)
+				app.Menu = mainMenu;
+			if (servicesMenu != null)
+				app.ServicesMenu = servicesMenu;
+			if (windowMenu != null)
+				app.WindowsMenu = windowMenu;
+		}
 
 		// TODO: implement me
 		public WindowPosition StartPosition { get; set; }

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using MonoMac.ObjCRuntime;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
@@ -27,11 +28,20 @@ namespace Xwt.Mac
 			var backendHost = eventSink as BackendHost<Command, ICommandBackend>;
 			frontendCommand = backendHost.Parent;
 
+			// TODO: make BundleName a property of MacEngine or Util
+			string bundleName;
+			var key = new NSString ("CFBundleName");
+			NSObject value;
+			if (NSBundle.MainBundle.InfoDictionary.TryGetValue (key, out value))
+				bundleName = (value as NSString).ToString ();
+			else
+				bundleName = Process.GetCurrentProcess ().ProcessName;
+
 			if (frontendCommand.IsStockCommand) {
 				switch (frontendCommand.StockCommand.Value) {
 				case StockCommand.About:
-					action = new Selector ("orderedFrontStandardAboutPanel:");
-					Label = string.Format ("About {0}", NSApplication.SharedApplication.Description);
+					action = new Selector ("orderFrontStandardAboutPanel:");
+					Label = string.Format ("About {0}", bundleName);
 					break;
 				case StockCommand.Close:
 					action = new Selector ("close:");
@@ -46,7 +56,18 @@ namespace Xwt.Mac
 					action = new Selector ("delete:");
 					break;
 				case StockCommand.Help:
+					Label = string.Format ("{0} Help", bundleName);
 					action = new Selector ("showHelp:");
+					break;
+				case StockCommand.HideApplication:
+					Label = string.Format ("Hide {0}", bundleName);
+					Accelerator = new Accelerator (Key.h, ModifierKeys.Command);
+					action = new Selector("hide:");
+					break;
+				case StockCommand.HideOtherApplications:
+					Label = "Hide others";
+					Accelerator = new Accelerator (Key.h, ModifierKeys.Command | ModifierKeys.Alt);
+					action = new Selector("hideOtherApplications:");
 					break;
 				case StockCommand.Maximize:
 					Label = "Zoom";
@@ -73,6 +94,7 @@ namespace Xwt.Mac
 					action = new Selector ("print:");
 					break;
 				case StockCommand.Quit:
+					Label = string.Format ("Quit {0}", bundleName);
 					action = new Selector ("terminate:");
 					break;
 				case StockCommand.Redo:
@@ -95,6 +117,10 @@ namespace Xwt.Mac
 					break;
 				case StockCommand.Undo:
 					action = new Selector ("undo:");
+					break;
+				case StockCommand.UnhideAllApplications:
+					Label = "Show All";
+					action = new Selector ("unhideAllApplications:");
 					break;
 				default:
 					break;

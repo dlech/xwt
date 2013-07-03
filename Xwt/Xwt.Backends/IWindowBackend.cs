@@ -33,6 +33,8 @@ namespace Xwt.Backends
 	{
 		void SetChild (IWidgetBackend child);
 		void SetMainMenu (IMenuBackend menu);
+		void SetServicesMenu (IMenuBackend menu);
+		void SetWindowMenu (IMenuBackend menu);
 		void SetPadding (double left, double top, double right, double bottom);
 
 		/// <summary>
