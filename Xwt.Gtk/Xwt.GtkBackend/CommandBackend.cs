@@ -47,16 +47,20 @@ namespace Xwt.GtkBackend
 			string stockId = null;
 
 			if (frontendCommand.IsStockCommand) {
-				switch (frontendCommand.StockCommand.Value) {
-					case StockCommand.Import:
-					case StockCommand.Export:
-						break;
-					// TODO: check for mismatches and missing items or manually check all cases.
-					default:
-						var gtkStockType = typeof(Gtk.Stock);
-						var gtkStockProperty = gtkStockType.GetProperty (frontendCommand.StockCommand.Value.ToString ());
+				var stockCommandName = frontendCommand.StockCommand.ToString ();
+				switch (frontendCommand.StockCommand) {
+				case StockCommand.Replace:
+					stockCommandName = "FindAndReplace";
+					goto default;
+				case StockCommand.Revert:
+					stockCommandName = "RevertToSaved";
+					goto default;
+				default:
+					var gtkStockType = typeof(Gtk.Stock);
+					var gtkStockProperty = gtkStockType.GetProperty (stockCommandName);
+					if (gtkStockProperty != null)
 						stockId = gtkStockProperty.GetValue (null, null) as string;
-						break;
+					break;
 				}
 			}
 			action = new Gtk.Action (frontendCommand.Id, frontendCommand.Label, null, stockId)

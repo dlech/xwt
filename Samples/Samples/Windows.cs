@@ -64,12 +64,13 @@ namespace Samples
 				t.Add (new Label ("Another field:"), 0, 1);
 				t.Add (new TextEntry (), 1, 1);
 				d.Content = t;
-				
+
+				// FIXME
 				Command custom = new Command ("Custom");
-				d.Buttons.Add (new DialogButton (custom));
-				d.Buttons.Add (new DialogButton ("Custom OK", Command.Ok));
-				d.Buttons.Add (new DialogButton (Command.Cancel));
-				d.Buttons.Add (new DialogButton (Command.Ok));
+//				d.Buttons.Add (new DialogButton (custom));
+//				d.Buttons.Add (new DialogButton ("Custom OK", Command.Ok));
+//				d.Buttons.Add (new DialogButton (Command.Cancel));
+//				d.Buttons.Add (new DialogButton (Command.Ok));
 				
 				var r = d.Run (this.ParentWindow);
 				db.Label = "Result: " + r.Label;

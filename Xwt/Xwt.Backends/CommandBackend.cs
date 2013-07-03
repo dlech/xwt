@@ -50,6 +50,9 @@ namespace Xwt.Backends
 					command.Label = "_Close";
 					command.Accelerator = new Accelerator (Key.w, ModifierKeys.Command);
 					break;
+				case StockCommand.CloseAll:
+					command.Label = "_Close All";
+					break;
 				case StockCommand.Copy:
 					command.Label = "_Copy";
 					command.Accelerator = new Accelerator (Key.c, ModifierKeys.Command);
@@ -155,6 +158,9 @@ namespace Xwt.Backends
 				case StockCommand.Save:
 					command.Label = "_Save";
 					command.Accelerator = new Accelerator (Key.s, ModifierKeys.Command);
+					break;
+				case StockCommand.SaveAll:
+					command.Label = "Save All";
 					break;
 				case StockCommand.SaveAs:
 					command.Label = "Save _As\u2026";

@@ -46,6 +46,9 @@ namespace Xwt.Mac
 				case StockCommand.Close:
 					action = new Selector ("close:");
 					break;
+				case StockCommand.CloseAll:
+					Accelerator = new Accelerator (Key.w, ModifierKeys.Command | ModifierKeys.Alt);
+					break;
 				case StockCommand.Copy:
 					action = new Selector ("copy:");
 					break;
@@ -54,6 +57,12 @@ namespace Xwt.Mac
 					break;
 				case StockCommand.Delete:
 					action = new Selector ("delete:");
+					break;
+				case StockCommand.Export:
+					Label = "_Export As\u2026";
+					break;
+				case StockCommand.Find:
+					action = new Selector ("performTextFinderAction:");
 					break;
 				case StockCommand.Help:
 					Label = string.Format ("{0} Help", bundleName);
@@ -85,6 +94,9 @@ namespace Xwt.Mac
 					break;
 				case StockCommand.Paste:
 					action = new Selector ("paste:");
+					break;
+				case StockCommand.PasteAsText:
+					action = new Selector ("pasteAsPlainText:");
 					break;
 				case StockCommand.Preferences:
 					Label = "Preferences\u2026";

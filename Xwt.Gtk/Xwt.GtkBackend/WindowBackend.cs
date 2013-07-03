@@ -34,6 +34,7 @@ namespace Xwt.GtkBackend
 	{
 		Gtk.Alignment alignment;
 		Gtk.MenuBar mainMenu;
+		Gtk.Menu serviceMenu, windowMenu;
 		Gtk.VBox mainBox;
 		
 		public override void Initialize ()
@@ -91,6 +92,18 @@ namespace Xwt.GtkBackend
 				((Gtk.Box.BoxChild)mainBox[mainMenu]).Position = 0;
 			} else
 				mainMenu = null;
+		}
+
+		public void SetServicesMenu(IMenuBackend menu)
+		{
+			var menuBackend = menu as MenuBackend;
+			serviceMenu = menuBackend.Menu;
+		}
+
+		public void SetWindowMenu(IMenuBackend menu)
+		{
+			var menuBackend = menu as MenuBackend;
+			windowMenu = menuBackend.Menu;
 		}
 
 		public void SetPadding (double left, double top, double right, double bottom)
