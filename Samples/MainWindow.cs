@@ -56,12 +56,12 @@ namespace Samples
 
 				/* App > About App */
 
-				appMenu.SubMenu.Items.Add (StockCommand.About.GetGlobalInstance ().CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (StockCommands.About.CreateMenuItem ());
 				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
 
 				/* App > Preferences... */
 
-				appMenu.SubMenu.Items.Add (StockCommand.Preferences.GetGlobalInstance ().CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (StockCommands.Preferences.CreateMenuItem ());
 				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
 
 				/* App > Services */
@@ -75,62 +75,62 @@ namespace Samples
 				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
 
 				/* App > Hide App */
-				appMenu.SubMenu.Items.Add (StockCommand.HideApplication.GetGlobalInstance ().CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (StockCommands.HideApplication.CreateMenuItem ());
 				
 				/* App > Hide Others */
-				appMenu.SubMenu.Items.Add (StockCommand.HideOtherApplications.GetGlobalInstance ().CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (StockCommands.HideOtherApplications.CreateMenuItem ());
 				
 				/* App > Show All */
-				appMenu.SubMenu.Items.Add (StockCommand.UnhideAllApplications.GetGlobalInstance ().CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (StockCommands.UnhideAllApplications.CreateMenuItem ());
 				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
 				
 				/* App > Quit App */
-				appMenu.SubMenu.Items.Add (StockCommand.Quit.GetGlobalInstance ().CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (StockCommands.Quit.CreateMenuItem ());
 			}
 
 			/* File Menu */
 
 			var fileMenu = new MenuItem ("File");
 			fileMenu.SubMenu = new Menu ();
-			fileMenu.SubMenu.Items.Add (StockCommand.New.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.Open.GetGlobalInstance ().CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.New.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.Open.CreateMenuItem ());
 			var openRecent = new MenuItem ("Open Recent");
 			openRecent.SubMenu = new Menu ();
 			fileMenu.SubMenu.Items.Add (openRecent);
 			fileMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.Close.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.CloseAll.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.Save.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.Duplicate.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.Export.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.SaveAll.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.Revert.GetGlobalInstance ().CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.Close.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.CloseAll.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.Save.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.Duplicate.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.Export.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.SaveAll.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.Revert.CreateMenuItem ());
 			fileMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.Print.GetGlobalInstance ().CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommand.PageSetup.GetGlobalInstance ().CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.Print.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (StockCommands.PageSetup.CreateMenuItem ());
 			if (!isMac) {
 				fileMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
-				fileMenu.SubMenu.Items.Add (StockCommand.Quit.GetGlobalInstance ().CreateMenuItem ());
+				fileMenu.SubMenu.Items.Add (StockCommands.Quit.CreateMenuItem ());
 			}
 			mainMenu.Items.Add (fileMenu);
 			
 			var editMenu = new MenuItem ("Edit");
 			editMenu.SubMenu = new Menu ();
-			editMenu.SubMenu.Items.Add (StockCommand.Undo.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.Redo.GetGlobalInstance ().CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Undo.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Redo.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.Cut.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.Copy.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.Paste.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.PasteAsText.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.Delete.GetGlobalInstance ().CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Cut.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Copy.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Paste.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.PasteAsText.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Delete.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.SelectAll.GetGlobalInstance ().CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.SelectAll.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.Find.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.FindNext.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.FindPrevious.GetGlobalInstance ().CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommand.Replace.GetGlobalInstance ().CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Find.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.FindNext.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.FindPrevious.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (StockCommands.Replace.CreateMenuItem ());
 			mainMenu.Items.Add (editMenu);
 
 			/* View Menu */
@@ -148,8 +148,8 @@ namespace Samples
 			windowMenu.SubMenu = new Menu ();
 			WindowMenu = windowMenu.SubMenu;
 			if (isMac) {
-				windowMenu.SubMenu.Items.Add (StockCommand.Minimize.GetGlobalInstance ().CreateMenuItem ());
-				windowMenu.SubMenu.Items.Add (StockCommand.Maximize.GetGlobalInstance ().CreateMenuItem ());
+				windowMenu.SubMenu.Items.Add (StockCommands.Minimize.CreateMenuItem ());
+				windowMenu.SubMenu.Items.Add (StockCommands.Maximize.CreateMenuItem ());
 			}
 			mainMenu.Items.Add (windowMenu);
 
@@ -157,9 +157,9 @@ namespace Samples
 
 			var helpMenu = new MenuItem ("Help");
 			helpMenu.SubMenu = new Menu ();
-			helpMenu.SubMenu.Items.Add (StockCommand.Help.GetGlobalInstance ().CreateMenuItem ());
+			helpMenu.SubMenu.Items.Add (StockCommands.Help.CreateMenuItem ());
 			if (!isMac) {
-				helpMenu.SubMenu.Items.Add(StockCommand.About.GetGlobalInstance ().CreateMenuItem ());
+				helpMenu.SubMenu.Items.Add(StockCommands.About.CreateMenuItem ());
 			}
 			mainMenu.Items.Add (helpMenu);
 
@@ -241,7 +241,7 @@ namespace Samples
 
 			CloseRequested += HandleCloseRequested;
 
-			AddCommandResponder(new CommandResponder(StockCommand.Open.GetGlobalInstance()));
+			AddCommandResponder(new CommandResponder(StockCommands.Open));
 		}
 
 		void HandleCloseRequested (object sender, CloseRequestedEventArgs args)

@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using Xwt.Drawing;
 using Xwt.Backends;
 
@@ -33,6 +34,8 @@ namespace Xwt
 	[BackendType(typeof(ICommandBackend))]
 	public class Command : XwtComponent
 	{
+		static Dictionary<string, Command> commands;
+
 		protected class CommandBackendHost : BackendHost<Command, ICommandBackend>, ICommandEventSink
 		{
 			protected override void OnBackendCreated ()
@@ -72,27 +75,55 @@ namespace Xwt
 			return new CommandBackendHost ();
 		}
 
-		public Command (string id)
-			: this (id, id) { }
+		static Command ()
+		{
+			commands = new Dictionary<string, Command> ();
+		}
 
-		public Command (string id, string label)
-			: this (id, label, null, null) { }
-
-		public Command (string id, string label, Accelerator accelerator)
-			: this(id, label, accelerator, null) { }
-
-		public Command (string id, string label, Accelerator accelerator, Image icon)
+		Command (string id)
 		{
 			Id = id;
+		}
+
+		Command (string id, string label)
+			: this (id)
+		{
 			Label = label;
+		}
+
+		Command (string id, string label, Accelerator accelerator)
+			: this(id, label)
+		{
 			Accelerator = accelerator;
+		}
+
+		Command (string id, string label, Accelerator accelerator, Image icon)
+			: this(id, label, accelerator)
+		{
 			Icon = icon;
 		}
 
-		internal Command (StockCommand command)
+		/// <summary>
+		/// Gets the global instance of a command with the specified id.
+		/// </summary>
+		/// <returns>The command.</returns>
+		/// <param name="id">Identifier.</param>
+		public static Command GetCommandForId(string id)
 		{
-			Id = command.ToString ();
-			StockCommand = command;
+			if (!commands.ContainsKey (id)) {
+				commands.Add (id, new Command (id));
+			}
+			return commands[id];
+		}
+
+		/// <summary>
+		/// Gets the global instance of a stock command.
+		/// </summary>
+		/// <returns>The command.</returns>
+		/// <param name="id">Stock command identifier.</param>
+		public static Command GetCommandForId(StockCommandId id)
+		{
+			return GetCommandForId (id.ToString ());
 		}
 
 		public string Id { get; private set; }
@@ -119,9 +150,33 @@ namespace Xwt
 
 		public bool Visible { get; set; }
 
-		public StockCommand? StockCommand { get; internal set; }
+		/// <summary>
+		/// Gets the stock command.
+		/// </summary>
+		/// <value>The stock command or <see cref="StockCommandId.NotACommand"/>
+		/// if the command is not a stock command</value>
+		/// <remarks>
+		public StockCommandId StockCommand
+		{
+			get
+			{
+				var stockId = StockCommandId.NotAStockCommand;
+				Enum.TryParse<StockCommandId> (Id, out stockId);
+				return stockId;
+			}
+		}
 
-		public bool IsStockCommand { get { return StockCommand != null; } }
+		/// <summary>
+		/// Gets a value indicating whether this instance is stock command.
+		/// </summary>
+		/// <value><c>true</c> if this instance is stock command; otherwise, <c>false</c>.</value>
+		public bool IsStockCommand
+		{
+			get
+			{
+				return StockCommand != StockCommandId.NotAStockCommand;
+			}
+		}
 
 		ICommandBackend Backend
 		{

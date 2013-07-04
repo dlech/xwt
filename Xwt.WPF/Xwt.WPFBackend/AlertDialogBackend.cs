@@ -121,34 +121,34 @@ namespace Xwt.WPFBackend
 		{
 			MessageBoxButton result;
 
-			OkCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Ok);
-			CancelCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel);
-			YesCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Yes);
-			NoCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No);
+			OkCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Ok);
+			CancelCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Cancel);
+			YesCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Yes);
+			NoCommand = buttons.FirstOrDefault (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.No);
 
 			switch (buttons.Count){
 			case 1:
-				if (buttons.Count(command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Ok) > 0) {
+				if (buttons.Count(command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Ok) > 0) {
 					result = MessageBoxButton.OK;
 				} else {
 					throw new NotImplementedException ();
 				}
 				break;
 			case 2:
-				if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Ok) > 0 &&
-				    buttons.Count(command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel) > 0) {
+				if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Ok) > 0 &&
+				    buttons.Count(command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Cancel) > 0) {
 					result = MessageBoxButton.OKCancel;
-				} else if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Yes) > 0 &&
-				           buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No) > 0) {
+				} else if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Yes) > 0 &&
+				           buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.No) > 0) {
 					result = MessageBoxButton.YesNo;
 				} else {
 					throw new NotImplementedException ();
 				}
 				break;
 			case 3:
-				if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Yes) > 0 &&
-				    buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.No) > 0 &&
-				    buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommand.Cancel) > 0) {
+				if (buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Yes) > 0 &&
+				    buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.No) > 0 &&
+				    buttons.Count (command => command.IsStockCommand && command.StockCommand.Value == StockCommandId.Cancel) > 0) {
 					result = MessageBoxButton.YesNoCancel;
 				} else {
 					throw new NotImplementedException ();

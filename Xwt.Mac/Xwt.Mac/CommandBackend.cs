@@ -16,8 +16,7 @@ namespace Xwt.Mac
 
 		public CommandBackend ()
 		{
-			var internalCommandId = string.Format("xwtCommand{0}:", commandCount++);
-			action = new Selector (internalCommandId);
+			action = new Selector (string.Format("xwtCommand{0}:", commandCount++));
 		}
 
 		public override void Initalize (ICommandEventSink eventSink)
@@ -38,99 +37,99 @@ namespace Xwt.Mac
 				bundleName = Process.GetCurrentProcess ().ProcessName;
 
 			if (frontendCommand.IsStockCommand) {
-				switch (frontendCommand.StockCommand.Value) {
-				case StockCommand.About:
+				switch (frontendCommand.StockCommand) {
+				case StockCommandId.About:
 					action = new Selector ("orderFrontStandardAboutPanel:");
 					Label = string.Format ("About {0}", bundleName);
 					break;
-				case StockCommand.Close:
+				case StockCommandId.Close:
 					action = new Selector ("close:");
 					break;
-				case StockCommand.CloseAll:
+				case StockCommandId.CloseAll:
 					Accelerator = new Accelerator (Key.w, ModifierKeys.Command | ModifierKeys.Alt);
 					break;
-				case StockCommand.Copy:
+				case StockCommandId.Copy:
 					action = new Selector ("copy:");
 					break;
-				case StockCommand.Cut:
+				case StockCommandId.Cut:
 					action = new Selector ("cut:");
 					break;
-				case StockCommand.Delete:
+				case StockCommandId.Delete:
 					action = new Selector ("delete:");
 					break;
-				case StockCommand.Export:
+				case StockCommandId.Export:
 					Label = "_Export As\u2026";
 					break;
-				case StockCommand.Find:
+				case StockCommandId.Find:
 					action = new Selector ("performTextFinderAction:");
 					break;
-				case StockCommand.Help:
+				case StockCommandId.Help:
 					Label = string.Format ("{0} Help", bundleName);
 					action = new Selector ("showHelp:");
 					break;
-				case StockCommand.HideApplication:
+				case StockCommandId.HideApplication:
 					Label = string.Format ("Hide {0}", bundleName);
 					Accelerator = new Accelerator (Key.h, ModifierKeys.Command);
 					action = new Selector("hide:");
 					break;
-				case StockCommand.HideOtherApplications:
+				case StockCommandId.HideOtherApplications:
 					Label = "Hide others";
 					Accelerator = new Accelerator (Key.h, ModifierKeys.Command | ModifierKeys.Alt);
 					action = new Selector("hideOtherApplications:");
 					break;
-				case StockCommand.Maximize:
+				case StockCommandId.Maximize:
 					Label = "Zoom";
 					action = new Selector("performZoom:");
 					break;
-				case StockCommand.Minimize:
+				case StockCommandId.Minimize:
 					Accelerator = new Accelerator(Key.m, ModifierKeys.Command);
 					action = new Selector("performMiniaturize:");
 					break;
-				case StockCommand.New:
+				case StockCommandId.New:
 					action = new Selector ("new:");
 					break;
-				case StockCommand.Open:
+				case StockCommandId.Open:
 					action = new Selector ("open:");
 					break;
-				case StockCommand.Paste:
+				case StockCommandId.Paste:
 					action = new Selector ("paste:");
 					break;
-				case StockCommand.PasteAsText:
+				case StockCommandId.PasteAsText:
 					action = new Selector ("pasteAsPlainText:");
 					break;
-				case StockCommand.Preferences:
+				case StockCommandId.Preferences:
 					Label = "Preferences\u2026";
-					SetAccelerator(frontendCommand, new Accelerator (Key.Comma, ModifierKeys.Command));
+					Accelerator = new Accelerator (Key.Comma, ModifierKeys.Command);
 					break;
-				case StockCommand.Print:
+				case StockCommandId.Print:
 					action = new Selector ("print:");
 					break;
-				case StockCommand.Quit:
+				case StockCommandId.Quit:
 					Label = string.Format ("Quit {0}", bundleName);
 					action = new Selector ("terminate:");
 					break;
-				case StockCommand.Redo:
+				case StockCommandId.Redo:
 					action = new Selector ("redo:");
 					break;					
-				case StockCommand.Replace:
+				case StockCommandId.Replace:
 					action = new Selector ("replace:");
 					break;
-				case StockCommand.Revert:
+				case StockCommandId.Revert:
 					action = new Selector ("revert:");
 					break;					
-				case StockCommand.Save:
+				case StockCommandId.Save:
 					action = new Selector ("save:");
 					break;
-				case StockCommand.SelectAll:
+				case StockCommandId.SelectAll:
 					action = new Selector ("selectAll:");
 					break;
-				case StockCommand.Stop:
+				case StockCommandId.Stop:
 					action = new Selector ("stop:");
 					break;
-				case StockCommand.Undo:
+				case StockCommandId.Undo:
 					action = new Selector ("undo:");
 					break;
-				case StockCommand.UnhideAllApplications:
+				case StockCommandId.UnhideAllApplications:
 					Label = "Show All";
 					action = new Selector ("unhideAllApplications:");
 					break;
@@ -142,12 +141,12 @@ namespace Xwt.Mac
 
 		public override IMenuItemBackend CreateMenuItem() {
 			var menuItem = new NSMenuItem ();
-			menuItem.Title = frontendCommand.Label.RemoveMnemonics ();
-			if (frontendCommand.Accelerator  != null) {
-				menuItem.KeyEquivalent = char.ToString((char)frontendCommand.Accelerator.Key);
-				if (frontendCommand.Accelerator.HasModifiers)
+			menuItem.Title = Label.RemoveMnemonics ();
+			if (Accelerator  != null) {
+				menuItem.KeyEquivalent = Accelerator.Key.ToMacKey ();
+				if (Accelerator.HasModifiers)
 					menuItem.KeyEquivalentModifierMask =
-						frontendCommand.Accelerator.Modifiers.ToNSEventModifierMask ();
+						Accelerator.Modifiers.ToNSEventModifierMask ();
 		    }
 			menuItem.Action = action;
 			menuItem.Target = null;
@@ -156,10 +155,10 @@ namespace Xwt.Mac
 
 		public override IButtonBackend CreateButton() {
 			var button = new ButtonBackend();
-			button.Widget.Title = frontendCommand.Label.RemoveMnemonics ();
-			if (frontendCommand.Accelerator  != null) {
-				button.Widget.KeyEquivalent = char.ToString((char)frontendCommand.Accelerator.Key);
-				if (frontendCommand.Accelerator.HasModifiers)
+			button.Widget.Title = Label.RemoveMnemonics ();
+			if (Accelerator  != null) {
+				button.Widget.KeyEquivalent = Accelerator.Key.ToMacKey ();
+				if (Accelerator.HasModifiers)
 					button.Widget.KeyEquivalentModifierMask =
 						frontendCommand.Accelerator.Modifiers.ToNSEventModifierMask ();
 			}

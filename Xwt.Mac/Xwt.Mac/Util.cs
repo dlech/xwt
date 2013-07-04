@@ -359,6 +359,11 @@ namespace Xwt.Mac
 			return newText;
 		}
 
+		/// <summary>
+		/// Converts modifier mask to native type
+		/// </summary>
+		/// <returns>The NSEventModifierMask.</returns>
+		/// <param name="modifiers">The ModifierKeys to convert.</param>
 		public static NSEventModifierMask ToNSEventModifierMask(this ModifierKeys modifiers)
 		{
 			NSEventModifierMask mask = (NSEventModifierMask)0;
@@ -372,6 +377,17 @@ namespace Xwt.Mac
 				mask |= NSEventModifierMask.ShiftKeyMask;
 			return mask;
 		}
+
+		/// <summary>
+		/// Converts a Key to a string that can be used by the KeyEquivalent property
+		/// </summary>
+		/// <returns>The string representation of the key.</returns>
+		/// <param name="key">Key.</param>
+		public static string ToMacKey(this Key key)
+		{
+			return char.ToString((char)key);
+		}
+
 	}
 
 	public interface ICopiableObject

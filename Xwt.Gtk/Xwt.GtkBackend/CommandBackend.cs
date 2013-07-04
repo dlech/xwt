@@ -49,10 +49,10 @@ namespace Xwt.GtkBackend
 			if (frontendCommand.IsStockCommand) {
 				var stockCommandName = frontendCommand.StockCommand.ToString ();
 				switch (frontendCommand.StockCommand) {
-				case StockCommand.Replace:
+				case StockCommandId.Replace:
 					stockCommandName = "FindAndReplace";
 					goto default;
-				case StockCommand.Revert:
+				case StockCommandId.Revert:
 					stockCommandName = "RevertToSaved";
 					goto default;
 				default:

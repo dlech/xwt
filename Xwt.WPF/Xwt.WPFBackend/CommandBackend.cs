@@ -55,61 +55,61 @@ namespace Xwt.WPFBackend
 			var frontendCommand = backendHost.Parent;
 			if (frontendCommand.IsStockCommand) {
 				switch (frontendCommand.StockCommand) {
-					case StockCommand.Close:
+					case StockCommandId.Close:
 						Command = SWI.ApplicationCommands.Close;
 						break;
-					case StockCommand.Copy:
+					case StockCommandId.Copy:
 						Command = SWI.ApplicationCommands.Copy;
 						break;
-					case StockCommand.Cut:
+					case StockCommandId.Cut:
 						Command = SWI.ApplicationCommands.Cut;
 						break;
-					case StockCommand.Delete:
+					case StockCommandId.Delete:
 						Command = SWI.ApplicationCommands.Delete;
 						break;
-					case StockCommand.Find:
+					case StockCommandId.Find:
 						Command = SWI.ApplicationCommands.Find;
 						break;
 					//case GlobalCommand.Help:
 					//  Command = SWI.ApplicationCommands.Help;
 					//  break;
-					case StockCommand.New:
+					case StockCommandId.New:
 						Command = SWI.ApplicationCommands.New;
 						break;
-					case StockCommand.Open:
+					case StockCommandId.Open:
 						Command = SWI.ApplicationCommands.Open;
 						break;
-					case StockCommand.Paste:
+					case StockCommandId.Paste:
 						Command = SWI.ApplicationCommands.Paste;
 						break;
-					case StockCommand.Print:
+					case StockCommandId.Print:
 						Command = SWI.ApplicationCommands.Print;
 						break;
-					case StockCommand.PrintPreview:
+					case StockCommandId.PrintPreview:
 						Command = SWI.ApplicationCommands.PrintPreview;
 						break;
-					case StockCommand.Properties:
+					case StockCommandId.Properties:
 						Command = SWI.ApplicationCommands.Properties;
 						break;
-					case StockCommand.Redo:
+					case StockCommandId.Redo:
 						Command = SWI.ApplicationCommands.Redo;
 						break;
-					case StockCommand.Replace:
+					case StockCommandId.Replace:
 						Command = SWI.ApplicationCommands.Replace;
 						break;
-					case StockCommand.Save:
+					case StockCommandId.Save:
 						Command = SWI.ApplicationCommands.Save;
 						break;
-					case StockCommand.SaveAs:
+					case StockCommandId.SaveAs:
 						Command = SWI.ApplicationCommands.SaveAs;
 						break;
-					case StockCommand.Stop:
+					case StockCommandId.Stop:
 						Command = SWI.ApplicationCommands.Stop;
 						break;
-					case StockCommand.Undo:
+					case StockCommandId.Undo:
 						Command = SWI.ApplicationCommands.Undo;
 						break;
-					case StockCommand.Quit:
+					case StockCommandId.Quit:
 						frontendCommand.Label = "E_xit";
 						frontendCommand.Accelerator = null;
 						break;
