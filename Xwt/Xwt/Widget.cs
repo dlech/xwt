@@ -39,7 +39,7 @@ using System.Linq;
 namespace Xwt
 {
 	[BackendType (typeof(IWidgetBackend))]
-	public abstract class Widget: XwtComponent, IWidgetSurface
+	public abstract class Widget: XwtComponent, IWidgetSurface, ICommandSink
 	{
 		static bool DebugWidgetLayout = false;
 		static int DebugWidgetLayoutIndent = 0;
@@ -447,6 +447,16 @@ namespace Xwt
 		public void Hide ()
 		{
 			Visible = false;
+		}
+
+		public void AddCommmandResponder(CommandResponder responder)
+		{
+			Backend.AddCommandResponder (responder);
+		}
+
+		public bool RespondsToCommand(Command command)
+		{
+			return Backend.RespondsToCommand (command);
 		}
 		
 		[DefaultValue (true)]
@@ -1011,7 +1021,11 @@ namespace Xwt
 		Toolkit IWidgetSurface.ToolkitEngine {
 			get { return BackendHost.ToolkitEngine; }
 		}
-		
+
+		public void AddCommandResponder(CommandResponder responder) {
+			Backend.AddCommandResponder (responder);
+		}
+
 		protected virtual void OnReallocate ()
 		{
 			if (children != null) {

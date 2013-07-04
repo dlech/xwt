@@ -45,6 +45,7 @@ namespace Xwt.Mac
 		ViewBackend child;
 		bool sensitive = true;
 		MenuBackend mainMenu, servicesMenu, windowMenu;
+		Dictionary<string, Action<NSObject>> commandResponders = new Dictionary<string, Action<NSObject>>();
 		
 		public WindowBackend (IntPtr ptr): base (ptr)
 		{
@@ -79,6 +80,31 @@ namespace Xwt.Mac
 		public void Initialize (IWindowFrameEventSink eventSink)
 		{
 			this.eventSink = eventSink;
+		}
+
+		public void AddCommandResponder(CommandResponder responder)
+		{
+			Action<NSObject> method = (sender) => {
+				//handler (sender, EventArgs.Empty);
+			};
+			var commandBackend = responder.Command.GetBackend () as CommandBackend;
+			var methodInfo = GetType ().GetMethod ("OnCommandActivated", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+			Runtime.ConnectMethod (methodInfo, commandBackend.action);
+			commandResponders.Add (commandBackend.action.Name, method);
+		}
+
+		public bool RespondsToCommand(Command Command)
+		{
+			var commandBackend = Command.GetBackend () as CommandBackend;
+			return RespondsToSelector (commandBackend.action);
+		}		
+
+		void OnCommandActivated(NSObject sender)
+		{
+			var senderType = sender.GetType ();
+			var senderActionProperty = senderType.GetProperty ("Action");
+			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
+			commandResponders [senderAction.Name].Invoke (sender);
 		}
 		
 		public ApplicationContext ApplicationContext {

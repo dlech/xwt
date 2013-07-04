@@ -167,19 +167,6 @@ namespace Xwt.Mac
 			button.Widget.Target = null;
 			return button;
 		}
-
-		protected override void AddCommandActivatedHandler(EventHandler handler)
-		{
-			Action<NSObject> method = (sender) => {
-				handler (sender, EventArgs.Empty);
-			};
-			MacEngine.App.AddTargetMethod (action, method);
-		}
-
-		protected override void RemoveCommandActivatedHandler(EventHandler handler)
-		{
-
-		}
 	}
 }
 

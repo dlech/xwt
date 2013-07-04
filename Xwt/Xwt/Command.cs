@@ -23,6 +23,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 using Xwt.Drawing;
 using Xwt.Backends;
@@ -40,12 +41,27 @@ namespace Xwt
 				Backend.Initalize (this);
 			}
 
-			public void OnActivated ()
-			{
-				Parent.Activate ();
+			public void OnLabelChanged ()
+			{ 
+				throw new NotImplementedException ();
+			}
+			
+			public void OnAcceleratorChanged ()
+			{ 
+				throw new NotImplementedException ();
+			}
+			
+			public void OnIconChanged ()
+			{ 
+				throw new NotImplementedException ();
 			}
 
 			public void OnSensitiveChanged ()
+			{
+				throw new NotImplementedException ();
+			}
+
+			public void OnVisibleChanged ()
 			{
 				throw new NotImplementedException ();
 			}
@@ -99,6 +115,10 @@ namespace Xwt
 			set { Backend.Accelerator = value; }
 		}
 
+		public bool Sensitive { get; set; }		
+
+		public bool Visible { get; set; }
+
 		public StockCommand? StockCommand { get; internal set; }
 
 		public bool IsStockCommand { get { return StockCommand != null; } }
@@ -119,28 +139,6 @@ namespace Xwt
 			var buttonBackend = Backend.CreateButton ();
 			return Toolkit.CurrentEngine.Backend.CreateFrontend<Button> (buttonBackend);
 		}
-
-		EventHandler activated;
-		public event EventHandler Activated {
-			add {
-				base.BackendHost.OnBeforeEventAdd (CommandEvent.Activated, activated);
-				activated += value;
-			}
-			remove {
-				activated -= value;
-				base.BackendHost.OnAfterEventRemove (CommandEvent.Activated, activated);
-			}
-		}
-
-		public void Activate ()
-		{
-			if (activated != null)
-				activated (this, EventArgs.Empty);
-		}
-
-		public bool Visible { get; set; }
-
-		public bool Sensitive { get; set; }
 	}
 }
 

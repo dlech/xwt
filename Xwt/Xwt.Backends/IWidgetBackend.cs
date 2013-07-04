@@ -29,7 +29,7 @@ using Xwt.Drawing;
 
 namespace Xwt.Backends
 {
-	public interface IWidgetBackend: IBackend
+	public interface IWidgetBackend: IBackend, ICommandSink
 	{
 		void Initialize (IWidgetEventSink eventSink);
 

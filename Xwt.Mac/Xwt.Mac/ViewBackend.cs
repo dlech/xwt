@@ -64,6 +64,7 @@ namespace Xwt.Mac
 		bool sensitive = true;
 		bool canGetFocus = true;
 		Xwt.Drawing.Color backgroundColor;
+		Dictionary<string, Action<NSObject>> commandResponders;
 
 		void IBackend.InitializeBackend (object frontend, ApplicationContext context)
 		{
@@ -91,6 +92,31 @@ namespace Xwt.Mac
 		
 		public virtual void Initialize ()
 		{
+		}
+
+		public void AddCommandResponder(CommandResponder responder)
+		{
+			Action<NSObject> method = (sender) => {
+				//handler (sender, EventArgs.Empty);
+			};
+			var commandBackend = responder.Command.GetBackend () as CommandBackend;
+			var methodInfo = GetType ().GetMethod ("OnCommandActivated");
+			Runtime.ConnectMethod (methodInfo, commandBackend.action);
+			commandResponders.Add (commandBackend.action.Name, method);
+		}
+
+		public bool RespondsToCommand(Command Command)
+		{
+			var commandBackend = Command.GetBackend () as CommandBackend;
+			return Widget.RespondsToSelector (commandBackend.action);
+		}		
+
+		void OnCommandActivated(NSObject sender)
+		{
+			var senderType = sender.GetType ();
+			var senderActionProperty = senderType.GetProperty ("Action");
+			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
+			commandResponders [senderAction.Name].Invoke (sender);
 		}
 		
 		public IWidgetEventSink EventSink {

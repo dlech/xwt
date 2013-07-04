@@ -442,6 +442,9 @@
     <Compile Include="Xwt.Backends\DisposableResourceBackendHandler.cs" />
     <Compile Include="Xwt\Accelerator.cs" />
     <Compile Include="Xwt\GlobalCommandPool.cs" />
+    <Compile Include="Xwt\ICommandSource.cs" />
+    <Compile Include="Xwt\CommandResponderBinding.cs" />
+    <Compile Include="Xwt\ICommandSink.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

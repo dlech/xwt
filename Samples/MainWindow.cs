@@ -240,6 +240,8 @@ namespace Samples
 			samplesTree.SelectionChanged += HandleSamplesTreeSelectionChanged;
 
 			CloseRequested += HandleCloseRequested;
+
+			AddCommandResponder(new CommandResponder(StockCommand.Open.GetGlobalInstance()));
 		}
 
 		void HandleCloseRequested (object sender, CloseRequestedEventArgs args)

@@ -267,12 +267,5 @@ namespace Xwt.Mac
 			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
 			targets [senderAction.Name].Invoke (sender);
 		}
-
-		public void AddTargetMethod(Selector selector, Action<NSObject> method)
-		{
-			var onCommandActivatedMethodInfo = GetType ().GetMethod ("OnCommandActivated", BindingFlags.NonPublic | BindingFlags.Instance);
-			Runtime.ConnectMethod (onCommandActivatedMethodInfo, selector);
-			targets.Add (selector.Name, method);
-		}
 	}
 }

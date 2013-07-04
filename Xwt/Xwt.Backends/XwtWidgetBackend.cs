@@ -51,6 +51,16 @@ namespace Xwt.Backends
 		{
 		}
 
+		public virtual void AddCommandRepsonder(CommandResponder responder)
+		{
+			throw new NotSupportedException ("This widget does not support responding to commands");
+		}
+
+		public virtual bool RespondsToCommand(Command command)
+		{
+			return false;
+		}
+
 		#region IBackend implementation
 		void IBackend.InitializeBackend (object frontend, ApplicationContext toolkit)
 		{

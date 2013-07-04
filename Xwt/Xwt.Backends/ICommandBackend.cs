@@ -35,13 +35,6 @@ namespace Xwt.Backends
 
 	public interface ICommandEventSink
 	{
-		void OnActivated ();
 		void OnSensitiveChanged ();
-	}
-
-	public enum CommandEvent
-	{
-		Activated = 1,
-		SensitiveChanged
 	}
 }
