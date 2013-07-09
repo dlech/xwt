@@ -241,7 +241,7 @@ namespace Samples
 
 			CloseRequested += HandleCloseRequested;
 
-			AddCommandResponder(new CommandResponder(StockCommands.Open));
+			box.AddCommandResponder(new CommandResponder(StockCommands.Open));
 		}
 
 		void HandleCloseRequested (object sender, CloseRequestedEventArgs args)

@@ -206,7 +206,7 @@ namespace Xwt.Mac
 		public static void MakeCopiable<T> () where T:ICopiableObject
 		{
 			Class c = new Class (typeof(T));
-			c.AddMethod (selCopyWithZone.Handle, new Func<IntPtr, IntPtr, IntPtr, IntPtr> (MakeCopy), "i@:@");
+			c.AddMethod (selCopyWithZone, new Func<IntPtr, IntPtr, IntPtr, IntPtr> (MakeCopy), "i@:@");
 		}
 		
 		static IntPtr MakeCopy (IntPtr sender, IntPtr sel, IntPtr zone)

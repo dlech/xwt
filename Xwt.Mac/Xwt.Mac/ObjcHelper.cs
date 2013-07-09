@@ -72,21 +72,21 @@ namespace Xwt.Mac
 			return new Class (objc_getMetaClass (name));
 		}
 		
-		public static void InstanceMethodExchange (this Class cls, IntPtr sel1, IntPtr sel2)
+		public static void InstanceMethodExchange (this Class cls, Selector sel1, Selector sel2)
 		{
-			IntPtr m1 = class_getInstanceMethod (cls.Handle, sel1);
+			IntPtr m1 = class_getInstanceMethod (cls.Handle, sel1.Handle);
 			if (m1 == IntPtr.Zero)
 				throw new Exception ("Class did not have a method for the first selector");
-			IntPtr m2 = class_getInstanceMethod (cls.Handle, sel2);
+			IntPtr m2 = class_getInstanceMethod (cls.Handle, sel2.Handle);
 			if (m2 == IntPtr.Zero)
 				throw new Exception ("Class did not have a method for the second selector");
 			if (!method_exchangeImplementations (m1, m2))
 				throw new Exception ("Failed to exchange implementations");
 		}
 		
-		public static void MethodExchange (this Class cls, IntPtr sel1, IntPtr sel2)
+		public static void MethodExchange (this Class cls, Selector sel1, Selector sel2)
 		{
-			IntPtr m1 = class_getClassMethod (cls.Handle, sel1);
+			IntPtr m1 = cls.GetMethod (sel1);
 			if (m1 == IntPtr.Zero)
 				throw new Exception ("Class did not have a method for the first selector");
 			IntPtr m2 = cls.GetMethod (sel2);
@@ -104,14 +104,14 @@ namespace Xwt.Mac
 			return method_setImplementation (m1, impl);
 		}
 		
-		public static IntPtr GetMethod (this Class cls, IntPtr sel)
+		public static IntPtr GetMethod (this Class cls, Selector sel)
 		{
-			return class_getClassMethod (cls.Handle, sel);
+			return class_getClassMethod (cls.Handle, sel.Handle);
 		}
 
-		public static bool AddMethod (this Class cls, IntPtr sel, Delegate method, string argTypes)
+		public static bool AddMethod (this Class cls, Selector sel, Delegate method, string argTypes)
 		{
-			return class_addMethod (cls.Handle, sel, method, argTypes);
+			return class_addMethod (cls.Handle, sel.Handle, method, argTypes);
 		}
 		
 		public static IntPtr GetProtocol (string name)

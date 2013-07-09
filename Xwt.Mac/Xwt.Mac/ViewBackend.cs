@@ -100,9 +100,11 @@ namespace Xwt.Mac
 				//handler (sender, EventArgs.Empty);
 			};
 			var commandBackend = responder.Command.GetBackend () as CommandBackend;
-			var methodInfo = GetType ().GetMethod ("OnCommandActivated");
-			Runtime.ConnectMethod (methodInfo, commandBackend.action);
-			commandResponders.Add (commandBackend.action.Name, method);
+			SetupAsCommandResponder (Widget.GetType ());
+			var nativeMethod = new Class (Widget.GetType ()).GetMethod (xwtPerformCommandSel);
+			var methodInfo = Widget.GetType ().GetMethod ("OnCommandActivated", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+			//Runtime.ConnectMethod (methodInfo, commandBackend.action);
+			//commandResponders.Add (commandBackend.action.Name, method);
 		}
 
 		public bool RespondsToCommand(Command Command)
@@ -111,7 +113,7 @@ namespace Xwt.Mac
 			return Widget.RespondsToSelector (commandBackend.action);
 		}		
 
-		void OnCommandActivated(NSObject sender)
+		protected void OnCommandActivated(NSObject sender)
 		{
 			var senderType = sender.GetType ();
 			var senderActionProperty = senderType.GetProperty ("Action");
@@ -507,21 +509,23 @@ namespace Xwt.Mac
 		static Selector concludeDragOperationSel = new Selector ("concludeDragOperation:");
 		static Selector becomeFirstResponderSel = new Selector ("becomeFirstResponder");
 		static Selector resignFirstResponderSel = new Selector ("resignFirstResponder");
+		static Selector xwtPerformCommandSel = new Selector ("xwtPerformCommand:");
 
 		static HashSet<Type> typesConfiguredForDragDrop = new HashSet<Type> ();
 		static HashSet<Type> typesConfiguredForFocusEvents = new HashSet<Type> ();
+		static HashSet<Type> typesConfiguredAsCommandResponder = new HashSet<Type> ();
 
 		static void SetupForDragDrop (Type type)
 		{
 			lock (typesConfiguredForDragDrop) {
 				if (typesConfiguredForDragDrop.Add (type)) {
 					Class c = new Class (type);
-					c.AddMethod (draggingEnteredSel.Handle, new Func<IntPtr,IntPtr,IntPtr,NSDragOperation> (DraggingEntered), "i@:@");
-					c.AddMethod (draggingUpdatedSel.Handle, new Func<IntPtr,IntPtr,IntPtr,NSDragOperation> (DraggingUpdated), "i@:@");
-					c.AddMethod (draggingExitedSel.Handle, new Action<IntPtr,IntPtr,IntPtr> (DraggingExited), "v@:@");
-					c.AddMethod (prepareForDragOperationSel.Handle, new Func<IntPtr,IntPtr,IntPtr,bool> (PrepareForDragOperation), "B@:@");
-					c.AddMethod (performDragOperationSel.Handle, new Func<IntPtr,IntPtr,IntPtr,bool> (PerformDragOperation), "B@:@");
-					c.AddMethod (concludeDragOperationSel.Handle, new Action<IntPtr,IntPtr,IntPtr> (ConcludeDragOperation), "v@:@");
+					c.AddMethod (draggingEnteredSel, new Func<IntPtr,IntPtr,IntPtr,NSDragOperation> (DraggingEntered), "i@:@");
+					c.AddMethod (draggingUpdatedSel, new Func<IntPtr,IntPtr,IntPtr,NSDragOperation> (DraggingUpdated), "i@:@");
+					c.AddMethod (draggingExitedSel, new Action<IntPtr,IntPtr,IntPtr> (DraggingExited), "v@:@");
+					c.AddMethod (prepareForDragOperationSel, new Func<IntPtr,IntPtr,IntPtr,bool> (PrepareForDragOperation), "B@:@");
+					c.AddMethod (performDragOperationSel, new Func<IntPtr,IntPtr,IntPtr,bool> (PerformDragOperation), "B@:@");
+					c.AddMethod (concludeDragOperationSel, new Action<IntPtr,IntPtr,IntPtr> (ConcludeDragOperation), "v@:@");
 				}
 			}
 		}
@@ -531,12 +535,28 @@ namespace Xwt.Mac
 			lock (typesConfiguredForFocusEvents) {
 				if (typesConfiguredForFocusEvents.Add (type)) {
 					Class c = new Class (type);
-					c.AddMethod (becomeFirstResponderSel.Handle, new Func<IntPtr,IntPtr,bool> (OnBecomeFirstResponder), "B@:");
-					c.AddMethod (resignFirstResponderSel.Handle, new Func<IntPtr,IntPtr,bool> (OnResignFirstResponder), "B@:");
+					c.AddMethod (becomeFirstResponderSel, new Func<IntPtr,IntPtr,bool> (OnBecomeFirstResponder), "B@:");
+					c.AddMethod (resignFirstResponderSel, new Func<IntPtr,IntPtr,bool> (OnResignFirstResponder), "B@:");
 				}
 			}
 		}
-		
+
+		static void SetupAsCommandResponder (Type type)
+		{
+			lock (typesConfiguredAsCommandResponder) {
+				if (typesConfiguredAsCommandResponder.Add (type)) {
+					Class c = new Class (type);
+					if (!c.AddMethod (xwtPerformCommandSel, new Action<IntPtr, IntPtr> (OnCommandActivated), "v@:"))
+						throw new Exception();
+				}
+			}
+		}
+
+		static void OnCommandActivated (IntPtr sender, IntPtr selector)
+		{
+
+		}
+
 		public void DragStart (DragStartData sdata)
 		{
 			var lo = Widget.ConvertPointToBase (new PointF (Widget.Bounds.X, Widget.Bounds.Y));

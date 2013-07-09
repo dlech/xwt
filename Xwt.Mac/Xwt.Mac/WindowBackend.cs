@@ -28,6 +28,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Xwt.Backends;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -88,7 +89,7 @@ namespace Xwt.Mac
 				//handler (sender, EventArgs.Empty);
 			};
 			var commandBackend = responder.Command.GetBackend () as CommandBackend;
-			var methodInfo = GetType ().GetMethod ("OnCommandActivated", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+			var methodInfo = GetType ().GetMethod ("OnCommandActivated", BindingFlags.Instance | BindingFlags.NonPublic);
 			Runtime.ConnectMethod (methodInfo, commandBackend.action);
 			commandResponders.Add (commandBackend.action.Name, method);
 		}

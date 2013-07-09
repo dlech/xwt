@@ -449,7 +449,7 @@ namespace Xwt
 			Visible = false;
 		}
 
-		public void AddCommmandResponder(CommandResponder responder)
+		public void AddCommandResponder(CommandResponder responder)
 		{
 			Backend.AddCommandResponder (responder);
 		}
@@ -1020,10 +1020,6 @@ namespace Xwt
 		
 		Toolkit IWidgetSurface.ToolkitEngine {
 			get { return BackendHost.ToolkitEngine; }
-		}
-
-		public void AddCommandResponder(CommandResponder responder) {
-			Backend.AddCommandResponder (responder);
 		}
 
 		protected virtual void OnReallocate ()

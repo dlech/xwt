@@ -140,9 +140,9 @@ namespace Xwt.Mac
 		static void Hijack ()
 		{
 			Class c = ObjcHelper.GetMetaClass ("NSBundle");
-			if (!c.AddMethod (hijackedSel.Handle, new Func<IntPtr, IntPtr, IntPtr, IntPtr,bool>(HijackedLoadNibNamed), "B@:@@"))
+			if (!c.AddMethod (hijackedSel, new Func<IntPtr, IntPtr, IntPtr, IntPtr,bool>(HijackedLoadNibNamed), "B@:@@"))
 				throw new Exception ("Failed to add method");
-			c.MethodExchange (originalSel.Handle, hijackedSel.Handle);
+			c.MethodExchange (originalSel, hijackedSel);
 		}
 		
 		static bool HijackedLoadNibNamed (IntPtr self, IntPtr sel, IntPtr filePath, IntPtr owner)
