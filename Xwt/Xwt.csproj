@@ -481,7 +481,4 @@
   <ItemGroup>
     <Folder Include="Xwt.Commands\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Xwt.Commands\CommandsExtensionModel.addin.xml" />
-  </ItemGroup>
 </Project>
