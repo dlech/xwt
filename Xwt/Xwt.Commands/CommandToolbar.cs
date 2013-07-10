@@ -29,7 +29,7 @@
 using System;
 using MonoDevelop.Components.DockToolbars;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public class CommandToolbar: DockToolbar, ICommandBar
 	{

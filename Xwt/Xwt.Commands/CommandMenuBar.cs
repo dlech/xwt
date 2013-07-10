@@ -31,7 +31,7 @@ using Gtk;
 using Gdk;
 using MonoDevelop.Ide.Gui;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public class CommandMenuBar: Gtk.MenuBar
 	{

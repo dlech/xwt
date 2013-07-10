@@ -31,7 +31,7 @@ using Mono.Addins;
 using MonoDevelop.Components.DockToolbars;
 using Mono.TextEditor;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public class CommandFrame: DockToolbarFrame
 	{

@@ -34,7 +34,7 @@ using System.Text;
 using MonoDevelop.Core;
 using Unix = Mono.Unix.Native;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public class KeyBindingSet
 	{

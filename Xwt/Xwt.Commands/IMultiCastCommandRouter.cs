@@ -28,7 +28,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public interface IMultiCastCommandRouter
 	{

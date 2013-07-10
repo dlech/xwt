@@ -26,7 +26,7 @@
 
 using System;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public interface ICommandBar
 	{

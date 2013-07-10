@@ -29,7 +29,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	class CustomMenuItem: Gtk.MenuItem
 	{

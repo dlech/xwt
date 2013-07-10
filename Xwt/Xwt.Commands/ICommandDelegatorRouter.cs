@@ -28,7 +28,7 @@
 
 using System;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	/// <summary>
 	/// Redirects the command route to the object returned by

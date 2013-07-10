@@ -36,7 +36,7 @@ using Unix = Mono.Unix.Native;
 using MonoDevelop.Core;
 using MonoDevelop.Components.Commands.ExtensionNodes;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public class KeyBindingService
 	{

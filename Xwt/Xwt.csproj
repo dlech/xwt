@@ -419,6 +419,49 @@
     <Compile Include="Xwt.Motion\Tweener.cs" />
     <Compile Include="Xwt.Motion\IAnimatable.cs" />
     <Compile Include="Xwt\WindowLocation.cs" />
+    <Compile Include="Xwt.Commands\ActionCommand.cs" />
+    <Compile Include="Xwt.Commands\ActionType.cs" />
+    <Compile Include="Xwt.Commands\Command.cs" />
+    <Compile Include="Xwt.Commands\CommandArrayInfo.cs" />
+    <Compile Include="Xwt.Commands\CommandCheckMenuItem.cs" />
+    <Compile Include="Xwt.Commands\CommandEntry.cs" />
+    <Compile Include="Xwt.Commands\CommandEntrySet.cs" />
+    <Compile Include="Xwt.Commands\CommandErrorHandler.cs" />
+    <Compile Include="Xwt.Commands\CommandFrame.cs" />
+    <Compile Include="Xwt.Commands\CommandHandler.cs" />
+    <Compile Include="Xwt.Commands\CommandHandlerAttribute.cs" />
+    <Compile Include="Xwt.Commands\CommandInfo.cs" />
+    <Compile Include="Xwt.Commands\CommandInfoSet.cs" />
+    <Compile Include="Xwt.Commands\CommandManager.cs" />
+    <Compile Include="Xwt.Commands\CommandMenu.cs" />
+    <Compile Include="Xwt.Commands\CommandMenuBar.cs" />
+    <Compile Include="Xwt.Commands\CommandMenuItem.cs" />
+    <Compile Include="Xwt.Commands\CommandRouterContainer.cs" />
+    <Compile Include="Xwt.Commands\CommandSelectedEventArgs.cs" />
+    <Compile Include="Xwt.Commands\CommandSystemCommands.cs" />
+    <Compile Include="Xwt.Commands\CommandToggleToolButton.cs" />
+    <Compile Include="Xwt.Commands\CommandToolButton.cs" />
+    <Compile Include="Xwt.Commands\CommandToolbar.cs" />
+    <Compile Include="Xwt.Commands\CustomCommand.cs" />
+    <Compile Include="Xwt.Commands\CustomCommandTargetAttribute.cs" />
+    <Compile Include="Xwt.Commands\CustomCommandUpdaterAttribute.cs" />
+    <Compile Include="Xwt.Commands\CustomItem.cs" />
+    <Compile Include="Xwt.Commands\CustomMenuItem.cs" />
+    <Compile Include="Xwt.Commands\ICommandBar.cs" />
+    <Compile Include="Xwt.Commands\ICommandDelegator.cs" />
+    <Compile Include="Xwt.Commands\ICommandDelegatorRouter.cs" />
+    <Compile Include="Xwt.Commands\ICommandMenuItem.cs" />
+    <Compile Include="Xwt.Commands\ICommandRouter.cs" />
+    <Compile Include="Xwt.Commands\ICommandTargetVisitor.cs" />
+    <Compile Include="Xwt.Commands\ICommandUpdateHandler.cs" />
+    <Compile Include="Xwt.Commands\ICommandUserItem.cs" />
+    <Compile Include="Xwt.Commands\IMultiCastCommandRouter.cs" />
+    <Compile Include="Xwt.Commands\KeyBindingManager.cs" />
+    <Compile Include="Xwt.Commands\KeyBindingScheme.cs" />
+    <Compile Include="Xwt.Commands\KeyBindingService.cs" />
+    <Compile Include="Xwt.Commands\KeyBindingSet.cs" />
+    <Compile Include="Xwt.Commands\LinkCommandEntry.cs" />
+    <Compile Include="Xwt.Commands\MenuToolButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -434,5 +477,11 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Xwt.Motion\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Xwt.Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xwt.Commands\CommandsExtensionModel.addin.xml" />
   </ItemGroup>
 </Project>

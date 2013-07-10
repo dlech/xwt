@@ -46,7 +46,7 @@ using Mono.TextEditor;
 //   binding: The full key binding for a command/action.
 //
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public class KeyBindingManager : IDisposable
 	{

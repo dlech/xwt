@@ -27,7 +27,7 @@
 
 using System;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	/// <summary>
 	/// Allows customizing the command update behavior at class or method level

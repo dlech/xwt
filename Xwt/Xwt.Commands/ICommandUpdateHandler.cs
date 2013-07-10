@@ -27,7 +27,7 @@
 
 using System;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	/// <summary>
 	/// This interface can be used to create attribute classes which provide custom

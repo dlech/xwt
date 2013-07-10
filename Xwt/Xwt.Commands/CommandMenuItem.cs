@@ -30,7 +30,7 @@ using System;
 using System.Collections;
 using MonoDevelop.Core;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	public class CommandMenuItem: Gtk.ImageMenuItem, ICommandMenuItem
 	{

@@ -28,7 +28,7 @@
 
 using System;
 
-namespace MonoDevelop.Components.Commands
+namespace Xwt.Commands
 {
 	/// <summary>
 	/// A container which can be used to redirect the command
