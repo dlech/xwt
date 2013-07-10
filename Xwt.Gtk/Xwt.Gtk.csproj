@@ -42,6 +42,7 @@
     <Reference Include="Mono.Cairo" />
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -125,6 +126,47 @@
     <Compile Include="Xwt.GtkBackend.CellViews\CustomCellRendererToggle.cs" />
     <Compile Include="Xwt.GtkBackend.CellViews\CustomCellRendererImage.cs" />
     <Compile Include="Xwt.GtkBackend\ScrollbarBackend.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandArrayInfo.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandCheckMenuItem.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandEntry.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandEntrySet.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandErrorHandler.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandHandler.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandHandlerAttribute.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandInfo.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandInfoSet.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandManager.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandMenu.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandMenuBar.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandMenuItem.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandRouterContainer.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandSelectedEventArgs.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandSystemCommands.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandToggleToolButton.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CommandToolButton.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CustomCommand.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CustomCommandTargetAttribute.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CustomCommandUpdaterAttribute.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CustomItem.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\CustomMenuItem.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandBar.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandDelegator.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandDelegatorRouter.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandMenuItem.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandRouter.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandTargetVisitor.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandUpdateHandler.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ICommandUserItem.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\IMultiCastCommandRouter.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\KeyBindingManager.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\KeyBindingScheme.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\KeyBindingService.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\KeyBindingSet.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\LinkCommandEntry.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\MenuToolButton.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ActionCommand.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\ActionType.cs" />
+    <Compile Include="Xwt.GtkBackend.Commands\Command.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -138,5 +180,10 @@
     <None Include="Xwt.Gtk.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Xwt.GtkBackend.Commands\CommandFrame.cs" />
+    <None Include="Xwt.GtkBackend.Commands\CommandToolbar.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Xwt.GtkBackend.Commands\" />
   </ItemGroup>
 </Project>
