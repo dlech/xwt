@@ -46,7 +46,7 @@ namespace Xwt.Mac
 					action = new Selector ("close:");
 					break;
 				case StockCommandId.CloseAll:
-					Accelerator = new Accelerator (Key.w, ModifierKeys.Command | ModifierKeys.Alt);
+					DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.w, ModifierKeys.Command | ModifierKeys.Alt);
 					break;
 				case StockCommandId.Copy:
 					action = new Selector ("copy:");
@@ -69,12 +69,12 @@ namespace Xwt.Mac
 					break;
 				case StockCommandId.HideApplication:
 					Label = string.Format ("Hide {0}", bundleName);
-					Accelerator = new Accelerator (Key.h, ModifierKeys.Command);
+					DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Command);
 					action = new Selector("hide:");
 					break;
 				case StockCommandId.HideOtherApplications:
 					Label = "Hide others";
-					Accelerator = new Accelerator (Key.h, ModifierKeys.Command | ModifierKeys.Alt);
+					DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Command | ModifierKeys.Alt);
 					action = new Selector("hideOtherApplications:");
 					break;
 				case StockCommandId.Maximize:
@@ -82,7 +82,7 @@ namespace Xwt.Mac
 					action = new Selector("performZoom:");
 					break;
 				case StockCommandId.Minimize:
-					Accelerator = new Accelerator(Key.m, ModifierKeys.Command);
+					DefaultKeyboardShortcut = new KeyboardShortcutSequence(Key.m, ModifierKeys.Command);
 					action = new Selector("performMiniaturize:");
 					break;
 				case StockCommandId.New:
@@ -99,7 +99,7 @@ namespace Xwt.Mac
 					break;
 				case StockCommandId.Preferences:
 					Label = "Preferences\u2026";
-					Accelerator = new Accelerator (Key.Comma, ModifierKeys.Command);
+					DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.Comma, ModifierKeys.Command);
 					break;
 				case StockCommandId.Print:
 					action = new Selector ("print:");
@@ -142,11 +142,15 @@ namespace Xwt.Mac
 		public override IMenuItemBackend CreateMenuItem() {
 			var menuItem = new NSMenuItem ();
 			menuItem.Title = Label.RemoveMnemonics ();
-			if (Accelerator  != null) {
-				menuItem.KeyEquivalent = Accelerator.Key.ToMacKey ();
-				if (Accelerator.HasModifiers)
-					menuItem.KeyEquivalentModifierMask =
-						Accelerator.Modifiers.ToNSEventModifierMask ();
+			if (DefaultKeyboardShortcut  != null) {
+				if (DefaultKeyboardShortcut.Count == 1) {
+					menuItem.KeyEquivalent = DefaultKeyboardShortcut[0].Key.ToMacKey ();
+					if (DefaultKeyboardShortcut[0].HasModifiers)
+						menuItem.KeyEquivalentModifierMask =
+							DefaultKeyboardShortcut[0].Modifiers.ToNSEventModifierMask ();
+				} else {
+					// TODO: handle more than one shortcut in sequence
+				}
 		    }
 			menuItem.Action = action;
 			menuItem.Target = null;
@@ -156,11 +160,15 @@ namespace Xwt.Mac
 		public override IButtonBackend CreateButton() {
 			var button = new ButtonBackend();
 			button.Widget.Title = Label.RemoveMnemonics ();
-			if (Accelerator  != null) {
-				button.Widget.KeyEquivalent = Accelerator.Key.ToMacKey ();
-				if (Accelerator.HasModifiers)
-					button.Widget.KeyEquivalentModifierMask =
-						frontendCommand.Accelerator.Modifiers.ToNSEventModifierMask ();
+			if (DefaultKeyboardShortcut  != null) {
+				if (DefaultKeyboardShortcut.Count == 1) {
+					button.Widget.KeyEquivalent = DefaultKeyboardShortcut[0].Key.ToMacKey ();
+					if (DefaultKeyboardShortcut[0].HasModifiers)
+						button.Widget.KeyEquivalentModifierMask =
+							frontendCommand.DefaultKeyboardShortcut[0].Modifiers.ToNSEventModifierMask ();
+				} else {
+					// TODO: handle more than one shortcut in sequence
+				}
 			}
 			button.Widget.Action = action;
 			button.Widget.Target = null;

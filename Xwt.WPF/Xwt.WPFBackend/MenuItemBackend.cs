@@ -95,7 +95,7 @@ namespace Xwt.WPFBackend
 			set { this.menuItem.Header = value; }
 		}
 
-		public Accelerator Accelerator
+		public KeyboardShortcut Accelerator
 		{
 			get { return null; }
 			set { menuItem.InputGestureText = value.ToInputGesture (); }

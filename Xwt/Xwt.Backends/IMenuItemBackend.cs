@@ -54,7 +54,7 @@ namespace Xwt.Backends
 		/// Gets or sets the accelerator.
 		/// </summary>
 		/// <value>The accelerator.</value>
-		Accelerator Accelerator { get; set; }
+		KeyboardShortcut Accelerator { get; set; }
 		
 		/// <summary>
 		/// Gets or sets whether the menu item is enabled.

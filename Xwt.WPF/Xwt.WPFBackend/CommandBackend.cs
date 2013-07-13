@@ -111,13 +111,13 @@ namespace Xwt.WPFBackend
 						break;
 					case StockCommandId.Quit:
 						frontendCommand.Label = "E_xit";
-						frontendCommand.Accelerator = null;
+						frontendCommand.DefaultKeyboardShortcut = null;
 						break;
 				}
 			}
 			if (Command == null) {
 				Command = new SWI.RoutedUICommand (frontendCommand.Label ?? string.Empty, frontendCommand.Id, frontendCommand.GetType ());
-				Accelerator = frontendCommand.Accelerator;
+				KeyboardShortcut = frontendCommand.DefaultKeyboardShortcut;
 			}
 			CommandBinding = new SWI.CommandBinding (Command);
 			CommandPool.Commands.Add (this);
@@ -174,15 +174,15 @@ namespace Xwt.WPFBackend
 			}
 		}
 
-		public override Accelerator Accelerator
+		public override KeyboardShortcut KeyboardShortcut
 		{
 			get
 			{
-				return base.Accelerator;
+				return base.KeyboardShortcut;
 			}
 			set
 			{
-				base.Accelerator = value;
+				base.KeyboardShortcut = value;
 				if (Command != null && value != null) {
 					var modifiers = SWI.ModifierKeys.None;
 					if (value.Modifiers.HasFlag (ModifierKeys.Command) ||

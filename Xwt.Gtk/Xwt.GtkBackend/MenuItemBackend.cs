@@ -97,7 +97,7 @@ namespace Xwt.GtkBackend
 			}
 		}
 
-		public Accelerator Accelerator {
+		public KeyboardShortcut Accelerator {
 			get {
 				var accelLabel = label as Gtk.AccelLabel;
 				if (accelLabel == null)

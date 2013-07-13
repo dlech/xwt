@@ -16,7 +16,7 @@ namespace Xwt.WPFBackend
 	/// </summary>
 	public static class AcceleratorExtension
 	{
-		public static string ToInputGesture(this Accelerator accelerator)
+		public static string ToInputGesture(this KeyboardShortcut accelerator)
 		{
 			if (accelerator == null)
 				return null;

@@ -17,13 +17,13 @@ namespace Xwt.Backends
 	/// <remarks>
 	/// Default implementation is <see cref="Xwt.Backend.CommandBackend"/>
 	/// Backend implementations should override as necessary to provide platform
-	/// specific names and keyboard shortcuts
+	/// specific lables and keyboard shortcuts
 	/// </remarks>
 	public interface ICommandBackend : IBackend
 	{
 		string Label { get; set; }
 		string ToolTip { get; set; }
-		Accelerator Accelerator { get; set; }
+		KeyboardShortcutSequence DefaultKeyboardShortcut { get; set; }
 		bool Sensitive { get; set; }
 		bool Visible { get; set; }
 

@@ -23,13 +23,84 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
+using System.Collections.ObjectModel;
 
 namespace Xwt
 {
-	public class KeyboardShortcutSequence
+	/// <summary>
+	/// Represents a sequence of <see cref="KeyboardShortcut"/>s
+	/// </summary>
+	/// <remarks>
+	/// Currenly only allows 1 or 2 <see cref="Xwt.KeyboardShortcut"/>s
+	/// </remarks>
+	public class KeyboardShortcutSequence : ReadOnlyCollection<KeyboardShortcut>
 	{
-		public KeyboardShortcutSequence ()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcutSequence"/> class
+		/// with a single <see cref="Xwt.KeyboardShortcut"/>
+		/// </summary>
+		/// <param name="shortcut">The shortcut.</param>
+		public KeyboardShortcutSequence (KeyboardShortcut shortcut) 
+			: base (new KeyboardShortcut[] { shortcut })
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcutSequence"/> class
+		/// with two sequential <see cref="Xwt.KeyboardShortcut"/>s
+		/// </summary>
+		/// <param name="shortcut1">The first shortcut in the sequence.</param>
+		/// <param name="shortcut2">The second shortcut in the sequence.</param>
+		public KeyboardShortcutSequence (KeyboardShortcut shortcut1, KeyboardShortcut shortcut2)
+			: base (new KeyboardShortcut[] { shortcut1, shortcut2 })
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcutSequence"/> class
+		/// with a single <see cref="Xwt.KeyboardShortcut"/>
+		/// </summary>
+		/// <param name="key">The shortcut key.</param>
+		public KeyboardShortcutSequence (Key key) 
+			: this (new KeyboardShortcut (key))
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcutSequence"/> class
+		/// with a single <see cref="Xwt.KeyboardShortcut"/>
+		/// </summary>
+		/// <param name="key">The shortcut key.</param>
+		/// <param name="modifiers">The shortcut key's modifiers.</param>
+		public KeyboardShortcutSequence (Key key, ModifierKeys modifiers) 
+			: this (new KeyboardShortcut (key, modifiers))
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcutSequence"/> class
+		/// with two sequential <see cref="Xwt.KeyboardShortcut"/>s
+		/// </summary>
+		/// <param name="key1">The first shortcut key.</param>
+		/// <param name="modifiers1">The first shortcut key's modifiers.</param>		
+		/// <param name="key2">The second shortcut key.</param>
+		public KeyboardShortcutSequence (Key key1, ModifierKeys modifiers1, Key key2) 
+			: this (new KeyboardShortcut (key1, modifiers1), new KeyboardShortcut (key2))
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcutSequence"/> class
+		/// with two sequential <see cref="Xwt.KeyboardShortcut"/>s
+		/// </summary>
+		/// <param name="key1">The first shortcut key.</param>
+		/// <param name="modifiers1">The first shortcut key's modifiers.</param>		
+		/// <param name="key2">The second shortcut key.</param>
+		/// <param name="modifiers2">The second shortcut key's modifiers.</param>
+		public KeyboardShortcutSequence (Key key1, ModifierKeys modifiers1, Key key2, ModifierKeys modifiers2) 
+			: this (new KeyboardShortcut (key1, modifiers1), new KeyboardShortcut (key2, modifiers2))
 		{
 		}
 	}

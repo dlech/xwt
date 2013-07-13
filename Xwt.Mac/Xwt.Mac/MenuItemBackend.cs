@@ -110,7 +110,7 @@ namespace Xwt.Mac
 		}
 
 		// TODO: implement me
-		public Accelerator Accelerator { get; set; }
+		public KeyboardShortcut Accelerator { get; set; }
 		
 		#region IUiBackend implementation
 

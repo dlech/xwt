@@ -88,7 +88,7 @@ namespace Xwt
 			set { Backend.Label = value; }
 		}
 
-		public Accelerator Accelerator {
+		public KeyboardShortcut Accelerator {
 			get { return Backend.Accelerator; }
 			set { Backend.Accelerator = value; }
 		}

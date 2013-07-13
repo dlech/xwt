@@ -3,9 +3,9 @@ using System;
 namespace Xwt
 {
 	/// <summary>
-	/// Accelerator = Keyboard shortcut.
+	/// Represents a keyboard shortcut used to invoke <see cref="Command"/>s
 	/// </summary>
-	public class KeySequence
+	public class KeyboardShortcut
 	{
 		Key key;
 
@@ -41,20 +41,21 @@ namespace Xwt
 		public bool HasModifiers { get { return Modifiers != ModifierKeys.None; } }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Xwt.Accelerator"/> class.
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcut"/> class.
 		/// </summary>
 		/// <param name="key">Key.</param>
-		public KeySequence (Key key)
+		/// <remarks>Capital letters imply the Shift modifier</remarks>
+		public KeyboardShortcut (Key key)
 		{
 			Key = key;
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Xwt.Accelerator"/> class.
+		/// Initializes a new instance of the <see cref="Xwt.KeyboardShortcut"/> class.
 		/// </summary>
 		/// <param name="key">Key.</param>
 		/// <param name="modifiers">Modifiers.</param>
-		public KeySequence (Key key, ModifierKeys modifiers)
+		public KeyboardShortcut (Key key, ModifierKeys modifiers)
 		{
 			Key = key;
 			Modifiers |= modifiers;

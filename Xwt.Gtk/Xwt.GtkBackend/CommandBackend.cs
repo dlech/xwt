@@ -67,7 +67,7 @@ namespace Xwt.GtkBackend
 			{
 				Tooltip = frontendCommand.Tooltip
 			};
-			Accelerator = frontendCommand.Accelerator;
+			KeyboardShortcut = frontendCommand.DefaultKeyboardShortcut;
 		}
 
 		public override IMenuItemBackend CreateMenuItem ()
@@ -129,13 +129,13 @@ namespace Xwt.GtkBackend
 			}
 		}
 
-		public override Accelerator Accelerator {
+		public override KeyboardShortcut KeyboardShortcut {
 			get {
-				return base.Accelerator;
+				return base.KeyboardShortcut;
 			}
 			set {
 				if (action == null) {
-					base.Accelerator = value;
+					base.KeyboardShortcut = value;
 				} else {
 					Gtk.StockItem stockItem;
 					if (Gtk.StockManager.LookupItem(action.StockId, out stockItem)) {
@@ -148,9 +148,9 @@ namespace Xwt.GtkBackend
 							modifer |= ModifierKeys.Shift;
 						if (gtkModifier.HasFlag (Gdk.ModifierType.Mod1Mask))
 							modifer |= ModifierKeys.Alt;
-						base.Accelerator = new Accelerator ((Key)gtkKey, modifer);
+						base.KeyboardShortcut = new KeyboardShortcut ((Key)gtkKey, modifer);
 					} else {
-						base.Accelerator = value;
+						base.KeyboardShortcut = value;
 					}
 					GtkEngine.GlobalActionGroup.Remove (action);
 					action.DisconnectAccelerator();
@@ -174,7 +174,7 @@ namespace Xwt.GtkBackend
 		/// </summary>
 		/// <param name="accelerator">The Xwt Accelerator</param>
 		/// <returns>the Gtk AccelPath</returns>
-		string ParseAccelerator(Accelerator accelerator)
+		string ParseAccelerator(KeyboardShortcut accelerator)
 		{
 			var accelPath = string.Empty;
 			if (accelerator.HasModifiers) {

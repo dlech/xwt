@@ -91,14 +91,14 @@ namespace Xwt
 			Label = label;
 		}
 
-		Command (string id, string label, Accelerator accelerator)
+		Command (string id, string label, KeyboardShortcutSequence shortcut)
 			: this(id, label)
 		{
-			Accelerator = accelerator;
+			DefaultKeyboardShortcut = shortcut;
 		}
 
-		Command (string id, string label, Accelerator accelerator, Image icon)
-			: this(id, label, accelerator)
+		Command (string id, string label, KeyboardShortcutSequence shortcut, Image icon)
+			: this(id, label, shortcut)
 		{
 			Icon = icon;
 		}
@@ -134,16 +134,16 @@ namespace Xwt
 		}
 
 		public string Tooltip {
-			get { return Backend.Label; } 
-			set { Backend.Label = value; }
+			get { return Backend.ToolTip; } 
+			set { Backend.ToolTip = value; }
 		}
 
 		public Image Icon { get; internal set; }
 
-		public Accelerator Accelerator
+		public KeyboardShortcutSequence DefaultKeyboardShortcut
 		{
-			get { return Backend.Accelerator; }
-			set { Backend.Accelerator = value; }
+			get { return Backend.DefaultKeyboardShortcut; }
+			set { Backend.DefaultKeyboardShortcut = value; }
 		}
 
 		public bool Sensitive { get; set; }		
@@ -153,7 +153,7 @@ namespace Xwt
 		/// <summary>
 		/// Gets the stock command.
 		/// </summary>
-		/// <value>The stock command or <see cref="StockCommandId.NotACommand"/>
+		/// <value>The stock command or <see cref="StockCommandId.NotAStockCommand"/>
 		/// if the command is not a stock command</value>
 		/// <remarks>
 		public StockCommandId StockCommand
