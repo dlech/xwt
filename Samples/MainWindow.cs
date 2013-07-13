@@ -57,12 +57,12 @@ namespace Samples
 				/* App > About App */
 
 				appMenu.SubMenu.Items.Add (StockCommands.About.CreateMenuItem ());
-				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+				appMenu.SubMenu.Items.AddSeparator ();
 
 				/* App > Preferences... */
 
 				appMenu.SubMenu.Items.Add (StockCommands.Preferences.CreateMenuItem ());
-				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+				appMenu.SubMenu.Items.AddSeparator ();
 
 				/* App > Services */
 
@@ -72,7 +72,7 @@ namespace Samples
 				// the OS will take care of populating it
 				ServicesMenu = appServices.SubMenu;
 				appMenu.SubMenu.Items.Add (appServices);
-				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+				appMenu.SubMenu.Items.AddSeparator ();
 
 				/* App > Hide App */
 				appMenu.SubMenu.Items.Add (StockCommands.HideApplication.CreateMenuItem ());
@@ -82,7 +82,7 @@ namespace Samples
 				
 				/* App > Show All */
 				appMenu.SubMenu.Items.Add (StockCommands.UnhideAllApplications.CreateMenuItem ());
-				appMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+				appMenu.SubMenu.Items.AddSeparator ();
 				
 				/* App > Quit App */
 				appMenu.SubMenu.Items.Add (StockCommands.Quit.CreateMenuItem ());
@@ -97,7 +97,7 @@ namespace Samples
 			var openRecent = new MenuItem ("Open Recent");
 			openRecent.SubMenu = new Menu ();
 			fileMenu.SubMenu.Items.Add (openRecent);
-			fileMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+			fileMenu.SubMenu.Items.AddSeparator ();
 			fileMenu.SubMenu.Items.Add (StockCommands.Close.CreateMenuItem ());
 			fileMenu.SubMenu.Items.Add (StockCommands.CloseAll.CreateMenuItem ());
 			fileMenu.SubMenu.Items.Add (StockCommands.Save.CreateMenuItem ());
@@ -105,11 +105,11 @@ namespace Samples
 			fileMenu.SubMenu.Items.Add (StockCommands.Export.CreateMenuItem ());
 			fileMenu.SubMenu.Items.Add (StockCommands.SaveAll.CreateMenuItem ());
 			fileMenu.SubMenu.Items.Add (StockCommands.Revert.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+			fileMenu.SubMenu.Items.AddSeparator ();
 			fileMenu.SubMenu.Items.Add (StockCommands.Print.CreateMenuItem ());
 			fileMenu.SubMenu.Items.Add (StockCommands.PageSetup.CreateMenuItem ());
 			if (!isMac) {
-				fileMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+				fileMenu.SubMenu.Items.AddSeparator ();
 				fileMenu.SubMenu.Items.Add (StockCommands.Quit.CreateMenuItem ());
 			}
 			mainMenu.Items.Add (fileMenu);
@@ -118,15 +118,15 @@ namespace Samples
 			editMenu.SubMenu = new Menu ();
 			editMenu.SubMenu.Items.Add (StockCommands.Undo.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (StockCommands.Redo.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+			editMenu.SubMenu.Items.AddSeparator ();
 			editMenu.SubMenu.Items.Add (StockCommands.Cut.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (StockCommands.Copy.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (StockCommands.Paste.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (StockCommands.PasteAsText.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (StockCommands.Delete.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+			editMenu.SubMenu.Items.AddSeparator ();
 			editMenu.SubMenu.Items.Add (StockCommands.SelectAll.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (new SeparatorMenuItem ());
+			editMenu.SubMenu.Items.AddSeparator ();
 			editMenu.SubMenu.Items.Add (StockCommands.Find.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (StockCommands.FindNext.CreateMenuItem ());
 			editMenu.SubMenu.Items.Add (StockCommands.FindPrevious.CreateMenuItem ());

@@ -1,5 +1,5 @@
 //
-// ICommandSink.cs
+// KeyboardShortcutSequence.cs
 //
 // Author:
 //       David Lechner <david@lechnology.com>
@@ -23,15 +23,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
 
 namespace Xwt
 {
-	public interface ICommandSink
+	public class KeyboardShortcutSequence
 	{
-		void AddCommandResponder(CommandResponder commandResponder);
-		bool RespondsToCommand(Command command);
+		public KeyboardShortcutSequence ()
+		{
+		}
 	}
 }
 

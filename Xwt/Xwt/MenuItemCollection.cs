@@ -32,7 +32,24 @@ namespace Xwt
 	public class MenuItemCollection: Collection<MenuItem>
 	{
 		Menu parent;
-		
+
+		/// <summary>
+		/// Convience method for adding new <see cref="SeparatorMenuItem"/>
+		/// </summary>
+		public void AddSeparator ()
+		{
+			Add (new SeparatorMenuItem ());
+		}
+
+		/// <summary>
+		/// Convience method for inserting new <see cref="SeparatorMenuItem"/>
+		/// </summary>
+		/// <param name="index">Index of new separator</param>
+		public void InsertSeparator (int index)
+		{
+			InsertItem (index, new SeparatorMenuItem ());
+		}
+
 		internal MenuItemCollection (Menu parent)
 		{
 			this.parent = parent;
