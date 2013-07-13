@@ -28,6 +28,7 @@ using Xwt.Backends;
 using MonoMac.AppKit;
 using Xwt.Drawing;
 using MonoMac.ObjCRuntime;
+using MonoMac.Foundation;
 
 namespace Xwt.Mac
 {
@@ -73,6 +74,11 @@ namespace Xwt.Mac
 		}
 
 		public ViewBackend Backend { get; set; }
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
+		}
 	}
 }
 

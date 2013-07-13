@@ -225,8 +225,14 @@ namespace Xwt.Mac
 	class ScrollView: NSScrollView, IViewObject
 	{
 		public ViewBackend Backend { get; set; }
+
 		public NSView View {
 			get { return this; }
+		}
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
 		}
 	}
 }

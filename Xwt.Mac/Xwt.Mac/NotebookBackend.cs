@@ -25,9 +25,10 @@
 // THE SOFTWARE.
 
 using System;
-using MonoMac.AppKit;
-using Xwt.Backends;
 using System.Collections.Generic;
+using MonoMac.AppKit;
+using MonoMac.Foundation;
+using Xwt.Backends;
 
 
 namespace Xwt.Mac
@@ -151,8 +152,14 @@ namespace Xwt.Mac
 	class TabView: NSTabView, IViewObject
 	{
 		public ViewBackend Backend { get; set; }
+
 		public NSView View {
 			get { return this; }
+		}
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
 		}
 	}
 }

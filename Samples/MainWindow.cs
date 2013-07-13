@@ -7,7 +7,7 @@ namespace Samples
 {
 	public class MainWindow: Window
 	{
-		TreeView samplesTree;
+		TreeViewEx samplesTree;
 		TreeStore store;
 		Image icon;
 		VBox sampleBox;
@@ -171,7 +171,7 @@ namespace Samples
 			icon = Image.FromResource (typeof(App), "document-generic.png");
 			
 			store = new TreeStore (nameCol, iconCol, widgetCol);
-			samplesTree = new TreeView ();
+			samplesTree = new TreeViewEx ();
 			samplesTree.Columns.Add ("Name", iconCol, nameCol);
 			
 			AddSample (null, "Boxes", typeof(Boxes));
@@ -242,10 +242,19 @@ namespace Samples
 			CloseRequested += HandleCloseRequested;
 		}
 
-		[CommandHandler ("Open")]
+		//[CommandHandler ("Open")]
 		public void HandleOpenCommand ()
 		{
 			MessageDialog.ShowMessage ("Open Sesame!");
+		}
+
+		class TreeViewEx : TreeView
+		{
+			[CommandHandler ("Open")]
+			public void HandleOpenCommand ()
+			{
+				MessageDialog.ShowMessage ("Open Sesame!");
+			}
 		}
 
 		void HandleCloseRequested (object sender, CloseRequestedEventArgs args)

@@ -46,8 +46,7 @@ namespace Xwt.Mac
 		ViewBackend child;
 		bool sensitive = true;
 		MenuBackend mainMenu, servicesMenu, windowMenu;
-		Dictionary<string, Action<NSObject>> commandResponders = new Dictionary<string, Action<NSObject>>();
-		
+
 		public WindowBackend (IntPtr ptr): base (ptr)
 		{
 		}
@@ -76,7 +75,7 @@ namespace Xwt.Mac
 		{
 			this.ApplicationContext = context;
 			this.frontend = (Window) frontend;
-			AddCommandHandlers (this.frontend, this);
+			CommandManager.AddCommandHandlers (this.frontend, this);
 		}
 		
 		public void Initialize (IWindowFrameEventSink eventSink)
@@ -84,23 +83,6 @@ namespace Xwt.Mac
 			this.eventSink = eventSink;
 		}
 
-		void AddCommandHandlers(XwtUiComponent frontend, NSObject backend)
-		{
-			var frontendType = frontend.GetType ();
-			foreach (var method in frontendType.GetMethods ()) {
-				// have to copy reference from indexer so that we can use it in later in anonymous method 
-				var methodRef = method;
-				foreach (CommandHandlerAttribute attribute in method.GetCustomAttributes(typeof(CommandHandlerAttribute), true)) {
-					Action<NSObject> nativeHandler = (sender) => {
-						methodRef.Invoke (frontend, null);
-					};
-					var commandBackend = attribute.Command.GetBackend () as CommandBackend;
-					var methodInfo = backend.GetType ().GetMethod ("OnCommandActivated", BindingFlags.Instance | BindingFlags.NonPublic);
-					Runtime.ConnectMethod (methodInfo, commandBackend.action);
-					commandResponders.Add (commandBackend.action.Name, nativeHandler);
-				}
-			}
-		}
 
 		public bool RespondsToCommand(Command Command)
 		{
@@ -108,12 +90,9 @@ namespace Xwt.Mac
 			return RespondsToSelector (commandBackend.action);
 		}		
 
-		void OnCommandActivated(NSObject sender)
+		public void OnCommandActivated(NSObject sender)
 		{
-			var senderType = sender.GetType ();
-			var senderActionProperty = senderType.GetProperty ("Action");
-			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
-			commandResponders [senderAction.Name].Invoke (sender);
+			CommandManager.Handlers.Invoke (sender, this);
 		}
 		
 		public ApplicationContext ApplicationContext {

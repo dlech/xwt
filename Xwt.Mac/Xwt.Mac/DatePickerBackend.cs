@@ -78,7 +78,13 @@ namespace Xwt.Mac
 	class MacDatePicker: NSDatePicker, IViewObject
 	{
 		public NSView View { get { return this; } }
+
 		public ViewBackend Backend { get; set; }
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
+		}
 	}
 }
 

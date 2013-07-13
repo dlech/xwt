@@ -26,6 +26,7 @@
 
 using System;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 
 namespace Xwt.Mac
 {
@@ -33,6 +34,7 @@ namespace Xwt.Mac
 	{
 		NSView View { get; }
 		ViewBackend Backend { get; set; }
+		void OnCommandActivated(NSObject sender);
 	}
 }
 

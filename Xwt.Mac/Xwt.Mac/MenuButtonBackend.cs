@@ -93,7 +93,12 @@ namespace Xwt.Mac
 		public NSView View {
 			get { return this; }
 		}
-		
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
+		}
+
 		public void EnableEvent (Xwt.Backends.ButtonEvent ev)
 		{
 		}

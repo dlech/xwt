@@ -23,8 +23,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using Xwt.Backends;
 using Xwt.Drawing;
 
@@ -147,7 +149,12 @@ namespace Xwt.Mac
 		}
 
 		public ViewBackend Backend { get; set; }
-		
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
+		}
+
 		#endregion
 	}
 

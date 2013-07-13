@@ -43,6 +43,7 @@ namespace Xwt.Mac
 
 		public void InitializeBackend (object frontend, ApplicationContext context)
 		{
+			CommandManager.AddCommandHandlers ((XwtUiComponent)frontend, this);
 		}
 
 		public void InsertItem (int index, IMenuItemBackend menuItem)

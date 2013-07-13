@@ -117,6 +117,7 @@ namespace Xwt.Mac
 		public void InitializeBackend (object frontend, ApplicationContext context)
 		{
 			this.context = context;
+			CommandManager.AddCommandHandlers ((XwtUiComponent)frontend, this);
 		}
 
 		public void EnableEvent (object eventId)

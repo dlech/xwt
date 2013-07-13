@@ -120,7 +120,12 @@ namespace Xwt.Mac
 		}
 
 		public ViewBackend Backend { get; set; }
-		
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
+		}
+
 		public override void DidChange (MonoMac.Foundation.NSNotification notification)
 		{
 			base.DidChange (notification);

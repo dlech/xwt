@@ -167,6 +167,11 @@ namespace Xwt.Mac
 			get { return this; }
 		}
 
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
+		}
+
 		static readonly Selector sizeToFitSel = new Selector ("sizeToFit");
 
 		public void SizeToFit ()
@@ -207,8 +212,14 @@ namespace Xwt.Mac
 	class TextFieldView: NSTextField, IViewObject
 	{
 		public ViewBackend Backend { get; set; }
+
 		public NSView View {
 			get { return this; }
+		}
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
 		}
 	}
 }

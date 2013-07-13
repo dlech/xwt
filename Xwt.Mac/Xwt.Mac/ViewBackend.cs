@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -64,7 +65,6 @@ namespace Xwt.Mac
 		bool sensitive = true;
 		bool canGetFocus = true;
 		Xwt.Drawing.Color backgroundColor;
-		Dictionary<string, Action<NSObject>> commandResponders;
 
 		void IBackend.InitializeBackend (object frontend, ApplicationContext context)
 		{
@@ -77,7 +77,8 @@ namespace Xwt.Mac
 			eventSink = (IWidgetEventSink) sink;
 			Initialize ();
 			ResetFittingSize ();
-			canGetFocus = Widget.AcceptsFirstResponder ();
+			canGetFocus = Widget.AcceptsFirstResponder ();			
+			CommandManager.AddCommandHandlers (this.frontend, Widget);
 		}
 
 		// To be called when the widget is a root and is not inside a Xwt window. For example, when it is in a popover or a tooltip
@@ -98,14 +99,6 @@ namespace Xwt.Mac
 		{
 			var commandBackend = Command.GetBackend () as CommandBackend;
 			return Widget.RespondsToSelector (commandBackend.action);
-		}		
-
-		protected void OnCommandActivated(NSObject sender)
-		{
-			var senderType = sender.GetType ();
-			var senderActionProperty = senderType.GetProperty ("Action");
-			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
-			commandResponders [senderAction.Name].Invoke (sender);
 		}
 		
 		public IWidgetEventSink EventSink {
@@ -813,6 +806,11 @@ namespace Xwt.Mac
 				if (vo != null)
 					vo.Backend = value;
 			}
+		}
+
+		public void OnCommandActivated(NSObject sender)
+		{
+			CommandManager.Handlers.Invoke (sender, this);
 		}
 
 		public override bool IsFlipped {

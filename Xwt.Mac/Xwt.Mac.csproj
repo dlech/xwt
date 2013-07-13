@@ -121,6 +121,7 @@
     <Compile Include="Xwt.Mac\DatePickerBackend.cs" />
     <Compile Include="Xwt.Mac\SliderBackend.cs" />
     <Compile Include="Xwt.Mac\CommandBackend.cs" />
+    <Compile Include="Xwt.Mac\CommandManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
