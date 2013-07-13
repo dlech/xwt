@@ -31,7 +31,7 @@ namespace Xwt.Backends
 	/// <summary>
 	/// A file dialog backend.
 	/// </summary>
-	public interface IFileDialogBackend: IBackend
+	public interface IFileDialogBackend: IUiBackend
 	{
 		/// <summary>
 		/// Initializes the file dialog. This method can be called multiple times.

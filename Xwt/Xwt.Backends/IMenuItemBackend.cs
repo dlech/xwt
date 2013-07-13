@@ -29,7 +29,7 @@ using System;
 
 namespace Xwt.Backends
 {
-	public interface IMenuItemBackend: IBackend
+	public interface IMenuItemBackend: IUiBackend
 	{
 		void Initialize (IMenuItemEventSink eventSink);
 

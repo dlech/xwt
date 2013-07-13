@@ -23,15 +23,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 
 namespace Xwt
 {
-	public class XwtUiComponent
+	/// <summary>
+	/// Base class for all XWT user interface components.
+	/// </summary>
+	/// <remarks>
+	/// An <see cref="Xwt.XwtUiComponent"/> represents an object that will be visible
+	/// to the user, whereas an <see cref="Xwt.XwtComponent"/> can be an object that
+	/// may not have a visual representation.
+	/// </remarks>
+	public abstract class XwtUiComponent : XwtComponent
 	{
-		public XwtUiComponent ()
-		{
-		}
 	}
 }
 

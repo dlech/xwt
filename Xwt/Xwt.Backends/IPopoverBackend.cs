@@ -30,7 +30,7 @@ using Xwt.Drawing;
 
 namespace Xwt.Backends
 {
-	public interface IPopoverBackend : IBackend, IDisposable
+	public interface IPopoverBackend : IUiBackend, IDisposable
 	{
 		void Initialize (IPopoverEventSink sink);
 		void Show (Popover.Position arrowPosition, Widget referenceWidget, Xwt.Rectangle positionRect, Xwt.Widget child);

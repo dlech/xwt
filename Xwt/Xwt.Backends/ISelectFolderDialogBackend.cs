@@ -27,7 +27,7 @@ using System;
 
 namespace Xwt.Backends
 {
-	public interface ISelectFolderDialogBackend: IBackend
+	public interface ISelectFolderDialogBackend: IUiBackend
 	{
 		/// <summary>
 		/// Initializes the folder selector dialog. This method can be called multiple times.

@@ -76,6 +76,7 @@ namespace Xwt.Mac
 		{
 			this.ApplicationContext = context;
 			this.frontend = (Window) frontend;
+			AddCommandHandlers (this.frontend, this);
 		}
 		
 		public void Initialize (IWindowFrameEventSink eventSink)
@@ -83,15 +84,22 @@ namespace Xwt.Mac
 			this.eventSink = eventSink;
 		}
 
-		public void AddCommandResponder(CommandResponder responder)
+		void AddCommandHandlers(XwtUiComponent frontend, NSObject backend)
 		{
-			Action<NSObject> method = (sender) => {
-				//handler (sender, EventArgs.Empty);
-			};
-			var commandBackend = responder.Command.GetBackend () as CommandBackend;
-			var methodInfo = GetType ().GetMethod ("OnCommandActivated", BindingFlags.Instance | BindingFlags.NonPublic);
-			Runtime.ConnectMethod (methodInfo, commandBackend.action);
-			commandResponders.Add (commandBackend.action.Name, method);
+			var frontendType = frontend.GetType ();
+			foreach (var method in frontendType.GetMethods ()) {
+				// have to copy reference from indexer so that we can use it in later in anonymous method 
+				var methodRef = method;
+				foreach (CommandHandlerAttribute attribute in method.GetCustomAttributes(typeof(CommandHandlerAttribute), true)) {
+					Action<NSObject> nativeHandler = (sender) => {
+						methodRef.Invoke (frontend, null);
+					};
+					var commandBackend = attribute.Command.GetBackend () as CommandBackend;
+					var methodInfo = backend.GetType ().GetMethod ("OnCommandActivated", BindingFlags.Instance | BindingFlags.NonPublic);
+					Runtime.ConnectMethod (methodInfo, commandBackend.action);
+					commandResponders.Add (commandBackend.action.Name, nativeHandler);
+				}
+			}
 		}
 
 		public bool RespondsToCommand(Command Command)
@@ -198,6 +206,7 @@ namespace Xwt.Mac
 		}
 		
 		#region IWindowBackend implementation
+
 		void IBackend.EnableEvent (object eventId)
 		{
 			if (eventId is WindowFrameEvent) {
@@ -456,7 +465,13 @@ namespace Xwt.Mac
 
 		// TODO: implement me
 		public WindowPosition StartPosition { get; set; }
-		
+
+		public virtual bool HandlesCommand (Command command)
+		{
+			var commandBackend = command.GetBackend () as CommandBackend;
+			return RespondsToSelector (commandBackend.action);
+		}
+
 		#endregion
 
 		static Selector closeSel = new Selector ("close");

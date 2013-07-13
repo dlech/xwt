@@ -30,7 +30,7 @@ using System.ComponentModel;
 
 namespace Xwt
 {
-	public abstract class FileDialog: XwtComponent
+	public abstract class FileDialog: XwtUiComponent
 	{
 		FileDialogFilterCollection filters;
 		bool running;

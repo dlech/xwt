@@ -94,19 +94,6 @@ namespace Xwt.Mac
 		{
 		}
 
-		public void AddCommandResponder(CommandResponder responder)
-		{
-			Action<NSObject> method = (sender) => {
-				//handler (sender, EventArgs.Empty);
-			};
-			var commandBackend = responder.Command.GetBackend () as CommandBackend;
-			SetupAsCommandResponder (Widget.GetType ());
-			var nativeMethod = new Class (Widget.GetType ()).GetMethod (xwtPerformCommandSel);
-			var methodInfo = Widget.GetType ().GetMethod ("OnCommandActivated", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-			//Runtime.ConnectMethod (methodInfo, commandBackend.action);
-			//commandResponders.Add (commandBackend.action.Name, method);
-		}
-
 		public bool RespondsToCommand(Command Command)
 		{
 			var commandBackend = Command.GetBackend () as CommandBackend;
@@ -499,6 +486,12 @@ namespace Xwt.Mac
 				WidgetEvent ev = (WidgetEvent) eventId;
 				currentEvents &= ~ev;
 			}
+		}
+
+		public virtual bool HandlesCommand (Command command)
+		{
+			var commandBackend = command.GetBackend () as CommandBackend;
+			return Widget.RespondsToSelector (commandBackend.action);
 		}
 		
 		static Selector draggingEnteredSel = new Selector ("draggingEntered:");

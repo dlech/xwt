@@ -440,11 +440,11 @@
     <Compile Include="Xwt.Backends\ResourceManager.cs" />
     <Compile Include="Xwt.Backends\DisposableResourceBackendHandler.cs" />
     <Compile Include="Xwt\Accelerator.cs" />
-    <Compile Include="Xwt\ICommandSource.cs" />
-    <Compile Include="Xwt\CommandResponderBinding.cs" />
-    <Compile Include="Xwt\ICommandSink.cs" />
     <Compile Include="Xwt.Backends\StockCommandId.cs" />
     <Compile Include="Xwt\StockCommands.cs" />
+    <Compile Include="Xwt\XwtUiComponent.cs" />
+    <Compile Include="Xwt.Backends\IUiBackend.cs" />
+    <Compile Include="Xwt\CommandHandlerAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

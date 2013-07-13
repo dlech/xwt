@@ -94,6 +94,15 @@ namespace Xwt.Mac
 
 		#endregion
 
+		#region IUiBackend implementation
+
+		public virtual bool HandlesCommand (Command command)
+		{
+			return false;
+		}
+
+		#endregion
+
 		#region IBackend implementation
 
 		public void InitializeBackend (object frontend, ApplicationContext context)

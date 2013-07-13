@@ -112,7 +112,8 @@ namespace Xwt.Mac
 		// TODO: implement me
 		public Accelerator Accelerator { get; set; }
 		
-		#region IBackend implementation
+		#region IUiBackend implementation
+
 		public void InitializeBackend (object frontend, ApplicationContext context)
 		{
 			this.context = context;
@@ -137,6 +138,13 @@ namespace Xwt.Mac
 					item.Activated -= HandleItemActivated;
 			}
 		}
+
+		public virtual bool HandlesCommand (Command command)
+		{
+			var commandBackend = command.GetBackend () as CommandBackend;
+			return item.RespondsToSelector (commandBackend.action);
+		}
+
 		#endregion
 
 		internal void HandleItemHighlighted(object sender, MenuBackend.ItemHighlightedEventArgs e)

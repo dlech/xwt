@@ -39,7 +39,7 @@ using System.Linq;
 namespace Xwt
 {
 	[BackendType (typeof(IWidgetBackend))]
-	public abstract class Widget: XwtComponent, IWidgetSurface, ICommandSink
+	public abstract class Widget: XwtUiComponent, IWidgetSurface
 	{
 		static bool DebugWidgetLayout = false;
 		static int DebugWidgetLayoutIndent = 0;
@@ -448,17 +448,7 @@ namespace Xwt
 		{
 			Visible = false;
 		}
-
-		public void AddCommandResponder(CommandResponder responder)
-		{
-			Backend.AddCommandResponder (responder);
-		}
-
-		public bool RespondsToCommand(Command command)
-		{
-			return Backend.RespondsToCommand (command);
-		}
-		
+	
 		[DefaultValue (true)]
 		public bool Visible {
 			get { return Backend.Visible; }

@@ -29,7 +29,7 @@ using Xwt.Drawing;
 
 namespace Xwt.Backends
 {
-	public interface IWindowFrameBackend: IBackend, ICommandSink
+	public interface IWindowFrameBackend: IUiBackend
 	{
 		void Initialize (IWindowFrameEventSink eventSink);
 		void Dispose ();

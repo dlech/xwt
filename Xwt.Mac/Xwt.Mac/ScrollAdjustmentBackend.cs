@@ -55,6 +55,14 @@ namespace Xwt.Mac
 		{
 		}
 		#endregion
+
+		#region IUiBackendImplementation
+		public virtual bool HandlesCommand (Command command)
+		{
+			var commandBackend = command.GetBackend () as CommandBackend;
+			return scrollView.RespondsToSelector (commandBackend.action);
+		}
+		#endregion
 		
 		public void NotifyValueChanged ()
 		{

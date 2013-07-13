@@ -136,6 +136,12 @@ namespace Xwt.Mac
 				return NSRectEdge.MinYEdge;
 			}
 		}
+
+		public virtual bool HandlesCommand (Command command)
+		{
+			var commandBackend = command.GetBackend () as CommandBackend;
+			return popover.RespondsToSelector (commandBackend.action);
+		}
 		
 		public void Dispose ()
 		{

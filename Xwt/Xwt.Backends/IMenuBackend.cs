@@ -28,7 +28,7 @@ using System;
 
 namespace Xwt.Backends
 {
-	public interface IMenuBackend: IBackend
+	public interface IMenuBackend: IUiBackend
 	{
 		void InsertItem (int index, IMenuItemBackend menuItem);
 		void RemoveItem (IMenuItemBackend menuItem);

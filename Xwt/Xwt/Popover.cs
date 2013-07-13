@@ -32,13 +32,13 @@ using Xwt.Backends;
 namespace Xwt
 {
 	[BackendType (typeof(IPopoverBackend))]
-	public class Popover : XwtComponent
+	public class Popover : XwtUiComponent
 	{
 		public enum Position {
 			Top,
 			Bottom,
-			/*Left,
-				Right*/
+//			Left,
+//			Right
 		}
 
 		WidgetSpacing padding;

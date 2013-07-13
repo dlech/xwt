@@ -33,7 +33,7 @@ using Xwt.Backends;
 namespace Xwt
 {
 	[BackendType (typeof(IStatusIconBackend))]
-	public class StatusIcon : XwtComponent
+	public class StatusIcon : XwtUiComponent
 	{
 		Image image;
 		Menu menu;

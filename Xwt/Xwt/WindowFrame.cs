@@ -58,7 +58,7 @@ using Xwt.Drawing;
 namespace Xwt
 {
 	[BackendType (typeof(IWindowFrameBackend))]
-	public class WindowFrame: XwtComponent, ICommandSink
+	public class WindowFrame: XwtUiComponent
 	{
 		EventHandler boundsChanged;
 		EventHandler shown;
@@ -130,16 +130,6 @@ namespace Xwt
 			// The backend has to handle the finalizing on its own
 			if (disposing && BackendHost.BackendCreated)
 				Backend.Dispose ();
-		}
-
-		public void AddCommandResponder(CommandResponder responder)
-		{
-			Backend.AddCommandResponder (responder);
-		}
-
-		public bool RespondsToCommand(Command command)
-		{
-			return Backend.RespondsToCommand (command);
 		}
 
 		IWindowFrameBackend Backend {

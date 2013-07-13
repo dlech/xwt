@@ -31,7 +31,7 @@ using Xwt.Backends;
 namespace Xwt
 {
 	[BackendType (typeof(IMenuBackend))]
-	public class Menu: XwtComponent
+	public class Menu: XwtUiComponent
 	{
 		MenuItemCollection items;
 		

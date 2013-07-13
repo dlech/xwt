@@ -240,8 +240,12 @@ namespace Samples
 			samplesTree.SelectionChanged += HandleSamplesTreeSelectionChanged;
 
 			CloseRequested += HandleCloseRequested;
+		}
 
-			box.AddCommandResponder(new CommandResponder(StockCommands.Open));
+		[CommandHandler ("Open")]
+		public void HandleOpenCommand ()
+		{
+			MessageDialog.ShowMessage ("Open Sesame!");
 		}
 
 		void HandleCloseRequested (object sender, CloseRequestedEventArgs args)

@@ -23,15 +23,30 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 
 namespace Xwt
 {
-	public class CommandHandlerAttribute
+	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
+	public class CommandHandlerAttribute : Attribute
 	{
-		public CommandHandlerAttribute ()
+		string command;
+
+		public CommandHandlerAttribute (string command)
 		{
+			this.command = command;
+		}
+
+		public Command Command
+		{
+			get 
+			{
+				return Command.GetCommandForId(command);
+			}
 		}
 	}
+
+	public delegate void CommandHandler();
 }
 

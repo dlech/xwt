@@ -29,7 +29,7 @@ using Xwt.Backends;
 namespace Xwt
 {
 	[BackendType (typeof(IScrollAdjustmentBackend))]
-	public class ScrollAdjustment: XwtComponent
+	public class ScrollAdjustment: XwtUiComponent
 	{
 		double lowerValue;
 		double upperValue;
@@ -251,6 +251,11 @@ namespace Xwt
 
 			public void DisableEvent (object eventId)
 			{
+			}
+
+			public bool HandlesCommand (Command command)
+			{ 
+				return false; // TODO: implement
 			}
 		}
 	}

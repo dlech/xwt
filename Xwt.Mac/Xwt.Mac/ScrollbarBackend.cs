@@ -186,6 +186,12 @@ namespace Xwt.Mac
 				KnobProportion = (float)(pageSize / (upperValue - lowerValue));
 			}
 		}
+
+		public virtual bool HandlesCommand (Command command)
+		{
+			var commandBackend = command.GetBackend () as CommandBackend;
+			return RespondsToSelector (commandBackend.action);
+		}
 	}
 }
 

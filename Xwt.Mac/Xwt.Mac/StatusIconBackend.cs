@@ -61,6 +61,11 @@ namespace Xwt.Mac
 		public void EnableEvent (object eventId) { throw new NotImplementedException (); }
 		public void DisableEvent (object eventId) { throw new NotImplementedException (); }
 
+		public virtual bool HandlesCommand (Command command)
+		{
+			return false;
+		}
+
 		public void Dispose ()
 		{
 			statusItem.Dispose ();
