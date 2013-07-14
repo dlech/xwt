@@ -644,7 +644,7 @@ namespace Xwt.GtkBackend
 			if ((args.Event.State & Gdk.ModifierType.ShiftMask) != 0)
 				m |= ModifierKeys.Shift;
 			if ((args.Event.State & Gdk.ModifierType.ControlMask) != 0)
-				m |= ModifierKeys.Control;
+				m |= ModifierKeys.Secondary;
 			if ((args.Event.State & Gdk.ModifierType.Mod1Mask) != 0)
 				m |= ModifierKeys.Alt;
 			KeyEventArgs kargs = new KeyEventArgs (k, m, false, (long)args.Event.Time);
@@ -663,7 +663,7 @@ namespace Xwt.GtkBackend
 			if ((args.Event.State & Gdk.ModifierType.ShiftMask) != 0)
 				m |= ModifierKeys.Shift;
 			if ((args.Event.State & Gdk.ModifierType.ControlMask) != 0)
-				m |= ModifierKeys.Control;
+				m |= ModifierKeys.Primary;
 			if ((args.Event.State & Gdk.ModifierType.Mod1Mask) != 0)
 				m |= ModifierKeys.Alt;
 			KeyEventArgs kargs = new KeyEventArgs (k, m, false, (long)args.Event.Time);

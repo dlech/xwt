@@ -371,9 +371,9 @@ namespace Xwt.Mac
 			NSEventModifierMask mask = (NSEventModifierMask)0;
 			if (modifiers.HasFlag (ModifierKeys.Alt))
 				mask |= NSEventModifierMask.AlternateKeyMask;
-			if (modifiers.HasFlag (ModifierKeys.Command))
+			if (modifiers.HasFlag (ModifierKeys.Primary))
 				mask |= NSEventModifierMask.CommandKeyMask;
-			if (modifiers.HasFlag (ModifierKeys.Control))
+			if (modifiers.HasFlag (ModifierKeys.Secondary))
 				mask |= NSEventModifierMask.ControlKeyMask;
 			if (modifiers.HasFlag (ModifierKeys.Shift))
 				mask |= NSEventModifierMask.ShiftKeyMask;

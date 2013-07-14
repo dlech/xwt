@@ -185,8 +185,8 @@ namespace Xwt.WPFBackend
 				base.KeyboardShortcut = value;
 				if (Command != null && value != null) {
 					var modifiers = SWI.ModifierKeys.None;
-					if (value.Modifiers.HasFlag (ModifierKeys.Command) ||
-							value.Modifiers.HasFlag (ModifierKeys.Control))
+					if (value.Modifiers.HasFlag (ModifierKeys.Primary) ||
+							value.Modifiers.HasFlag (ModifierKeys.Primary))
 						modifiers |= SWI.ModifierKeys.Control;
 					if (value.Modifiers.HasFlag (ModifierKeys.Shift))
 						modifiers |= SWI.ModifierKeys.Shift;

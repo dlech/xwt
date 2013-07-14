@@ -45,7 +45,7 @@ namespace Xwt.Mac
 				action = new Selector ("close:");
 				break;
 			case "Xwt.StockCommands.File.CloseAll":
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.w, ModifierKeys.Command | ModifierKeys.Alt);
+				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.w, ModifierKeys.Primary | ModifierKeys.Alt);
 				break;
 			case "Xwt.StockCommands.Edit.Copy":
 				action = new Selector ("copy:");
@@ -68,12 +68,12 @@ namespace Xwt.Mac
 				break;
 			case "Xwt.StockCommands.App.Hide":
 				Label = string.Format ("Hide {0}", bundleName);
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Command);
+				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Primary);
 				action = new Selector("hide:");
 				break;
 			case "Xwt.StockCommands.App.HideOthers":
 				Label = "Hide others";
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Command | ModifierKeys.Alt);
+				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Primary | ModifierKeys.Alt);
 				action = new Selector("hideOtherApplications:");
 				break;
 			case "Xwt.StockCommands.Window.Maximize":
@@ -81,7 +81,7 @@ namespace Xwt.Mac
 				action = new Selector("performZoom:");
 				break;
 			case "Xwt.StockCommands.Window.Minimize":
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence(Key.m, ModifierKeys.Command);
+				DefaultKeyboardShortcut = new KeyboardShortcutSequence(Key.m, ModifierKeys.Primary);
 				action = new Selector("performMiniaturize:");
 				break;
 			case "Xwt.StockCommands.File.New":
@@ -98,7 +98,7 @@ namespace Xwt.Mac
 				break;
 			case "Xwt.StockCommands.App.Preferences":
 				Label = "Preferences\u2026";
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.Comma, ModifierKeys.Command);
+				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.Comma, ModifierKeys.Primary);
 				break;
 			case "Xwt.StockCommands.File.Print":
 				action = new Selector ("print:");

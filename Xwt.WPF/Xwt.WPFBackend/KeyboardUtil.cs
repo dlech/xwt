@@ -44,7 +44,7 @@ namespace Xwt.WPFBackend
 			if ((wpfModifiers & System.Windows.Input.ModifierKeys.Alt) > 0)
 				modifiers |= ModifierKeys.Alt;
 			if ((wpfModifiers & System.Windows.Input.ModifierKeys.Control) > 0)
-				modifiers |= ModifierKeys.Control;
+				modifiers |= ModifierKeys.Primary;
 			if ((wpfModifiers & System.Windows.Input.ModifierKeys.Shift) > 0)
 				modifiers |= ModifierKeys.Shift;
 

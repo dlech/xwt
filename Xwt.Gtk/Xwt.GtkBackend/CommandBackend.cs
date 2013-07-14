@@ -143,7 +143,7 @@ namespace Xwt.GtkBackend
 						var gtkModifier = stockItem.Modifier;
 						var modifer = ModifierKeys.None;
 						if (gtkModifier.HasFlag (Gdk.ModifierType.ControlMask))
-							modifer |= ModifierKeys.Control;
+							modifer |= ModifierKeys.Primary;
 						if (gtkModifier.HasFlag (Gdk.ModifierType.ShiftMask))
 							modifer |= ModifierKeys.Shift;
 						if (gtkModifier.HasFlag (Gdk.ModifierType.Mod1Mask))
@@ -182,9 +182,9 @@ namespace Xwt.GtkBackend
 					accelPath += "<Shift>";
 				if (accelerator.Modifiers.HasFlag (ModifierKeys.Alt))
 					accelPath += "<Alt>";
-				if (accelerator.Modifiers.HasFlag (ModifierKeys.Control))
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Secondary))
 					accelPath += "<Control>";
-				if (accelerator.Modifiers.HasFlag (ModifierKeys.Command))
+				if (accelerator.Modifiers.HasFlag (ModifierKeys.Primary))
 					accelPath += "<Primary>";
 				accelPath += (char)accelerator.Key;
 			}

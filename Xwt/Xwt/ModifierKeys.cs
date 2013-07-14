@@ -30,19 +30,35 @@ namespace Xwt
 	/// <summary>
 	/// Modifier keys.
 	/// </summary>
-	/// <remarks>
-	/// Command in GTK should translated as "Primary", which is "Command" on OS X
-	/// and "Control" on platforms other than OS X. Command in WPF should be translated
-	/// as "Control"
-	/// </remarks>
 	[Flags]
 	public enum ModifierKeys
 	{
+		/// <summary>
+		/// No modifier keys.
+		/// </summary>
 		None = 0,
+
+		/// <summary>
+		/// The 'alternate' modifier key. Also called the 'option' key on Mac.
+		/// </summary>
 		Alt = 0x1 << 0,
-		Control = 0x1 << 1,
-		Shift = 0x1 << 2,
-		Command = 0x1 << 3
+
+		/// <summary>
+		/// The primary modifier key. The 'command' key on Mac or
+		/// the 'control' key on other platforms.
+		/// </summary>
+		Primary = 0x1 << 1,
+
+		/// <summary>
+		/// The secondary modifier key. The 'control' key on Mac,
+		/// the 'windows' key on Windows or the 'meta' or 'super' key on other platforms.
+		/// </summary>
+		Secondary = 0x1 << 2,
+
+		/// <summary>
+		/// The 'shift' modifer key.
+		/// </summary>
+		Shift = 0x1 << 3
 	}
 }
 
