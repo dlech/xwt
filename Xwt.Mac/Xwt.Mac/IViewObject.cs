@@ -33,8 +33,13 @@ namespace Xwt.Mac
 	public interface IViewObject
 	{
 		NSView View { get; }
+
 		ViewBackend Backend { get; set; }
+
 		void OnCommandActivated(NSObject sender);
+
+		[Export("validateUserInterfaceItem:")]
+		bool ValidateUserInterfaceItem(NSObject item);
 	}
 }
 

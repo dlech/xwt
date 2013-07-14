@@ -47,6 +47,26 @@ namespace Xwt
 		}
 	}
 
+	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
+	public class CommandStatusRequestHandlerAttribute : Attribute
+	{
+		Enum command;
+
+		public CommandStatusRequestHandlerAttribute (object command)
+		{
+			this.command = (Enum)command;
+		}
+
+		public Command Command
+		{
+			get 
+			{
+				return Command.GetCommandForId(command);
+			}
+		}
+	}
+
 	public delegate void CommandHandler();
+	public delegate bool CommandStatusRequestHandler();
 }
 

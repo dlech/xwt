@@ -170,11 +170,17 @@ namespace Xwt.Mac
 
 		public ViewBackend Backend { get; set; }
 
-		public void OnCommandActivated(NSObject sender)
+		public void OnCommandActivated (NSObject sender)
 		{
-			CommandManager.Handlers.Invoke (sender, this);
+			CommandManager.ActivationHandlers.Invoke (sender, this);
 		}
 
+		[Export("validateUserInterfaceItem:")]
+		public bool ValidateUserInterfaceItem (NSObject item)
+		{base.ValidateEditing ();
+			return CommandManager.StatusRequestHandlers.Invoke (item, this);
+		}
+		
 		public override void DidChange (MonoMac.Foundation.NSNotification notification)
 		{
 			base.DidChange (notification);

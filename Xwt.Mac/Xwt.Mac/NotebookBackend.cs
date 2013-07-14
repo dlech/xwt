@@ -157,9 +157,15 @@ namespace Xwt.Mac
 			get { return this; }
 		}
 
-		public void OnCommandActivated(NSObject sender)
+		public void OnCommandActivated (NSObject sender)
 		{
-			CommandManager.Handlers.Invoke (sender, this);
+			CommandManager.ActivationHandlers.Invoke (sender, this);
+		}
+
+		[Export("validateUserInterfaceItem:")]
+		public bool ValidateUserInterfaceItem (NSObject item)
+		{
+			return CommandManager.StatusRequestHandlers.Invoke (item, this);
 		}
 	}
 }

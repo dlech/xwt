@@ -243,7 +243,7 @@ namespace Samples
 		}
 
 		[CommandHandler (StockCommands.File.Close)]
-		public void HandleOpenCommand ()
+		public void OnCloseCommand ()
 		{
 			MessageDialog.ShowMessage ("Main Window!");
 		}
@@ -251,9 +251,15 @@ namespace Samples
 		class TreeViewEx : TreeView
 		{
 			[CommandHandler (StockCommands.File.Close)]
-			public void HandleOpenCommand ()
+			public void OnCloseCommand ()
 			{
 				MessageDialog.ShowMessage ("Tree View!");
+			}
+
+			[CommandStatusRequestHandler (StockCommands.File.Close)]
+			public bool OnCloseCommandStatusRequested ()
+			{
+				return SelectedRow != null;
 			}
 		}
 

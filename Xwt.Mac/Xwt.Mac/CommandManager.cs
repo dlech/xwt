@@ -35,26 +35,36 @@ namespace Xwt.Mac
 {
 	public class CommandManager
 	{
-		static CommandHandlerCollection handlers =
-			new CommandHandlerCollection ();
+		static CommandHandlerCollection<Action<NSObject>> activationHandlers =
+			new CommandHandlerCollection<Action<NSObject>> ();
+		static CommandHandlerCollection<Func<NSObject, bool>> statusRequestHandlers =
+			new CommandHandlerCollection<Func<NSObject, bool>> ();
 
-		public static CommandHandlerCollection Handlers { get { return handlers; } }
+		public static CommandHandlerCollection<Action<NSObject>> ActivationHandlers { get { return activationHandlers; } }
+
+		public static CommandHandlerCollection<Func<NSObject, bool>> StatusRequestHandlers { get { return statusRequestHandlers; } }
 
 		/// <summary>
 		/// Inspects frontend for methods with <see cref="Xwt.CommandHandlerAttribute"/> and binds those methods to the backend
 		/// </summary>
 		/// <param name="frontend">Frontend.</param>
-		/// <param name="backend">Backend - see remarks.</param>
+		/// <param name="backend">Backend. Must also implement <see cref="Xwt.Mac.IViewObject"/></param>
 		/// <remarks>
-		/// Backend must contain the method
+		/// Backend must contain these methods
 		/// <example>
-		/// public void OnCommandActivated(NSObject sender)
+		/// public void OnCommandActivated (NSObject sender)
 		/// {
 		/// 	CommandManager.Handlers.Invoke (sender, this);
 		/// }
+		/// 
+		/// [Export("validateUserInterfaceItem:")]
+		/// public bool ValidateUserInterfaceItem (NSObject item)
+		/// {
+		/// 	return CommandManager.StatusRequestHandlers.Invoke (item, this);
+		/// }
 		/// </example>
 		/// </remarks>
-		public static void AddCommandHandlers(XwtUiComponent frontend, NSObject backend)
+		public static void AddCommandHandlers (XwtUiComponent frontend, NSObject backend)
 		{
 			var frontendType = frontend.GetType ();
 			foreach (var method in frontendType.GetMethods ()) {
@@ -63,22 +73,35 @@ namespace Xwt.Mac
 				foreach (CommandHandlerAttribute attribute in method.GetCustomAttributes(typeof(CommandHandlerAttribute), true)) {
 					var commandBackend = attribute.Command.GetBackend () as CommandBackend;
 					var key = new Tuple<NSObject, string> (backend, commandBackend.action.Name);
-					if (Handlers.ContainsKey (key))
+					if (ActivationHandlers.ContainsKey (key))
 						throw new ArgumentException ("command handler already exists");
 					var methodInfo = backend.GetType ().GetMethod ("OnCommandActivated");
 					if (methodInfo == null)
-						throw new ArgumentException ("backend must have public method OnCommandActivated(NSObject)");
+						throw new ArgumentException ("backend must have public method void OnCommandActivated(NSObject)");
 					Action<NSObject> nativeHandler = (sender) => {
 						methodRef.Invoke (frontend, null);
 					};
 					Runtime.ConnectMethod (methodInfo, commandBackend.action);
-					Handlers.Add (backend, commandBackend.action, nativeHandler);
+					ActivationHandlers.Add (backend, commandBackend.action, nativeHandler);
+				}
+				foreach (CommandStatusRequestHandlerAttribute attribute in method.GetCustomAttributes(typeof(CommandStatusRequestHandlerAttribute), true)) {
+					var commandBackend = attribute.Command.GetBackend () as CommandBackend;
+					var key = new Tuple<NSObject, string> (backend, commandBackend.action.Name);
+					if (StatusRequestHandlers.ContainsKey (key))
+						throw new ArgumentException ("command handler already exists");
+					var methodInfo = backend.GetType ().GetMethod ("OnCommandActivated");
+					if (methodInfo == null)
+						throw new ArgumentException ("backend must have public method void OnCommandActivated(NSObject)");
+					Func<NSObject, bool> nativeHandler = (sender) => {
+						return (bool)methodRef.Invoke (frontend, null);
+					};
+					StatusRequestHandlers.Add (backend, commandBackend.action, nativeHandler);
 				}
 			}
 		}
 	}
 
-	public class CommandHandlerCollection : Dictionary<Tuple<NSObject, string>, Action<NSObject>>
+	public class CommandHandlerCollection<T> : Dictionary<Tuple<NSObject, string>, T>
 	{
 		/// <summary>
 		/// Add the specified object, selector and method.
@@ -86,11 +109,14 @@ namespace Xwt.Mac
 		/// <param name="obj">Object.</param>
 		/// <param name="selector">Selector.</param>
 		/// <param name="method">Method.</param>
-		public void Add(NSObject obj, Selector selector, Action<NSObject> method)
+		public void Add(NSObject obj, Selector selector, T method)
 		{
 			Add (new Tuple<NSObject, string> (obj, selector.Name), method);
 		}
+	}
 
+	public static class CommandHandlerCollectionExt
+	{
 		/// <summary>
 		/// Invokes the selector specified by the senders action on the target
 		/// </summary>
@@ -99,7 +125,7 @@ namespace Xwt.Mac
 		/// <remarks>
 		/// Fails silently if the action does not exist on the target
 		/// </remarks>
-		public void Invoke(NSObject sender, NSObject target)
+		public static void Invoke (this CommandHandlerCollection<Action<NSObject>> collection, NSObject sender, NSObject target)
 		{
 			Action<NSObject> method;
 			var senderType = sender.GetType ();
@@ -107,9 +133,30 @@ namespace Xwt.Mac
 			if (senderActionProperty == null)
 				return;
 			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
-			if (!TryGetValue(new Tuple<NSObject, string> (target, senderAction.Name), out method))
-			    return;
+			if (!collection.TryGetValue(new Tuple<NSObject, string> (target, senderAction.Name), out method))
+				return;
 			method.Invoke (sender);
+		}
+
+		/// <summary>
+		/// Responds to an user item validation request
+		/// </summary>
+		/// <param name="sender">Sender object.</param>
+		/// <param name="target">Target object</param>
+		/// <remarks>
+		/// Returns true if the action does not exist on the target
+		/// </remarks>
+		public static bool Invoke (this CommandHandlerCollection<Func<NSObject, bool>> collection, NSObject sender, NSObject target)
+		{
+			Func<NSObject, bool> method;
+			var senderType = sender.GetType ();
+			var senderActionProperty = senderType.GetProperty ("Action");
+			if (senderActionProperty == null)
+				return true;
+			var senderAction = senderActionProperty.GetValue (sender, null) as Selector;
+			if (!collection.TryGetValue(new Tuple<NSObject, string> (target, senderAction.Name), out method))
+				return true;
+			return method.Invoke (sender);
 		}
 	}
 }

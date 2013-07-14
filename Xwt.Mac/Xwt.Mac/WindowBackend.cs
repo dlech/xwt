@@ -83,16 +83,21 @@ namespace Xwt.Mac
 			this.eventSink = eventSink;
 		}
 
-
 		public bool RespondsToCommand(Command Command)
 		{
 			var commandBackend = Command.GetBackend () as CommandBackend;
 			return RespondsToSelector (commandBackend.action);
 		}		
 
-		public void OnCommandActivated(NSObject sender)
+		public void OnCommandActivated (NSObject sender)
 		{
-			CommandManager.Handlers.Invoke (sender, this);
+			CommandManager.ActivationHandlers.Invoke (sender, this);
+		}
+
+		[Export("validateUserInterfaceItem:")]
+		public bool ValidateUserInterfaceItem (NSObject item)
+		{
+			return CommandManager.StatusRequestHandlers.Invoke (item, this);
 		}
 		
 		public ApplicationContext ApplicationContext {
