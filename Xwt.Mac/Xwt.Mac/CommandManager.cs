@@ -45,12 +45,13 @@ namespace Xwt.Mac
 		public static CommandHandlerCollection<Func<NSObject, bool>> StatusRequestHandlers { get { return statusRequestHandlers; } }
 
 		/// <summary>
-		/// Inspects frontend for methods with <see cref="Xwt.CommandHandlerAttribute"/> and binds those methods to the backend
+		/// Inspects frontend for methods with <see cref="Xwt.CommandHandlerAttribute"/> and
+		/// <see cref="Xwt.CommandStatsRequestHandlerAttribute"/> and binds those methods to the backend
 		/// </summary>
 		/// <param name="frontend">Frontend.</param>
 		/// <param name="backend">Backend. Must also implement <see cref="Xwt.Mac.IViewObject"/></param>
 		/// <remarks>
-		/// Backend must contain these methods
+		/// Backend must contain exactly these methods
 		/// <example>
 		/// public void OnCommandActivated (NSObject sender)
 		/// {
@@ -68,9 +69,10 @@ namespace Xwt.Mac
 		{
 			var frontendType = frontend.GetType ();
 			foreach (var method in frontendType.GetMethods ()) {
-				// have to copy reference from indexer so that we can use it in later in anonymous method 
-				var methodRef = method;
+				var commandHandlerDelegate = Delegate.CreateDelegate (typeof(CommandHandler), frontend, method, false);
 				foreach (CommandHandlerAttribute attribute in method.GetCustomAttributes(typeof(CommandHandlerAttribute), true)) {
+					if (commandHandlerDelegate == null)
+						throw new ArgumentException ("method with CommandHanderAttribute must implement CommandHandler delegate");
 					var commandBackend = attribute.Command.GetBackend () as CommandBackend;
 					var key = new Tuple<NSObject, string> (backend, commandBackend.action.Name);
 					if (ActivationHandlers.ContainsKey (key))
@@ -79,12 +81,15 @@ namespace Xwt.Mac
 					if (methodInfo == null)
 						throw new ArgumentException ("backend must have public method void OnCommandActivated(NSObject)");
 					Action<NSObject> nativeHandler = (sender) => {
-						methodRef.Invoke (frontend, null);
+						commandHandlerDelegate.DynamicInvoke (null);
 					};
 					Runtime.ConnectMethod (methodInfo, commandBackend.action);
 					ActivationHandlers.Add (backend, commandBackend.action, nativeHandler);
 				}
+				var commandStatusRequestHandlerDelegate = Delegate.CreateDelegate (typeof(CommandStatusRequestHandler), frontend, method, false);
 				foreach (CommandStatusRequestHandlerAttribute attribute in method.GetCustomAttributes(typeof(CommandStatusRequestHandlerAttribute), true)) {
+					if (commandStatusRequestHandlerDelegate == null)
+						throw new ArgumentException ("method with CommandStatusRequestHanderAttribute must implement CommandStatusRequestHandler delegate");
 					var commandBackend = attribute.Command.GetBackend () as CommandBackend;
 					var key = new Tuple<NSObject, string> (backend, commandBackend.action.Name);
 					if (StatusRequestHandlers.ContainsKey (key))
@@ -93,7 +98,7 @@ namespace Xwt.Mac
 					if (methodInfo == null)
 						throw new ArgumentException ("backend must have public method void OnCommandActivated(NSObject)");
 					Func<NSObject, bool> nativeHandler = (sender) => {
-						return (bool)methodRef.Invoke (frontend, null);
+						return (bool)commandStatusRequestHandlerDelegate.DynamicInvoke (null);
 					};
 					StatusRequestHandlers.Add (backend, commandBackend.action, nativeHandler);
 				}
