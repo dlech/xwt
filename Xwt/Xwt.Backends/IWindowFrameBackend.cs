@@ -60,8 +60,7 @@ namespace Xwt.Backends
 		bool ShowInTaskbar { get; set; }
 		void SetTransientFor (IWindowFrameBackend window);
 		bool Resizable { get; set; }
-
-		WindowPosition StartPosition { get; set; }
+		double Opacity { get; set; }
 
 		void SetIcon (ImageDescription image);
 		

@@ -250,6 +250,18 @@ namespace Xwt.GtkBackend
 			win.Window = (Gtk.Window) nativeWindow;
 			return win;
 		}
+
+		public override object GetBackendForImage (object nativeImage)
+		{
+			if (nativeImage is Gdk.Pixbuf)
+				return new GtkImage ((Gdk.Pixbuf)nativeImage);
+			else if (nativeImage is string)
+				return new GtkImage ((string)nativeImage);
+			else if (nativeImage is GtkImage)
+				return nativeImage;
+			else
+				throw new NotSupportedException ();
+		}
 		
 		public override object GetNativeParentWindow (Widget w)
 		{
@@ -287,6 +299,24 @@ namespace Xwt.GtkBackend
 				return new GtkImage (Gdk.Pixbuf.FromDrawable (win, Colormap.System, w.Allocation.X, w.Allocation.Y, 0, 0, w.Allocation.Width, w.Allocation.Height));
 			else
 				throw new InvalidOperationException ();
+		}
+
+		public override void RenderImage (object nativeWidget, object nativeContext, ImageDescription img, double x, double y)
+		{
+			GtkImage gim = (GtkImage)img.Backend;
+			Cairo.Context ctx = nativeContext as Cairo.Context;
+			Gtk.Widget w = (Gtk.Widget)nativeWidget;
+			if (ctx != null)
+				gim.Draw (ApplicationContext, ctx, Util.GetScaleFactor (w), x, y, img);
+		}
+
+		public override ToolkitFeatures SupportedFeatures {
+			get {
+				var f = ToolkitFeatures.All & ~ToolkitFeatures.WidgetOpacity;
+				if (Platform.IsWindows)
+					f &= ~ToolkitFeatures.WindowOpacity;
+				return f;
+			}
 		}
 	}
 	

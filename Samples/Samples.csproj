@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -80,7 +80,6 @@
     <Compile Include="MainWindow.cs">
       <DeployService-Deploy>True</DeployService-Deploy>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App.cs">
       <DeployService-Deploy>True</DeployService-Deploy>
@@ -187,27 +186,15 @@
     <Compile Include="Samples\PopoverSample.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Samples\ScreensSample.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Samples\ImageScaling.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Samples\RadioButtonSample.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Samples\WidgetRendering.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Samples\ScrollbarSample.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Samples\DatePickerSample.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Samples\SliderSample.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Samples\ScreensSample.cs" />
+    <Compile Include="Samples\ImageScaling.cs" />
+    <Compile Include="Samples\RadioButtonSample.cs" />
+    <Compile Include="Samples\WidgetRendering.cs" />
+    <Compile Include="Samples\ScrollbarSample.cs" />
+    <Compile Include="Samples\DatePickerSample.cs" />
+    <Compile Include="Samples\SliderSample.cs" />
+    <Compile Include="Samples\ListView2.cs" />
+    <Compile Include="Samples\OpacitySample.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

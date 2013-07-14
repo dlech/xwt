@@ -1,10 +1,10 @@
 //
-// CustomCellRendererToggle.cs
+// Tweener.cs
 //
 // Author:
-//       Lluis Sanchez <lluis@xamarin.com>
+//       Jason Smith <jason.smith@xamarin.com>
 //
-// Copyright (c) 2013 Xamarin Inc.
+// Copyright (c) 2012 Xamarin Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,47 +23,17 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
-using Gtk;
-using Xwt.Backends;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-namespace Xwt.GtkBackend
+namespace Xwt.Motion
 {
-	public class CustomCellRendererToggle: Gtk.CellRendererToggle, ICellDataSource
+	public interface IAnimatable
 	{
-		ICheckBoxCellViewFrontend view;
-		TreeModel treeModel;
-		TreeIter iter;
-
-		public CustomCellRendererToggle (ICheckBoxCellViewFrontend view)
-		{
-			this.view = view;
-		}
-
-		public void LoadData (TreeModel treeModel, TreeIter iter)
-		{
-			this.treeModel = treeModel;
-			this.iter = iter;
-			view.Initialize (this);
-
-			Active = view.Active;
-			Activatable = view.Editable;
-		}
-
-		public object GetValue (IDataField field)
-		{
-			return CellUtil.GetModelValue (treeModel, iter, field.Index);
-		}
-
-		protected override void OnToggled (string path)
-		{
-			if (!view.RaiseToggled () && view.ActiveField != null) {
-				Gtk.TreeIter iter;
-				if (treeModel.GetIterFromString (out iter, path))
-					CellUtil.SetModelValue (treeModel, iter, view.ActiveField.Index, view.ActiveField.FieldType, !Active);
-			}
-			base.OnToggled (path);
-		}
+		void BatchBegin ();
+		void BatchCommit ();
 	}
+	
 }
-

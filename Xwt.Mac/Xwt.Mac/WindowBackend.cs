@@ -132,6 +132,11 @@ namespace Xwt.Mac
 			}
 		}
 
+		public double Opacity {
+			get { return AlphaValue; }
+			set { AlphaValue = (float)value; }
+		}
+
 		public bool Sensitive {
 			get {
 				return sensitive;
@@ -446,9 +451,6 @@ namespace Xwt.Mac
 			if (windowMenu != null)
 				app.WindowsMenu = windowMenu;
 		}
-
-		// TODO: implement me
-		public WindowPosition StartPosition { get; set; }
 
 		public virtual bool HandlesCommand (Command command)
 		{

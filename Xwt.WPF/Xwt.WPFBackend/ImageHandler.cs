@@ -75,7 +75,7 @@ namespace Xwt.WPFBackend
 			return new WpfImage (drawCallback);
 		}
 
-		public override object CreateMultiSizeImage (System.Collections.Generic.IEnumerable<object> images)
+		public override object CreateMultiResolutionImage (System.Collections.Generic.IEnumerable<object> images)
 		{
 			return new WpfImage (images.Cast<WpfImage> ().Select (i => i.Frames[0]));
 		}
@@ -101,7 +101,7 @@ namespace Xwt.WPFBackend
 			var img3 = RenderStockIcon (id, NativeStockIconOptions.ShellSize);
 			var img4 = RenderStockIcon (id, default (NativeStockIconOptions));
 
-			return ApplicationContext.Toolkit.WrapImage (CreateMultiSizeImage (new object[] { img1, img2, img3, img4 }));
+			return ApplicationContext.Toolkit.WrapImage (CreateMultiSizeIcon (new object[] { img1, img2, img3, img4 }));
 		}
 
 		object RenderStockIcon (string id, NativeStockIconOptions options)

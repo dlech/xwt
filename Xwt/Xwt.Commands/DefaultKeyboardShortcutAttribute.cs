@@ -1,10 +1,10 @@
 //
-// CustomCellRendererToggle.cs
+// DefaultKeyboardShortcutAttribute.cs
 //
 // Author:
-//       Lluis Sanchez <lluis@xamarin.com>
+//       David Lechner <david@lechnology.com>
 //
-// Copyright (c) 2013 Xamarin Inc.
+// Copyright (c) 2013 David Lechner
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,45 +24,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using Gtk;
-using Xwt.Backends;
 
-namespace Xwt.GtkBackend
+namespace Xwt.Commands
 {
-	public class CustomCellRendererToggle: Gtk.CellRendererToggle, ICellDataSource
+	public class DefaultKeyboardShortcutAttribute
 	{
-		ICheckBoxCellViewFrontend view;
-		TreeModel treeModel;
-		TreeIter iter;
-
-		public CustomCellRendererToggle (ICheckBoxCellViewFrontend view)
+		public DefaultKeyboardShortcutAttribute ()
 		{
-			this.view = view;
-		}
-
-		public void LoadData (TreeModel treeModel, TreeIter iter)
-		{
-			this.treeModel = treeModel;
-			this.iter = iter;
-			view.Initialize (this);
-
-			Active = view.Active;
-			Activatable = view.Editable;
-		}
-
-		public object GetValue (IDataField field)
-		{
-			return CellUtil.GetModelValue (treeModel, iter, field.Index);
-		}
-
-		protected override void OnToggled (string path)
-		{
-			if (!view.RaiseToggled () && view.ActiveField != null) {
-				Gtk.TreeIter iter;
-				if (treeModel.GetIterFromString (out iter, path))
-					CellUtil.SetModelValue (treeModel, iter, view.ActiveField.Index, view.ActiveField.FieldType, !Active);
-			}
-			base.OnToggled (path);
 		}
 	}
 }

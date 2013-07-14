@@ -111,6 +111,9 @@ namespace Xwt.WPFBackend
 			RegisterBackend<IRadioButtonBackend, RadioButtonBackend>();
 			RegisterBackend<ISpinButtonBackend, SpinButtonBackend>();
 			RegisterBackend<ICommandBackend, CommandBackend> ();
+			RegisterBackend<ISliderBackend, SliderBackend> ();
+			RegisterBackend<IScrollbarBackend, ScrollbarBackend> ();
+			RegisterBackend<IEmbeddedWidgetBackend, EmbedNativeWidgetBackend>();
 		}
 
 		public override void DispatchPendingEvents()

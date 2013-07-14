@@ -35,11 +35,12 @@ using Xwt.Drawing;
 using System.Reflection;
 using System.Xaml;
 using System.Linq;
+using Xwt.Motion;
 
 namespace Xwt
 {
 	[BackendType (typeof(IWidgetBackend))]
-	public abstract class Widget: XwtUiComponent, IWidgetSurface
+	public abstract class Widget: XwtUiComponent, IWidgetSurface, IAnimatable
 	{
 		static bool DebugWidgetLayout = false;
 		static int DebugWidgetLayoutIndent = 0;
@@ -448,7 +449,7 @@ namespace Xwt
 		{
 			Visible = false;
 		}
-	
+
 		[DefaultValue (true)]
 		public bool Visible {
 			get { return Backend.Visible; }
@@ -475,6 +476,12 @@ namespace Xwt
 			get { return Backend.HasFocus; }
 		}
 		
+		[DefaultValue (1d)]
+		public double Opacity {
+			get { return Backend.Opacity; }
+			set { Backend.Opacity = value; }
+		}
+
 		[DefaultValue (null)]
 		public string Name { get; set; }
 		
@@ -1250,6 +1257,14 @@ namespace Xwt
 				((XwtWidgetBackend)w.Backend).Parent = null;
 		}
 		
+		void IAnimatable.BatchBegin ()
+		{
+		}
+
+		void IAnimatable.BatchCommit ()
+		{
+		}
+
 		/// <summary>
 		/// Raised when the mouse is moved over the widget in a drag&drop operation
 		/// </summary>

@@ -1,10 +1,10 @@
 //
-// CustomCellRendererToggle.cs
+// CommandHandlerAttribute.cs
 //
 // Author:
-//       Lluis Sanchez <lluis@xamarin.com>
+//       David Lechner <david@lechnology.com>
 //
-// Copyright (c) 2013 Xamarin Inc.
+// Copyright (c) 2013 David Lechner
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,47 +23,50 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
-using Gtk;
-using Xwt.Backends;
 
-namespace Xwt.GtkBackend
+namespace Xwt
 {
-	public class CustomCellRendererToggle: Gtk.CellRendererToggle, ICellDataSource
+	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
+	public class CommandHandlerAttribute : Attribute
 	{
-		ICheckBoxCellViewFrontend view;
-		TreeModel treeModel;
-		TreeIter iter;
+		Enum command;
 
-		public CustomCellRendererToggle (ICheckBoxCellViewFrontend view)
+		public CommandHandlerAttribute (object command)
 		{
-			this.view = view;
+			this.command = (Enum)command;
 		}
 
-		public void LoadData (TreeModel treeModel, TreeIter iter)
+		public Command Command
 		{
-			this.treeModel = treeModel;
-			this.iter = iter;
-			view.Initialize (this);
-
-			Active = view.Active;
-			Activatable = view.Editable;
-		}
-
-		public object GetValue (IDataField field)
-		{
-			return CellUtil.GetModelValue (treeModel, iter, field.Index);
-		}
-
-		protected override void OnToggled (string path)
-		{
-			if (!view.RaiseToggled () && view.ActiveField != null) {
-				Gtk.TreeIter iter;
-				if (treeModel.GetIterFromString (out iter, path))
-					CellUtil.SetModelValue (treeModel, iter, view.ActiveField.Index, view.ActiveField.FieldType, !Active);
+			get 
+			{
+				return Command.GetCommandForId(command);
 			}
-			base.OnToggled (path);
 		}
 	}
+
+	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
+	public class CommandStatusRequestHandlerAttribute : Attribute
+	{
+		Enum command;
+
+		public CommandStatusRequestHandlerAttribute (object command)
+		{
+			this.command = (Enum)command;
+		}
+
+		public Command Command
+		{
+			get 
+			{
+				return Command.GetCommandForId(command);
+			}
+		}
+	}
+
+	public delegate void CommandHandler();
+	public delegate bool CommandStatusRequestHandler();
 }
 

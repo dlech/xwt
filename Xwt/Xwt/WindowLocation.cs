@@ -1,5 +1,5 @@
 //
-// CustomCellRendererToggle.cs
+// WindowLocation.cs
 //
 // Author:
 //       Lluis Sanchez <lluis@xamarin.com>
@@ -24,46 +24,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using Gtk;
-using Xwt.Backends;
 
-namespace Xwt.GtkBackend
+namespace Xwt
 {
-	public class CustomCellRendererToggle: Gtk.CellRendererToggle, ICellDataSource
+	public enum WindowLocation
 	{
-		ICheckBoxCellViewFrontend view;
-		TreeModel treeModel;
-		TreeIter iter;
+		/// <summary>
+		/// The window is placed in the coordinates specified in the window bounds
+		/// </summary>
+		Manual,
 
-		public CustomCellRendererToggle (ICheckBoxCellViewFrontend view)
-		{
-			this.view = view;
-		}
+		/// <summary>
+		/// The window is centered on the parent, or on the screen if it doesn't have a parent
+		/// </summary>
+		CenterParent,
 
-		public void LoadData (TreeModel treeModel, TreeIter iter)
-		{
-			this.treeModel = treeModel;
-			this.iter = iter;
-			view.Initialize (this);
-
-			Active = view.Active;
-			Activatable = view.Editable;
-		}
-
-		public object GetValue (IDataField field)
-		{
-			return CellUtil.GetModelValue (treeModel, iter, field.Index);
-		}
-
-		protected override void OnToggled (string path)
-		{
-			if (!view.RaiseToggled () && view.ActiveField != null) {
-				Gtk.TreeIter iter;
-				if (treeModel.GetIterFromString (out iter, path))
-					CellUtil.SetModelValue (treeModel, iter, view.ActiveField.Index, view.ActiveField.FieldType, !Active);
-			}
-			base.OnToggled (path);
-		}
+		/// <summary>
+		/// The window is centered on the screen
+		/// </summary>
+		CenterScreen
 	}
 }
 

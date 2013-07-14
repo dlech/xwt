@@ -34,14 +34,31 @@ namespace Xwt.GtkBackend
 	{
 		const string actionGroupName = "Default";
 
+		Gtk.Window window;
 		IWindowFrameEventSink eventSink;
 		WindowFrame frontend;
 		Size requestedSize;
 
-		public WindowFrameBackend () { }
+		public WindowFrameBackend ()
+		{
+		}
 		
-		public Gtk.Window Window { get; set; }
+		public Gtk.Window Window {
+			get { return window; }
+			set {
+				if (window != null)
+					window.Realized -= HandleRealized;
+				window = value;
+				window.Realized += HandleRealized;
+			}
+		}
 
+		void HandleRealized (object sender, EventArgs e)
+		{
+			if (opacity != 1d)
+				window.GdkWindow.Opacity = opacity;
+		}
+		
 		protected WindowFrame Frontend {
 			get { return frontend; }
 		}
@@ -140,10 +157,22 @@ namespace Xwt.GtkBackend
 
 		bool IWindowFrameBackend.Visible {
 			get {
-				return Window.Visible;
+				return window.Visible;
 			}
 			set {
-				Window.Visible = value;
+				window.Visible = value;
+			}
+		}
+
+		double opacity = 1d;
+		double IWindowFrameBackend.Opacity {
+			get {
+				return opacity;
+			}
+			set {
+				opacity = value;
+				if (Window.GdkWindow != null)
+					Window.GdkWindow.Opacity = value;
 			}
 		}
 
@@ -210,35 +239,6 @@ namespace Xwt.GtkBackend
 		{
 			// TODO
 		}
-
-		public WindowPosition StartPosition
-		{
-			get
-			{
-				switch (Window.WindowPosition) {
-					case Gtk.WindowPosition.Center:
-						return WindowPosition.CenterScreen;
-					case Gtk.WindowPosition.CenterOnParent:
-						return WindowPosition.CenterParent;
-					default:
-						return WindowPosition.Manual;
-				}
-			}
-			set {
-				switch (value) {
-					case WindowPosition.Manual:
-						Window.WindowPosition = Gtk.WindowPosition.None;
-						break;
-					case WindowPosition.CenterScreen:
-						Window.WindowPosition = Gtk.WindowPosition.Center;
-						break;
-					case WindowPosition.CenterParent:
-						Window.WindowPosition = Gtk.WindowPosition.CenterOnParent;
-						break;
-				}
-			}
-		}
-
 		#endregion
 
 		public virtual void EnableEvent (object ev)

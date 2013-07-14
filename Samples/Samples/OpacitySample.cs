@@ -1,5 +1,5 @@
 //
-// CustomCellRendererToggle.cs
+// OpacitySample.cs
 //
 // Author:
 //       Lluis Sanchez <lluis@xamarin.com>
@@ -24,45 +24,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using Gtk;
-using Xwt.Backends;
+using Xwt;
 
-namespace Xwt.GtkBackend
+namespace Samples
 {
-	public class CustomCellRendererToggle: Gtk.CellRendererToggle, ICellDataSource
+	public class OpacitySample: VBox
 	{
-		ICheckBoxCellViewFrontend view;
-		TreeModel treeModel;
-		TreeIter iter;
-
-		public CustomCellRendererToggle (ICheckBoxCellViewFrontend view)
+		public OpacitySample ()
 		{
-			this.view = view;
-		}
+			bool transparent = false;
 
-		public void LoadData (TreeModel treeModel, TreeIter iter)
-		{
-			this.treeModel = treeModel;
-			this.iter = iter;
-			view.Initialize (this);
-
-			Active = view.Active;
-			Activatable = view.Editable;
-		}
-
-		public object GetValue (IDataField field)
-		{
-			return CellUtil.GetModelValue (treeModel, iter, field.Index);
-		}
-
-		protected override void OnToggled (string path)
-		{
-			if (!view.RaiseToggled () && view.ActiveField != null) {
-				Gtk.TreeIter iter;
-				if (treeModel.GetIterFromString (out iter, path))
-					CellUtil.SetModelValue (treeModel, iter, view.ActiveField.Index, view.ActiveField.FieldType, !Active);
+			Button b = new Button ("Toggle Widget Opacity");
+			if (!Toolkit.CurrentEngine.SupportedFeatures.HasFlag (ToolkitFeatures.WidgetOpacity)) {
+				b.Label += ": Not supported";
+				b.Sensitive = false;
 			}
-			base.OnToggled (path);
+			b.Clicked += delegate {
+				if (transparent) {
+					b.Opacity = 1;
+				}
+				else {
+					b.Opacity = 0.5;
+				}
+				transparent = !transparent;
+			};
+			PackStart (b);
+
+			bool winTransparent = false;
+
+			Button bw = new Button ("Toggle Window Opacity");
+			if (!Toolkit.CurrentEngine.SupportedFeatures.HasFlag (ToolkitFeatures.WindowOpacity)) {
+				bw.Label += ": Not supported";
+				bw.Sensitive = false;
+			}
+			bw.Clicked += delegate {
+				if (winTransparent) {
+					ParentWindow.Opacity = 1;
+				}
+				else {
+					ParentWindow.Opacity = 0.5;
+				}
+				winTransparent = !winTransparent;
+			};
+			PackStart (bw);
 		}
 	}
 }

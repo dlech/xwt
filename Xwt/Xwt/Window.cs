@@ -37,7 +37,7 @@ namespace Xwt
 		WidgetSpacing padding;
 		Menu mainMenu, servicesMenu, windowMenu;
 		bool shown;
-		
+
 		protected new class WindowBackendHost: WindowFrame.WindowBackendHost
 		{
 		}
@@ -59,7 +59,12 @@ namespace Xwt
 		IWindowBackend Backend {
 			get { return (IWindowBackend) BackendHost.Backend; } 
 		}
-		
+
+		public WindowLocation InitialLocation {
+			get { return initialLocation; }
+			set { initialLocation = value; }
+		}
+
 		public WidgetSpacing Padding {
 			get { return padding; }
 			set {
@@ -98,12 +103,6 @@ namespace Xwt
 				padding.Bottom = value;
 				UpdatePadding (); 
 			}
-		}
-
-		public WindowPosition StartPosition
-		{
-			get { return Backend.StartPosition; }
-			set { Backend.StartPosition = value; }
 		}
 
 		void UpdatePadding ()
@@ -167,6 +166,7 @@ namespace Xwt
 		bool heightSet;
 		bool locationSet;
 		Rectangle initialBounds;
+		WindowLocation initialLocation = WindowLocation.CenterParent;
 
 		internal override void SetBackendSize (double width, double height)
 		{
@@ -248,6 +248,17 @@ namespace Xwt
 
 			if (!shown) {
 				shown = true;
+
+				if (!locationSet && initialLocation != WindowLocation.Manual) {
+					Point center;
+					if (initialLocation == WindowLocation.CenterScreen || TransientFor == null)
+						center = Desktop.PrimaryScreen.VisibleBounds.Center;
+					else
+						center = TransientFor.ScreenBounds.Center;
+					initialBounds.X = center.X - size.Width / 2;
+					initialBounds.Y = center.Y - size.Height / 2;
+					locationSet = true;
+				}
 	
 				if (size != Size) {
 					if (locationSet)

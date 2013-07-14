@@ -186,6 +186,12 @@ namespace Xwt.WPFBackend
 			}
 		}
 
+		public double Opacity
+		{
+			get { return window.Opacity; }
+			set { window.Opacity = value; }
+		}
+
 		void IWindowFrameBackend.Present ()
 		{
 			window.Activate ();
