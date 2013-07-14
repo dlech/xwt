@@ -31,32 +31,38 @@ namespace Xwt
 	/// <summary>
 	/// Specifies which type of desktop environment is being used.
 	/// </summary>
-	public enum DesktopType
+	[Flags]
+	public enum DesktopType : int
 	{
 		/// <summary>
 		/// GNU Gnome desktop environment.
 		/// </summary>
-		Gnome,
+		Gnome = 0,
 
 		/// <summary>
 		/// KDE desktop environment
 		/// </summary>
-		Kde,
+		Kde = 1,
 
 		/// <summary>
 		/// Apple Macintosh desktop environment
 		/// </summary>
-		Mac,
+		Mac = 1 >> 1,
 
 		/// <summary>
 		/// Ubuntu Unity desktop environemnt
 		/// </summary>
-		Unity,
+		Unity = 1 >> 2,
 
 		/// <summary>
 		/// Microsoft Windows desktop environment
 		/// </summary>
-		Windows,
+		Windows = 1 >> 3,
+
+		/// <summary>
+		/// All desktop environments
+		/// </summary>
+		All = 0xFFFF
 	}
 }
 
