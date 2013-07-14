@@ -49,7 +49,7 @@ namespace Xwt
 		}
 		public static void ShowError (WindowFrame parent, string primaryText, string secondaryText)
 		{
-			GenericAlert (parent, StockIcons.Error, primaryText, secondaryText, StockCommands.Ok);
+			GenericAlert (parent, StockIcons.Error, primaryText, secondaryText, Command.Dialog.Ok);
 		}
 		#endregion
 		
@@ -68,7 +68,7 @@ namespace Xwt
 		}
 		public static void ShowWarning (WindowFrame parent, string primaryText, string secondaryText)
 		{
-			GenericAlert (parent, StockIcons.Warning, primaryText, secondaryText, StockCommands.Ok);
+			GenericAlert (parent, StockIcons.Warning, primaryText, secondaryText, Command.Dialog.Ok);
 		}
 		#endregion
 		
@@ -87,7 +87,7 @@ namespace Xwt
 		}
 		public static void ShowMessage (WindowFrame parent, string primaryText, string secondaryText)
 		{
-			GenericAlert (parent, StockIcons.Information, primaryText, secondaryText, StockCommands.Ok);
+			GenericAlert (parent, StockIcons.Information, primaryText, secondaryText, Command.Dialog.Ok);
 		}
 		#endregion
 
@@ -122,7 +122,7 @@ namespace Xwt
 		/// </remarks>
 		public static bool Confirm (string primaryText, string secondaryText)
 		{
-			return Confirm (primaryText, secondaryText, StockCommands.Ok);
+			return Confirm (primaryText, secondaryText, Command.Dialog.Ok);
 		}
 
 		/// <summary>
@@ -167,7 +167,7 @@ namespace Xwt
 		public static bool Confirm (string primaryText, string secondaryText, Command confirmCommand)
 		{
 			var result = GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText,
-			                           StockCommands.Cancel, confirmCommand);
+			                           Command.Dialog.Cancel, confirmCommand);
 			return ReferenceEquals (result, confirmCommand);
 		}
 
@@ -221,7 +221,7 @@ namespace Xwt
 		public static bool Confirm (string primaryText, string secondaryText, Command confirmCommand, bool confirmIsDefault)
 		{
 			var result = GenericAlert (RootWindow, StockIcons.Question, primaryText, secondaryText,
-			                           confirmIsDefault ? 0 : 1, StockCommands.Cancel, confirmCommand);
+			                           confirmIsDefault ? 0 : 1, Command.Dialog.Cancel, confirmCommand);
 			return ReferenceEquals (result, confirmCommand);
 		}
 		
@@ -420,7 +420,7 @@ namespace Xwt
 		public ConfirmationMessage ()
 		{
 			Icon = StockIcons.Question;
-			var cancelCommand = StockCommands.Cancel;
+			var cancelCommand = Command.Dialog.Cancel;
 			ButtonCommands.Add (cancelCommand);
 			CancelCommand = cancelCommand;
 		}

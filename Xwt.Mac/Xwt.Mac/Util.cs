@@ -347,6 +347,8 @@ namespace Xwt.Mac
 		/// </remarks>
 		public static string RemoveMnemonics(this string str)
 		{
+			if (str == null)
+				return null;
 			string newText = string.Empty;
 			for (int i = 0; i < str.Length; i++) {
 				if (str [i] != '_')

@@ -50,6 +50,21 @@ namespace Xwt
 			InsertItem (index, new SeparatorMenuItem ());
 		}
 
+		/// <Docs>The item to add to the current collection.</Docs>
+		/// <para>Adds an item to the current collection.</para>
+		/// <remarks>
+		/// Convience method for adding command menu items to a menu.
+		/// Creates a new <see cref="Xwt.MenuItem"/> from the command's properites
+		/// </remarks>
+		/// <summary>
+		/// Add the specified command.
+		/// </summary>
+		/// <param name="command">Command.</param>
+		public void Add(Command command)
+		{
+			Add (command.CreateMenuItem ());
+		}
+
 		internal MenuItemCollection (Menu parent)
 		{
 			this.parent = parent;

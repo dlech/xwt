@@ -56,12 +56,12 @@ namespace Samples
 
 				/* App > About App */
 
-				appMenu.SubMenu.Items.Add (StockCommands.About.CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (Command.App.About);
 				appMenu.SubMenu.Items.AddSeparator ();
 
 				/* App > Preferences... */
 
-				appMenu.SubMenu.Items.Add (StockCommands.Preferences.CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (Command.App.Preferences);
 				appMenu.SubMenu.Items.AddSeparator ();
 
 				/* App > Services */
@@ -75,62 +75,62 @@ namespace Samples
 				appMenu.SubMenu.Items.AddSeparator ();
 
 				/* App > Hide App */
-				appMenu.SubMenu.Items.Add (StockCommands.HideApplication.CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (Command.App.Hide);
 				
 				/* App > Hide Others */
-				appMenu.SubMenu.Items.Add (StockCommands.HideOtherApplications.CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (Command.App.HideOthers);
 				
 				/* App > Show All */
-				appMenu.SubMenu.Items.Add (StockCommands.UnhideAllApplications.CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (Command.App.UnhideAll);
 				appMenu.SubMenu.Items.AddSeparator ();
 				
 				/* App > Quit App */
-				appMenu.SubMenu.Items.Add (StockCommands.Quit.CreateMenuItem ());
+				appMenu.SubMenu.Items.Add (Command.App.Quit);
 			}
 
 			/* File Menu */
 
 			var fileMenu = new MenuItem ("File");
 			fileMenu.SubMenu = new Menu ();
-			fileMenu.SubMenu.Items.Add (StockCommands.New.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.Open.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (Command.File.New);
+			fileMenu.SubMenu.Items.Add (Command.File.Open);
 			var openRecent = new MenuItem ("Open Recent");
 			openRecent.SubMenu = new Menu ();
 			fileMenu.SubMenu.Items.Add (openRecent);
 			fileMenu.SubMenu.Items.AddSeparator ();
-			fileMenu.SubMenu.Items.Add (StockCommands.Close.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.CloseAll.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.Save.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.Duplicate.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.Export.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.SaveAll.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.Revert.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (Command.File.Close);
+			fileMenu.SubMenu.Items.Add (Command.File.CloseAll);
+			fileMenu.SubMenu.Items.Add (Command.File.Save);
+			fileMenu.SubMenu.Items.Add (Command.File.Duplicate);
+			fileMenu.SubMenu.Items.Add (Command.File.Export);
+			fileMenu.SubMenu.Items.Add (Command.File.SaveAll);
+			fileMenu.SubMenu.Items.Add (Command.File.Revert);
 			fileMenu.SubMenu.Items.AddSeparator ();
-			fileMenu.SubMenu.Items.Add (StockCommands.Print.CreateMenuItem ());
-			fileMenu.SubMenu.Items.Add (StockCommands.PageSetup.CreateMenuItem ());
+			fileMenu.SubMenu.Items.Add (Command.File.Print);
+			fileMenu.SubMenu.Items.Add (Command.File.PageSetup);
 			if (!isMac) {
 				fileMenu.SubMenu.Items.AddSeparator ();
-				fileMenu.SubMenu.Items.Add (StockCommands.Quit.CreateMenuItem ());
+				fileMenu.SubMenu.Items.Add (Command.App.Quit);
 			}
 			mainMenu.Items.Add (fileMenu);
 			
 			var editMenu = new MenuItem ("Edit");
 			editMenu.SubMenu = new Menu ();
-			editMenu.SubMenu.Items.Add (StockCommands.Undo.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.Redo.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (Command.Edit.Undo);
+			editMenu.SubMenu.Items.Add (Command.Edit.Redo);
 			editMenu.SubMenu.Items.AddSeparator ();
-			editMenu.SubMenu.Items.Add (StockCommands.Cut.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.Copy.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.Paste.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.PasteAsText.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.Delete.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (Command.Edit.Cut);
+			editMenu.SubMenu.Items.Add (Command.Edit.Copy);
+			editMenu.SubMenu.Items.Add (Command.Edit.Paste);
+			editMenu.SubMenu.Items.Add (Command.Edit.PasteAsText);
+			editMenu.SubMenu.Items.Add (Command.Edit.Delete);
 			editMenu.SubMenu.Items.AddSeparator ();
-			editMenu.SubMenu.Items.Add (StockCommands.SelectAll.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (Command.Edit.SelectAll);
 			editMenu.SubMenu.Items.AddSeparator ();
-			editMenu.SubMenu.Items.Add (StockCommands.Find.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.FindNext.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.FindPrevious.CreateMenuItem ());
-			editMenu.SubMenu.Items.Add (StockCommands.Replace.CreateMenuItem ());
+			editMenu.SubMenu.Items.Add (Command.Edit.Find);
+			editMenu.SubMenu.Items.Add (Command.Edit.FindNext);
+			editMenu.SubMenu.Items.Add (Command.Edit.FindPrevious);
+			editMenu.SubMenu.Items.Add (Command.Edit.Replace);
 			mainMenu.Items.Add (editMenu);
 
 			/* View Menu */
@@ -148,8 +148,8 @@ namespace Samples
 			windowMenu.SubMenu = new Menu ();
 			WindowMenu = windowMenu.SubMenu;
 			if (isMac) {
-				windowMenu.SubMenu.Items.Add (StockCommands.Minimize.CreateMenuItem ());
-				windowMenu.SubMenu.Items.Add (StockCommands.Maximize.CreateMenuItem ());
+				windowMenu.SubMenu.Items.Add (Command.Window.Minimize);
+				windowMenu.SubMenu.Items.Add (Command.Window.Maximize);
 			}
 			mainMenu.Items.Add (windowMenu);
 
@@ -157,9 +157,9 @@ namespace Samples
 
 			var helpMenu = new MenuItem ("Help");
 			helpMenu.SubMenu = new Menu ();
-			helpMenu.SubMenu.Items.Add (StockCommands.Help.CreateMenuItem ());
+			helpMenu.SubMenu.Items.Add (Command.Misc.Help);
 			if (!isMac) {
-				helpMenu.SubMenu.Items.Add(StockCommands.About.CreateMenuItem ());
+				helpMenu.SubMenu.Items.Add(Command.App.About);
 			}
 			mainMenu.Items.Add (helpMenu);
 
@@ -242,18 +242,18 @@ namespace Samples
 			CloseRequested += HandleCloseRequested;
 		}
 
-		//[CommandHandler ("Open")]
+		[CommandHandler (StockCommands.File.Close)]
 		public void HandleOpenCommand ()
 		{
-			MessageDialog.ShowMessage ("Open Sesame!");
+			MessageDialog.ShowMessage ("Main Window!");
 		}
 
 		class TreeViewEx : TreeView
 		{
-			[CommandHandler ("Open")]
+			[CommandHandler (StockCommands.File.Close)]
 			public void HandleOpenCommand ()
 			{
-				MessageDialog.ShowMessage ("Open Sesame!");
+				MessageDialog.ShowMessage ("Tree View!");
 			}
 		}
 

@@ -31,11 +31,11 @@ namespace Xwt
 	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
 	public class CommandHandlerAttribute : Attribute
 	{
-		string command;
+		Enum command;
 
-		public CommandHandlerAttribute (string command)
+		public CommandHandlerAttribute (object command)
 		{
-			this.command = command;
+			this.command = (Enum)command;
 		}
 
 		public Command Command

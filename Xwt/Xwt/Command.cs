@@ -121,12 +121,20 @@ namespace Xwt
 		/// </summary>
 		/// <returns>The command.</returns>
 		/// <param name="id">Stock command identifier.</param>
-		public static Command GetCommandForId(StockCommandId id)
+		public static Command GetCommandForId(Enum id)
 		{
-			return GetCommandForId (id.ToString ());
+			return GetCommandForId (id.GetType().ToString ().Replace ('+', '.') + "." + id.ToString ());
 		}
 
 		public string Id { get; private set; }
+
+		public string ShortId 
+		{
+			get
+			{
+				return Id.Substring (Id.LastIndexOf ('.') + 1);
+			}
+		}
 
 		public string Label {
 			get { return Backend.Label; } 
@@ -150,34 +158,6 @@ namespace Xwt
 
 		public bool Visible { get; set; }
 
-		/// <summary>
-		/// Gets the stock command.
-		/// </summary>
-		/// <value>The stock command or <see cref="StockCommandId.NotAStockCommand"/>
-		/// if the command is not a stock command</value>
-		/// <remarks>
-		public StockCommandId StockCommand
-		{
-			get
-			{
-				var stockId = StockCommandId.NotAStockCommand;
-				Enum.TryParse<StockCommandId> (Id, out stockId);
-				return stockId;
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether this instance is stock command.
-		/// </summary>
-		/// <value><c>true</c> if this instance is stock command; otherwise, <c>false</c>.</value>
-		public bool IsStockCommand
-		{
-			get
-			{
-				return StockCommand != StockCommandId.NotAStockCommand;
-			}
-		}
-
 		ICommandBackend Backend
 		{
 			get { return (ICommandBackend)base.BackendHost.Backend; }
@@ -193,6 +173,107 @@ namespace Xwt
 		{
 			var buttonBackend = Backend.CreateButton ();
 			return Toolkit.CurrentEngine.Backend.CreateFrontend<Button> (buttonBackend);
+		}
+
+		/// <summary>Stock Application commands</summary>
+		/// <remarks>
+		/// These are commands that affect the application as a whole.
+		/// They are usually found on the App menu on Mac and scattered elsewhere
+		/// on other platforms.
+		/// </remarks>
+		public static class App
+		{
+			public static Command About { get { return GetCommandForId(StockCommands.App.About); } }
+			public static Command Hide { get { return GetCommandForId(StockCommands.App.Hide); } }
+			public static Command HideOthers { get { return GetCommandForId(StockCommands.App.HideOthers); } }
+			public static Command Preferences { get { return GetCommandForId(StockCommands.App.Preferences); } }
+			public static Command Quit { get { return GetCommandForId(StockCommands.App.Quit); } }
+			public static Command UnhideAll { get { return GetCommandForId(StockCommands.App.UnhideAll); } }
+		}
+
+		/// <summary>Stock File commands</summary>
+		/// <remarks>
+		/// These are commands that perform actions on the current file (document).
+		/// They are usually found in the File menu.
+		/// </remarks>
+		public static class File
+		{
+			public static Command Close { get { return GetCommandForId(StockCommands.File.Close); } }
+			public static Command CloseAll { get { return GetCommandForId(StockCommands.File.CloseAll); } }
+			public static Command Duplicate { get { return GetCommandForId(StockCommands.File.Duplicate); } }
+			public static Command Export { get { return GetCommandForId(StockCommands.File.Export); } }
+			public static Command Import { get { return GetCommandForId(StockCommands.File.Import); } }
+			public static Command New { get { return GetCommandForId(StockCommands.File.New); } }
+			public static Command Open { get { return GetCommandForId(StockCommands.File.Open); } }
+			public static Command PageSetup { get { return GetCommandForId(StockCommands.File.PageSetup); } }
+			public static Command Print { get { return GetCommandForId(StockCommands.File.Print); } }
+			public static Command PrintPreview { get { return GetCommandForId(StockCommands.File.PrintPreview); } }
+			public static Command Revert { get { return GetCommandForId(StockCommands.File.Revert); } }
+			public static Command Save { get { return GetCommandForId(StockCommands.File.Save); } }
+			public static Command SaveAll { get { return GetCommandForId(StockCommands.File.SaveAll); } }
+			public static Command SaveAs { get { return GetCommandForId(StockCommands.File.SaveAs); } }
+			public static Command SaveCopy { get { return GetCommandForId(StockCommands.File.SaveCopy); } }
+		}
+
+		/// <summary>Stock Edit commands</summary>
+		/// <remarks>
+		/// These are commands that perform actions on the current selection.
+		/// They are usually found in the Edit menu.
+		/// </remarks>
+		public static class Edit
+		{			
+			public static Command Clear { get { return GetCommandForId(StockCommands.Edit.Clear); } }
+			public static Command Copy { get { return GetCommandForId(StockCommands.Edit.Copy); } }
+			public static Command Cut { get { return GetCommandForId(StockCommands.Edit.Cut); } }
+			public static Command Delete { get { return GetCommandForId(StockCommands.Edit.Delete); } }
+			public static Command DeselectAll { get { return GetCommandForId(StockCommands.Edit.DeselectAll); } }
+			public static Command Find { get { return GetCommandForId(StockCommands.Edit.Find); } }
+			public static Command FindNext { get { return GetCommandForId(StockCommands.Edit.FindNext); } }
+			public static Command FindPrevious { get { return GetCommandForId(StockCommands.Edit.FindPrevious); } }
+			public static Command Paste { get { return GetCommandForId(StockCommands.Edit.Paste); } }
+			public static Command PasteAsText { get { return GetCommandForId(StockCommands.Edit.PasteAsText); } }
+			public static Command Redo { get { return GetCommandForId(StockCommands.Edit.Redo); } }
+			public static Command Replace { get { return GetCommandForId(StockCommands.Edit.Replace); } }
+			public static Command SelectAll { get { return GetCommandForId(StockCommands.Edit.SelectAll); } }
+			public static Command Undo { get { return GetCommandForId(StockCommands.Edit.Undo); } }
+		}
+
+		/// <summary>Stock Window commands</summary>
+		/// <remarks>
+		/// These are commands that perform actions on the current window.
+		/// They are usually found in the Window menu.
+		/// </remarks>
+		public static class Window
+		{
+			public static Command Maximize { get { return GetCommandForId(StockCommands.Window.Maximize); } }
+			public static Command Minimize { get { return GetCommandForId(StockCommands.Window.Minimize); } }
+		}
+
+		/// <summary>Stock Dialog commands</summary>
+		/// <remarks>
+		/// These are commands that perform actions on the current dialog.
+		/// They are usually represented as buttons in a dialog box.
+		/// </remarks>
+		public static class Dialog
+		{
+			public static Command Apply { get { return GetCommandForId(StockCommands.Dialog.Apply); } }
+			public static Command Cancel { get { return GetCommandForId(StockCommands.Dialog.Cancel); } }
+			public static Command No { get { return GetCommandForId(StockCommands.Dialog.No); } }
+			public static Command Ok { get { return GetCommandForId(StockCommands.Dialog.Ok); } }
+			public static Command Yes { get { return GetCommandForId(StockCommands.Dialog.Yes); } }
+		}
+
+		/// <summary>Miscellaneous stock commands</summary>
+		/// <remarks>
+		/// These are commands that perform miscellaneous actions.
+		/// </remarks>
+		public static class Misc
+		{
+			public static Command Add { get { return GetCommandForId(StockCommands.Misc.Add); } }
+			public static Command Help { get { return GetCommandForId(StockCommands.Misc.Help); } }
+			public static Command Properties { get { return GetCommandForId(StockCommands.Misc.Properties); } }
+			public static Command Remove { get { return GetCommandForId(StockCommands.Misc.Remove); } }
+			public static Command Stop { get { return GetCommandForId(StockCommands.Misc.Stop); } }
 		}
 	}
 }

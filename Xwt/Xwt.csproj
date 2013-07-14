@@ -439,7 +439,6 @@
     </Compile>
     <Compile Include="Xwt.Backends\ResourceManager.cs" />
     <Compile Include="Xwt.Backends\DisposableResourceBackendHandler.cs" />
-    <Compile Include="Xwt.Backends\StockCommandId.cs" />
     <Compile Include="Xwt\StockCommands.cs" />
     <Compile Include="Xwt\KeyboardShortcut.cs" />
     <Compile Include="Xwt\KeyboardShortcutSequence.cs" />
