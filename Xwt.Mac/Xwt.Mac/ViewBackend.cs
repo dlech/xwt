@@ -497,11 +497,9 @@ namespace Xwt.Mac
 		static Selector concludeDragOperationSel = new Selector ("concludeDragOperation:");
 		static Selector becomeFirstResponderSel = new Selector ("becomeFirstResponder");
 		static Selector resignFirstResponderSel = new Selector ("resignFirstResponder");
-		static Selector xwtPerformCommandSel = new Selector ("xwtPerformCommand:");
 
 		static HashSet<Type> typesConfiguredForDragDrop = new HashSet<Type> ();
 		static HashSet<Type> typesConfiguredForFocusEvents = new HashSet<Type> ();
-		static HashSet<Type> typesConfiguredAsCommandResponder = new HashSet<Type> ();
 
 		static void SetupForDragDrop (Type type)
 		{
@@ -527,22 +525,6 @@ namespace Xwt.Mac
 					c.AddMethod (resignFirstResponderSel, new Func<IntPtr,IntPtr,bool> (OnResignFirstResponder), "B@:");
 				}
 			}
-		}
-
-		static void SetupAsCommandResponder (Type type)
-		{
-			lock (typesConfiguredAsCommandResponder) {
-				if (typesConfiguredAsCommandResponder.Add (type)) {
-					Class c = new Class (type);
-					if (!c.AddMethod (xwtPerformCommandSel, new Action<IntPtr, IntPtr> (OnCommandActivated), "v@:"))
-						throw new Exception();
-				}
-			}
-		}
-
-		static void OnCommandActivated (IntPtr sender, IntPtr selector)
-		{
-
 		}
 
 		public void DragStart (DragStartData sdata)
