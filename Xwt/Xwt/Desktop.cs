@@ -50,7 +50,7 @@ namespace Xwt
 				DesktopType = DesktopType.Mac;
 				systemBackend = new MacSystemBackend ();
 			} else {
-				DesktopType = DesktopType.Linux;
+				DesktopType = DesktopType.Gnome;
 				systemBackend = new GnomeSystemBackend ();
 			}
 		}

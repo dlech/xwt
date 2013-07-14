@@ -23,15 +23,40 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 
 namespace Xwt
 {
+	/// <summary>
+	/// Specifies which type of desktop environment is being used.
+	/// </summary>
 	public enum DesktopType
 	{
-		Linux,
+		/// <summary>
+		/// GNU Gnome desktop environment.
+		/// </summary>
+		Gnome,
+
+		/// <summary>
+		/// KDE desktop environment
+		/// </summary>
+		Kde,
+
+		/// <summary>
+		/// Apple Macintosh desktop environment
+		/// </summary>
+		Mac,
+
+		/// <summary>
+		/// Ubuntu Unity desktop environemnt
+		/// </summary>
+		Unity,
+
+		/// <summary>
+		/// Microsoft Windows desktop environment
+		/// </summary>
 		Windows,
-		Mac
 	}
 }
 
