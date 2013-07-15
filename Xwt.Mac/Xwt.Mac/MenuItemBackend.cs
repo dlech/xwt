@@ -25,10 +25,10 @@
 // THE SOFTWARE.
 
 using System;
-using Xwt.Backends;
-
-using MonoMac.AppKit;
 using System.Collections.Generic;
+using MonoMac.AppKit;
+using Xwt.Backends;
+using Xwt.Commands;
 
 namespace Xwt.Mac
 {

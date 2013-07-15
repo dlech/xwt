@@ -1,3 +1,29 @@
+///
+// CommandBackend.cs
+//
+// Author:
+//       David Lechner <david@lechnology.com>
+//
+// Copyright (c) 2013 David Lechner
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 using System;
 using System.Diagnostics;
 using MonoMac.ObjCRuntime;
@@ -5,6 +31,7 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using Xwt;
 using Xwt.Backends;
+using Xwt.Commands;
 
 namespace Xwt.Mac
 {
@@ -16,7 +43,7 @@ namespace Xwt.Mac
 
 		public CommandBackend ()
 		{
-			action = new Selector (string.Format("xwtCommand{0}:", commandCount++));
+			action = new Selector (string.Format ("xwtCommand{0}:", commandCount++));
 		}
 
 		public override void Initalize (ICommandEventSink eventSink)
@@ -27,114 +54,10 @@ namespace Xwt.Mac
 			var backendHost = eventSink as BackendHost<Command, ICommandBackend>;
 			frontendCommand = backendHost.Parent;
 
-			// TODO: make BundleName a property of MacEngine or Util
-			string bundleName;
-			var key = new NSString ("CFBundleName");
-			NSObject value;
-			if (NSBundle.MainBundle.InfoDictionary.TryGetValue (key, out value))
-				bundleName = (value as NSString).ToString ();
-			else
-				bundleName = Process.GetCurrentProcess ().ProcessName;
-
-			switch (frontendCommand.Id) {
-			case "Xwt.StockCommands.App.About":
-				action = new Selector ("orderFrontStandardAboutPanel:");
-				Label = string.Format ("About {0}", bundleName);
-				break;
-			case "Xwt.StockCommands.File.Close":
-				action = new Selector ("close:");
-				break;
-			case "Xwt.StockCommands.File.CloseAll":
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.w, ModifierKeys.Primary | ModifierKeys.Alt);
-				break;
-			case "Xwt.StockCommands.Edit.Copy":
-				action = new Selector ("copy:");
-				break;
-			case "Xwt.StockCommands.Edit.Cut":
-				action = new Selector ("cut:");
-				break;
-			case "Xwt.StockCommands.Edit.Delete":
-				action = new Selector ("delete:");
-				break;
-			case "Xwt.StockCommands.File.Export":
-				Label = "_Export As\u2026";
-				break;
-			case "Xwt.StockCommands.Edit.Find":
-				action = new Selector ("performTextFinderAction:");
-				break;
-			case "Xwt.StockCommands.Misc.Help":
-				Label = string.Format ("{0} Help", bundleName);
-				action = new Selector ("showHelp:");
-				break;
-			case "Xwt.StockCommands.App.Hide":
-				Label = string.Format ("Hide {0}", bundleName);
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Primary);
-				action = new Selector("hide:");
-				break;
-			case "Xwt.StockCommands.App.HideOthers":
-				Label = "Hide others";
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.h, ModifierKeys.Primary | ModifierKeys.Alt);
-				action = new Selector("hideOtherApplications:");
-				break;
-			case "Xwt.StockCommands.Window.Maximize":
-				Label = "Zoom";
-				action = new Selector("performZoom:");
-				break;
-			case "Xwt.StockCommands.Window.Minimize":
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence(Key.m, ModifierKeys.Primary);
-				action = new Selector("performMiniaturize:");
-				break;
-			case "Xwt.StockCommands.File.New":
-				action = new Selector ("new:");
-				break;
-			case "Xwt.StockCommands.File.Open":
-				action = new Selector ("open:");
-				break;
-			case "Xwt.StockCommands.Edit.Paste":
-				action = new Selector ("paste:");
-				break;
-			case "Xwt.StockCommands.Edit.PasteAsText":
-				action = new Selector ("pasteAsPlainText:");
-				break;
-			case "Xwt.StockCommands.App.Preferences":
-				Label = "Preferences\u2026";
-				DefaultKeyboardShortcut = new KeyboardShortcutSequence (Key.Comma, ModifierKeys.Primary);
-				break;
-			case "Xwt.StockCommands.File.Print":
-				action = new Selector ("print:");
-				break;
-			case "Xwt.StockCommands.App.Quit":
-				Label = string.Format ("Quit {0}", bundleName);
-				action = new Selector ("terminate:");
-				break;
-			case "Xwt.StockCommands.Edit.Redo":
-				action = new Selector ("redo:");
-				break;					
-			case "Xwt.StockCommands.Edit.Replace":
-				action = new Selector ("replace:");
-				break;
-			case "Xwt.StockCommands.File.Revert":
-				action = new Selector ("revert:");
-				break;					
-			case "Xwt.StockCommands.File.Save":
-				action = new Selector ("save:");
-				break;
-			case "Xwt.StockCommands.Edit.SelectAll":
-				action = new Selector ("selectAll:");
-				break;
-			case "Xwt.StockCommands.Misc.Stop":
-				action = new Selector ("stop:");
-				break;
-			case "Xwt.StockCommands.Edit.Undo":
-				action = new Selector ("undo:");
-				break;
-			case "Xwt.StockCommands.App.UnhideAll":
-				Label = "Show All";
-				action = new Selector ("unhideAllApplications:");
-				break;
-			default:
-				break;
-			}
+			IterateCommandAttribute<CocoaActionAttribute> (frontendCommand, (attribute) =>
+			{
+				action = new Selector (attribute.Selector);
+			});
 		}
 
 		public override IMenuItemBackend CreateMenuItem() {

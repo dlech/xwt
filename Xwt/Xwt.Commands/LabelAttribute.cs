@@ -1,21 +1,21 @@
-// 
-// IAlertDialogBackend.cs
-//  
+//
+// LabelAttribute.cs
+//
 // Author:
-//       Lluis Sanchez <lluis@xamarin.com>
-// 
-// Copyright (c) 2011 Xamarin Inc
-// 
+//       David Lechner <david@lechnology.com>
+//
+// Copyright (c) 2013 David Lechner
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,18 +25,30 @@
 // THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using Xwt.Commands;
+using Xwt;
 
-namespace Xwt.Backends
+namespace Xwt.Commands
 {
-	public interface IAlertDialogBackend: IDisposable
+	/// <summary>
+	/// Specifies the Label for an <see cref="Xwt.Commands.Command"/>
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+	public class LabelAttribute : Attribute
 	{
-		void Initialize (ApplicationContext context);
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.Commands.LabelAttribute"/> class.
+		/// </summary>
+		/// <param name="label">Label.</param>
+		/// <param name="desktop">Desktop.</param>
+		public LabelAttribute (string label, DesktopType desktop)
+		{
+			Label = label;
+			DesktopType = desktop;
+		}
 
-		Command Run (WindowFrame transientFor, MessageDescription message);
-		
-		bool ApplyToAll { get; }
+		public string Label { get; private set; }
+
+		public DesktopType DesktopType { get; private set; }
 	}
 }
 

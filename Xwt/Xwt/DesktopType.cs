@@ -37,32 +37,32 @@ namespace Xwt
 		/// <summary>
 		/// GNU Gnome desktop environment.
 		/// </summary>
-		Gnome = 0,
+		Gnome = 1,
 
 		/// <summary>
 		/// KDE desktop environment
 		/// </summary>
-		Kde = 1,
+		Kde = 1 << 1,
 
 		/// <summary>
 		/// Apple Macintosh desktop environment
 		/// </summary>
-		Mac = 1 >> 1,
+		Mac = 1 << 2,
 
 		/// <summary>
 		/// Ubuntu Unity desktop environemnt
 		/// </summary>
-		Unity = 1 >> 2,
+		Unity = 1 << 3 | Gnome,
 
 		/// <summary>
 		/// Microsoft Windows desktop environment
 		/// </summary>
-		Windows = 1 >> 3,
+		Windows = 1 << 4,
 
 		/// <summary>
 		/// All desktop environments
 		/// </summary>
-		All = 0xFFFF
+		All = 0xFFFFFFF
 	}
 }
 

@@ -26,7 +26,7 @@
 
 using System;
 
-namespace Xwt
+namespace Xwt.Commands
 {
 	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
 	public class CommandHandlerAttribute : Attribute

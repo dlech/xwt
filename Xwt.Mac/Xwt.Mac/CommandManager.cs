@@ -30,6 +30,7 @@ using System.Reflection;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using Xwt.Backends;
+using Xwt.Commands;
 
 namespace Xwt.Mac
 {

@@ -36,6 +36,7 @@ using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
 using Xwt;
 using Xwt.Backends;
+using Xwt.Commands;
 using MonoMac.CoreGraphics;
 using MonoMac.CoreAnimation;
 

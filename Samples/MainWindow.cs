@@ -1,7 +1,8 @@
 using System;
-using Xwt;
-using Xwt.Drawing;
 using System.Xml;
+using Xwt;
+using Xwt.Commands;
+using Xwt.Drawing;
 
 namespace Samples
 {

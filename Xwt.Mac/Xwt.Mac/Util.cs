@@ -387,7 +387,7 @@ namespace Xwt.Mac
 		/// <param name="key">Key.</param>
 		public static string ToMacKey(this Key key)
 		{
-			return char.ToString((char)key);
+			return char.ToString((char)key).ToLower();
 		}
 
 	}

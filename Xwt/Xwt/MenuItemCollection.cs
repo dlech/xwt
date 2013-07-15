@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Xwt.Commands;
 
 namespace Xwt
 {

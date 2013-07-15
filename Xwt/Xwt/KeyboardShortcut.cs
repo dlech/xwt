@@ -13,20 +13,7 @@ namespace Xwt
 		/// Gets the key.
 		/// </summary>
 		/// <value>The key.</value>
-		/// <remarks>
-		/// If the key is an uppercase character (A-Z), then the shift modifier will be
-		/// added automatically. OS X does this anyway, so we do it too to keep things
-		/// consistant cross-platform.
-		/// </remarks>
-		public Key Key {
-			get { return key; }
-			private set
-			{ 
-				key = value;
-				if (key >= Key.A && key <= Key.Z)
-					Modifiers |= ModifierKeys.Shift;
-			}
-		}
+		public Key Key { get; private set; }
 
 		/// <summary>
 		/// Gets the modifiers.

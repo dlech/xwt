@@ -1,5 +1,5 @@
 //
-// CommandHandlerAttribute.cs
+// WindowsCommandAttribute.cs
 //
 // Author:
 //       David Lechner <david@lechnology.com>
@@ -25,48 +25,31 @@
 // THE SOFTWARE.
 
 using System;
+using Xwt;
 
-namespace Xwt
+namespace Xwt.Commands
 {
-	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandHandlerAttribute : Attribute
+	/// <summary>
+	/// Specifies the name of a WPF command.
+	/// </summary>
+	/// <remarks>
+	/// Names are from System.Windows.Input.MediaCommands, ApplicationCommands, NavigationCommands,
+	/// ComponentCommands, or EditingCommands, including the namespace and a property.
+	/// <example>[WindowsCommand("System.Windows.Input.ApplicationCommands.New")]</example>
+	/// </remarks>
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	public class WindowsCommandAttribute : Attribute
 	{
-		Enum command;
-
-		public CommandHandlerAttribute (object command)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.Commands.WindowsCommandAttribute"/> class.
+		/// </summary>
+		/// <param name="selector">Selector.</param>
+		public WindowsCommandAttribute (string command)
 		{
-			this.command = (Enum)command;
+			Command = command;
 		}
 
-		public Command Command
-		{
-			get 
-			{
-				return Command.GetCommandForId(command);
-			}
-		}
+		public string Command { get; private set; }
 	}
-
-	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandStatusRequestHandlerAttribute : Attribute
-	{
-		Enum command;
-
-		public CommandStatusRequestHandlerAttribute (object command)
-		{
-			this.command = (Enum)command;
-		}
-
-		public Command Command
-		{
-			get 
-			{
-				return Command.GetCommandForId(command);
-			}
-		}
-	}
-
-	public delegate void CommandHandler();
-	public delegate bool CommandStatusRequestHandler();
 }
 

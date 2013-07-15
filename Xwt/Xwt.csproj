@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Xwt.Backends\CommandBackend.cs" />
     <Compile Include="Xwt.Backends\ICommandBackend.cs" />
     <Compile Include="Xwt\Widget.cs">
       <SubType>Component</SubType>
@@ -175,7 +174,6 @@
     </Compile>
     <Compile Include="Xwt\ItemCollection.cs" />
     <Compile Include="Xwt.Backends\IComboBoxBackend.cs" />
-    <Compile Include="Xwt\Command.cs" />
     <Compile Include="Xwt\IListDataSource.cs" />
     <Compile Include="Xwt\ITreeDataSource.cs" />
     <Compile Include="Xwt\Dialog.cs">
@@ -414,18 +412,25 @@
     <Compile Include="Xwt\HSlider.cs" />
     <Compile Include="Xwt.Backends\ResourceManager.cs" />
     <Compile Include="Xwt.Backends\DisposableResourceBackendHandler.cs" />
-    <Compile Include="Xwt\StockCommands.cs" />
     <Compile Include="Xwt\KeyboardShortcut.cs" />
     <Compile Include="Xwt\KeyboardShortcutSequence.cs" />
     <Compile Include="Xwt\XwtUiComponent.cs" />
     <Compile Include="Xwt.Backends\IUiBackend.cs" />
-    <Compile Include="Xwt\CommandHandlerAttribute.cs" />
     <Compile Include="Xwt.Motion\Animation.cs" />
     <Compile Include="Xwt.Motion\AnimationExtensions.cs" />
     <Compile Include="Xwt.Motion\Easing.cs" />
     <Compile Include="Xwt.Motion\Tweener.cs" />
     <Compile Include="Xwt.Motion\IAnimatable.cs" />
     <Compile Include="Xwt\WindowLocation.cs" />
+    <Compile Include="Xwt.Commands\Command.cs" />
+    <Compile Include="Xwt.Commands\CommandHandlerAttribute.cs" />
+    <Compile Include="Xwt.Backends\CommandBackend.cs" />
+    <Compile Include="Xwt.Commands\DefaultKeyboardShortcutAttribute.cs" />
+    <Compile Include="Xwt.Commands\StockCommands.cs" />
+    <Compile Include="Xwt.Commands\LabelAttribute.cs" />
+    <Compile Include="Xwt.Commands\CocoaActionAttribute.cs" />
+    <Compile Include="Xwt.Commands\WindowsCommandAttribute.cs" />
+    <Compile Include="Xwt.Commands\GtkStockIdAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -439,4 +444,7 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Xwt.Commands\" />
+  </ItemGroup>
 </Project>

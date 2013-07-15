@@ -26,8 +26,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using SWI = System.Windows.Input;
 using Xwt.Backends;
+using Xwt.Commands;
 
 namespace Xwt.WPFBackend
 {
@@ -53,68 +55,18 @@ namespace Xwt.WPFBackend
 
 			var backendHost = eventSink as BackendHost<Command, ICommandBackend>;
 			var frontendCommand = backendHost.Parent;
-			if (frontendCommand.IsStockCommand) {
-				switch (frontendCommand.StockCommand) {
-					case StockCommands.App.Close:
-						Command = SWI.ApplicationCommands.Close;
-						break;
-					case StockCommands.App.Copy:
-						Command = SWI.ApplicationCommands.Copy;
-						break;
-					case StockCommands.App.Cut:
-						Command = SWI.ApplicationCommands.Cut;
-						break;
-					case StockCommands.App.Delete:
-						Command = SWI.ApplicationCommands.Delete;
-						break;
-					case StockCommands.App.Find:
-						Command = SWI.ApplicationCommands.Find;
-						break;
-					//case GlobalCommand.Help:
-					//  Command = SWI.ApplicationCommands.Help;
-					//  break;
-					case StockCommands.App.New:
-						Command = SWI.ApplicationCommands.New;
-						break;
-					case StockCommands.App.Open:
-						Command = SWI.ApplicationCommands.Open;
-						break;
-					case StockCommands.App.Paste:
-						Command = SWI.ApplicationCommands.Paste;
-						break;
-					case StockCommands.App.Print:
-						Command = SWI.ApplicationCommands.Print;
-						break;
-					case StockCommands.App.PrintPreview:
-						Command = SWI.ApplicationCommands.PrintPreview;
-						break;
-					case StockCommands.App.Properties:
-						Command = SWI.ApplicationCommands.Properties;
-						break;
-					case StockCommands.App.Redo:
-						Command = SWI.ApplicationCommands.Redo;
-						break;
-					case StockCommands.App.Replace:
-						Command = SWI.ApplicationCommands.Replace;
-						break;
-					case StockCommands.App.Save:
-						Command = SWI.ApplicationCommands.Save;
-						break;
-					case StockCommands.App.SaveAs:
-						Command = SWI.ApplicationCommands.SaveAs;
-						break;
-					case StockCommands.App.Stop:
-						Command = SWI.ApplicationCommands.Stop;
-						break;
-					case StockCommands.App.Undo:
-						Command = SWI.ApplicationCommands.Undo;
-						break;
-					case StockCommands.App.Quit:
-						frontendCommand.Label = "E_xit";
-						frontendCommand.DefaultKeyboardShortcut = null;
-						break;
-				}
-			}
+			IterateCommandAttribute<WindowsCommandAttribute> (frontendCommand, (attribute) =>
+			{
+				var typeName = attribute.Command.Substring(0, attribute.Command.LastIndexOf('.'));
+				var commandType = Type.GetType(typeName, false);
+				if (commandType == null)
+					return;
+				var propertyName = attribute.Command.Substring(typeName.Length + 1);
+				var commandProperty = commandType.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
+				if (commandProperty == null)
+					return;
+				Command = commandProperty.GetValue (null, null);
+			});
 			if (Command == null) {
 				Command = new SWI.RoutedUICommand (frontendCommand.Label ?? string.Empty, frontendCommand.Id, frontendCommand.GetType ());
 				KeyboardShortcut = frontendCommand.DefaultKeyboardShortcut;

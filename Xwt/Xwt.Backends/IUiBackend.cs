@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 
 using System;
+using Xwt.Commands;
 
 namespace Xwt.Backends
 {

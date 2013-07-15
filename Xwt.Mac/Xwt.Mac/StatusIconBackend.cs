@@ -26,10 +26,10 @@
 
 using System;
 using System.Collections.ObjectModel;
-using Xwt.Backends;
-using Xwt.Drawing;
 using MonoMac.AppKit;
-
+using Xwt.Backends;
+using Xwt.Commands;
+using Xwt.Drawing;
 
 namespace Xwt.Mac
 {

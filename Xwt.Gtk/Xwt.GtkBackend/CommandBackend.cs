@@ -26,6 +26,7 @@
 
 using System;
 using Xwt.Backends;
+using Xwt.Commands;
 
 namespace Xwt.GtkBackend
 {
@@ -46,23 +47,13 @@ namespace Xwt.GtkBackend
 
 			string stockId = null;
 
-			if (frontendCommand.IsStockCommand) {
-				var stockCommandName = frontendCommand.StockCommand.ToString ();
-				switch (frontendCommand.StockCommand) {
-				case StockCommands.App.Replace:
-					stockCommandName = "FindAndReplace";
-					goto default;
-				case StockCommands.App.Revert:
-					stockCommandName = "RevertToSaved";
-					goto default;
-				default:
-					var gtkStockType = typeof(Gtk.Stock);
-					var gtkStockProperty = gtkStockType.GetProperty (stockCommandName);
-					if (gtkStockProperty != null)
-						stockId = gtkStockProperty.GetValue (null, null) as string;
-					break;
-				}
-			}
+			IterateCommandAttribute<GtkStockIdAttribute> (frontendCommand, (attribute) =>
+			{
+				var stockItem = new Gtk.StockItem ();
+				if (Gtk.StockManager.Lookup(attribute.StockId, ref stockItem))
+					stockId = attribute.StockId;
+			});
+
 			action = new Gtk.Action (frontendCommand.Id, frontendCommand.Label, null, stockId)
 			{
 				Tooltip = frontendCommand.Tooltip

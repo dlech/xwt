@@ -28,13 +28,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reflection;
-using Xwt.Backends;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using System.Drawing;
 using MonoMac.ObjCRuntime;
-
+using Xwt.Backends;
+using Xwt.Commands;
 
 namespace Xwt.Mac
 {

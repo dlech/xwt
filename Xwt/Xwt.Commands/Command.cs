@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using Xwt.Drawing;
 using Xwt.Backends;
 
-namespace Xwt
+namespace Xwt.Commands
 {
 	[BackendType(typeof(ICommandBackend))]
 	public class Command : XwtComponent
@@ -123,7 +123,7 @@ namespace Xwt
 		/// <param name="id">Stock command identifier.</param>
 		public static Command GetCommandForId(Enum id)
 		{
-			return GetCommandForId (id.GetType().ToString ().Replace ('+', '.') + "." + id.ToString ());
+			return GetCommandForId (id.GetType().ToString () + "." + id.ToString ());
 		}
 
 		public string Id { get; private set; }
@@ -212,7 +212,6 @@ namespace Xwt
 			public static Command Save { get { return GetCommandForId(StockCommands.File.Save); } }
 			public static Command SaveAll { get { return GetCommandForId(StockCommands.File.SaveAll); } }
 			public static Command SaveAs { get { return GetCommandForId(StockCommands.File.SaveAs); } }
-			public static Command SaveCopy { get { return GetCommandForId(StockCommands.File.SaveCopy); } }
 		}
 
 		/// <summary>Stock Edit commands</summary>
@@ -221,8 +220,7 @@ namespace Xwt
 		/// They are usually found in the Edit menu.
 		/// </remarks>
 		public static class Edit
-		{			
-			public static Command Clear { get { return GetCommandForId(StockCommands.Edit.Clear); } }
+		{
 			public static Command Copy { get { return GetCommandForId(StockCommands.Edit.Copy); } }
 			public static Command Cut { get { return GetCommandForId(StockCommands.Edit.Cut); } }
 			public static Command Delete { get { return GetCommandForId(StockCommands.Edit.Delete); } }

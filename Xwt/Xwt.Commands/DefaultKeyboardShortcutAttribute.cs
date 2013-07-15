@@ -23,15 +23,45 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
+using Xwt;
 
 namespace Xwt.Commands
 {
-	public class DefaultKeyboardShortcutAttribute
+	/// <summary>
+	/// Specifies the default keyboard shortcut for a <see cref="Xwt.Commands.Command"/>.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+	public class DefaultKeyboardShortcutAttribute : Attribute
 	{
-		public DefaultKeyboardShortcutAttribute ()
+		public DefaultKeyboardShortcutAttribute (Key shortcut, DesktopType desktop)
 		{
+			Shortcut = new KeyboardShortcutSequence (shortcut);
+			DesktopType = desktop;
 		}
+
+		public DefaultKeyboardShortcutAttribute (Key shortcut, ModifierKeys modifiers, DesktopType desktop)
+		{
+			Shortcut = new KeyboardShortcutSequence (shortcut, modifiers);
+			DesktopType = desktop;
+		}
+
+		public DefaultKeyboardShortcutAttribute (Key shortcut1, ModifierKeys modifiers1, Key shortcut2, DesktopType desktop)
+		{
+			Shortcut = new KeyboardShortcutSequence (shortcut1, modifiers1, shortcut2);
+			DesktopType = desktop;
+		}
+
+		public DefaultKeyboardShortcutAttribute (Key shortcut1, ModifierKeys modifiers1, Key shortcut2, ModifierKeys modifiers2, DesktopType desktop)
+		{
+			Shortcut = new KeyboardShortcutSequence (shortcut1, modifiers1, shortcut2, modifiers2);
+			DesktopType = desktop;
+		}
+
+		public KeyboardShortcutSequence Shortcut { get; private set; }
+
+		public DesktopType DesktopType { get; private set; }
 	}
 }
 
