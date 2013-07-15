@@ -1,5 +1,5 @@
 //
-// CommandHandlerAttribute.cs
+// BaseCommandHandlerAttribute.cs
 //
 // Author:
 //       David Lechner <david@lechnology.com>
@@ -28,23 +28,23 @@ using System;
 
 namespace Xwt.Commands
 {
-	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandHandlerAttribute : BaseCommandHandlerAttribute
+	[AttributeUsage (AttributeTargets.Method, AllowMultiple = false)]
+	public abstract class BaseCommandHandlerAttribute : Attribute
 	{
-		public CommandHandlerAttribute (object command) : base (command)
+		protected Enum command;
+
+		public BaseCommandHandlerAttribute (object command)
 		{
+			this.command = (Enum)command;
+		}
+
+		public Command Command
+		{
+			get 
+			{
+				return Command.GetCommandForEnum(command);
+			}
 		}
 	}
-
-	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandStatusRequestHandlerAttribute : BaseCommandHandlerAttribute
-	{
-		public CommandStatusRequestHandlerAttribute (object command) : base (command)
-		{
-		}
-	}
-
-	public delegate void CommandHandler();
-	public delegate bool CommandStatusRequestHandler();
 }
 

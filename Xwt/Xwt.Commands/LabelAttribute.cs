@@ -40,7 +40,7 @@ namespace Xwt.Commands
 		/// </summary>
 		/// <param name="label">Label.</param>
 		/// <param name="desktop">Desktop.</param>
-		public LabelAttribute (string label, DesktopType desktop)
+		public LabelAttribute (string label, DesktopType desktop = DesktopType.All)
 		{
 			Label = label;
 			DesktopType = desktop;

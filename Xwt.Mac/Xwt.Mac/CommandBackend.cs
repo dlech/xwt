@@ -54,7 +54,7 @@ namespace Xwt.Mac
 			var backendHost = eventSink as BackendHost<Command, ICommandBackend>;
 			frontendCommand = backendHost.Parent;
 
-			IterateCommandAttribute<CocoaActionAttribute> (frontendCommand, (attribute) =>
+			frontendCommand.IterateAttributes<CocoaActionAttribute> ((attribute) =>
 			{
 				action = new Selector (attribute.Selector);
 			});
@@ -77,6 +77,13 @@ namespace Xwt.Mac
 			menuItem.Action = action;
 			menuItem.Target = null;
 			return new MenuItemBackend(menuItem);
+		}
+
+		public override IMenuItemBackend CreateListMenuItem (int index, string label) {
+			var menuItem = CreateMenuItem () as MenuItemBackend;
+			menuItem.Label = string.Format ("{0} {1}", index + 1, label);
+			menuItem.Item.Tag = index;
+			return menuItem;
 		}
 
 		public override IButtonBackend CreateButton() {

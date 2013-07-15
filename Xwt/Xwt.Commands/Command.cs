@@ -80,25 +80,25 @@ namespace Xwt.Commands
 			commands = new Dictionary<string, Command> ();
 		}
 
-		Command (string id)
+		Command (Enum baseEnum)
 		{
-			Id = id;
+			BaseEnum = baseEnum;
 		}
 
-		Command (string id, string label)
-			: this (id)
+		Command (Enum baseEnum, string label)
+			: this (baseEnum)
 		{
 			Label = label;
 		}
 
-		Command (string id, string label, KeyboardShortcutSequence shortcut)
-			: this(id, label)
+		Command (Enum baseEnum, string label, KeyboardShortcutSequence shortcut)
+			: this(baseEnum, label)
 		{
 			DefaultKeyboardShortcut = shortcut;
 		}
 
-		Command (string id, string label, KeyboardShortcutSequence shortcut, Image icon)
-			: this(id, label, shortcut)
+		Command (Enum baseEnum, string label, KeyboardShortcutSequence shortcut, Image icon)
+			: this(baseEnum, label, shortcut)
 		{
 			Icon = icon;
 		}
@@ -110,10 +110,11 @@ namespace Xwt.Commands
 		/// <param name="id">Identifier.</param>
 		public static Command GetCommandForId(string id)
 		{
-			if (!commands.ContainsKey (id)) {
-				commands.Add (id, new Command (id));
-			}
-			return commands[id];
+			var commandTypeName = id.Substring(0, id.LastIndexOf('.'));
+			var commandType = Type.GetType (commandTypeName);
+			var fieldName = id.Substring (commandTypeName.Length + 1);
+			var commandField = commandType.GetField (fieldName);
+			return GetCommandForEnum ((Enum)commandField.GetValue (null));
 		}
 
 		/// <summary>
@@ -121,18 +122,31 @@ namespace Xwt.Commands
 		/// </summary>
 		/// <returns>The command.</returns>
 		/// <param name="id">Stock command identifier.</param>
-		public static Command GetCommandForId(Enum id)
+		public static Command GetCommandForEnum(Enum e)
 		{
-			return GetCommandForId (id.GetType().ToString () + "." + id.ToString ());
+			var id = GetIdForEnum (e);
+			if (!commands.ContainsKey (id)) {
+				commands.Add (id, new Command (e));
+			}
+			return commands[id];
 		}
 
-		public string Id { get; private set; }
+		public Enum BaseEnum { get; private set; }
+
+		public string Id
+		{
+			get
+			{
+				return GetIdForEnum (BaseEnum);
+			}
+		}
+
 
 		public string ShortId 
 		{
 			get
 			{
-				return Id.Substring (Id.LastIndexOf ('.') + 1);
+				return BaseEnum.ToString ();
 			}
 		}
 
@@ -165,6 +179,24 @@ namespace Xwt.Commands
 
 		public MenuItem CreateMenuItem ()
 		{
+			MenuItem menuItem = null;
+			// if this is a List command, then return a MenuItem with a Submenu that will contain the list
+			IterateAttributes<ListCommandAttribute>((attribute) =>
+			{
+				menuItem = new MenuItem (Label);
+				menuItem.SubMenu = new Menu ();
+				menuItem.Clicked += (sender, e) =>
+				{
+					menuItem.SubMenu = new Menu ();
+					var listMenuItemBackend = Backend.CreateListMenuItem (0, "Name");
+					var listMenuItem = Toolkit.CurrentEngine.Backend.CreateFrontend<MenuItem> (listMenuItemBackend);
+					menuItem.SubMenu.Items.Add (listMenuItem);
+				};
+			});
+			if (menuItem != null)
+				return menuItem;
+
+			// otherwise, just let the backend to the work
 			var menuItemBackend = Backend.CreateMenuItem ();
 			return Toolkit.CurrentEngine.Backend.CreateFrontend<MenuItem> (menuItemBackend);
 		}
@@ -175,6 +207,22 @@ namespace Xwt.Commands
 			return Toolkit.CurrentEngine.Backend.CreateFrontend<Button> (buttonBackend);
 		}
 
+		public void IterateAttributes<T>(Action<T> action)
+		{
+			var commandType = BaseEnum.GetType ();
+			var commandField = commandType.GetField (ShortId);
+			if (commandField == null)
+				return;
+			var attributeList = commandField.GetCustomAttributes (typeof(T), true);
+			foreach (T shortcutAttribute in attributeList)
+				action.Invoke (shortcutAttribute);
+		}
+		
+		private static string GetIdForEnum(Enum e)
+		{
+			return e.GetType ().ToString () + "." + e.ToString ();
+		}
+
 		/// <summary>Stock Application commands</summary>
 		/// <remarks>
 		/// These are commands that affect the application as a whole.
@@ -183,12 +231,12 @@ namespace Xwt.Commands
 		/// </remarks>
 		public static class App
 		{
-			public static Command About { get { return GetCommandForId(StockCommands.App.About); } }
-			public static Command Hide { get { return GetCommandForId(StockCommands.App.Hide); } }
-			public static Command HideOthers { get { return GetCommandForId(StockCommands.App.HideOthers); } }
-			public static Command Preferences { get { return GetCommandForId(StockCommands.App.Preferences); } }
-			public static Command Quit { get { return GetCommandForId(StockCommands.App.Quit); } }
-			public static Command UnhideAll { get { return GetCommandForId(StockCommands.App.UnhideAll); } }
+			public static Command About { get { return GetCommandForEnum(StockCommands.App.About); } }
+			public static Command Hide { get { return GetCommandForEnum(StockCommands.App.Hide); } }
+			public static Command HideOthers { get { return GetCommandForEnum(StockCommands.App.HideOthers); } }
+			public static Command Preferences { get { return GetCommandForEnum(StockCommands.App.Preferences); } }
+			public static Command Quit { get { return GetCommandForEnum(StockCommands.App.Quit); } }
+			public static Command UnhideAll { get { return GetCommandForEnum(StockCommands.App.UnhideAll); } }
 		}
 
 		/// <summary>Stock File commands</summary>
@@ -198,20 +246,20 @@ namespace Xwt.Commands
 		/// </remarks>
 		public static class File
 		{
-			public static Command Close { get { return GetCommandForId(StockCommands.File.Close); } }
-			public static Command CloseAll { get { return GetCommandForId(StockCommands.File.CloseAll); } }
-			public static Command Duplicate { get { return GetCommandForId(StockCommands.File.Duplicate); } }
-			public static Command Export { get { return GetCommandForId(StockCommands.File.Export); } }
-			public static Command Import { get { return GetCommandForId(StockCommands.File.Import); } }
-			public static Command New { get { return GetCommandForId(StockCommands.File.New); } }
-			public static Command Open { get { return GetCommandForId(StockCommands.File.Open); } }
-			public static Command PageSetup { get { return GetCommandForId(StockCommands.File.PageSetup); } }
-			public static Command Print { get { return GetCommandForId(StockCommands.File.Print); } }
-			public static Command PrintPreview { get { return GetCommandForId(StockCommands.File.PrintPreview); } }
-			public static Command Revert { get { return GetCommandForId(StockCommands.File.Revert); } }
-			public static Command Save { get { return GetCommandForId(StockCommands.File.Save); } }
-			public static Command SaveAll { get { return GetCommandForId(StockCommands.File.SaveAll); } }
-			public static Command SaveAs { get { return GetCommandForId(StockCommands.File.SaveAs); } }
+			public static Command Close { get { return GetCommandForEnum(StockCommands.File.Close); } }
+			public static Command CloseAll { get { return GetCommandForEnum(StockCommands.File.CloseAll); } }
+			public static Command Duplicate { get { return GetCommandForEnum(StockCommands.File.Duplicate); } }
+			public static Command Export { get { return GetCommandForEnum(StockCommands.File.Export); } }
+			public static Command Import { get { return GetCommandForEnum(StockCommands.File.Import); } }
+			public static Command New { get { return GetCommandForEnum(StockCommands.File.New); } }
+			public static Command Open { get { return GetCommandForEnum(StockCommands.File.Open); } }
+			public static Command PageSetup { get { return GetCommandForEnum(StockCommands.File.PageSetup); } }
+			public static Command Print { get { return GetCommandForEnum(StockCommands.File.Print); } }
+			public static Command PrintPreview { get { return GetCommandForEnum(StockCommands.File.PrintPreview); } }
+			public static Command Revert { get { return GetCommandForEnum(StockCommands.File.Revert); } }
+			public static Command Save { get { return GetCommandForEnum(StockCommands.File.Save); } }
+			public static Command SaveAll { get { return GetCommandForEnum(StockCommands.File.SaveAll); } }
+			public static Command SaveAs { get { return GetCommandForEnum(StockCommands.File.SaveAs); } }
 		}
 
 		/// <summary>Stock Edit commands</summary>
@@ -221,19 +269,19 @@ namespace Xwt.Commands
 		/// </remarks>
 		public static class Edit
 		{
-			public static Command Copy { get { return GetCommandForId(StockCommands.Edit.Copy); } }
-			public static Command Cut { get { return GetCommandForId(StockCommands.Edit.Cut); } }
-			public static Command Delete { get { return GetCommandForId(StockCommands.Edit.Delete); } }
-			public static Command DeselectAll { get { return GetCommandForId(StockCommands.Edit.DeselectAll); } }
-			public static Command Find { get { return GetCommandForId(StockCommands.Edit.Find); } }
-			public static Command FindNext { get { return GetCommandForId(StockCommands.Edit.FindNext); } }
-			public static Command FindPrevious { get { return GetCommandForId(StockCommands.Edit.FindPrevious); } }
-			public static Command Paste { get { return GetCommandForId(StockCommands.Edit.Paste); } }
-			public static Command PasteAsText { get { return GetCommandForId(StockCommands.Edit.PasteAsText); } }
-			public static Command Redo { get { return GetCommandForId(StockCommands.Edit.Redo); } }
-			public static Command Replace { get { return GetCommandForId(StockCommands.Edit.Replace); } }
-			public static Command SelectAll { get { return GetCommandForId(StockCommands.Edit.SelectAll); } }
-			public static Command Undo { get { return GetCommandForId(StockCommands.Edit.Undo); } }
+			public static Command Copy { get { return GetCommandForEnum(StockCommands.Edit.Copy); } }
+			public static Command Cut { get { return GetCommandForEnum(StockCommands.Edit.Cut); } }
+			public static Command Delete { get { return GetCommandForEnum(StockCommands.Edit.Delete); } }
+			public static Command DeselectAll { get { return GetCommandForEnum(StockCommands.Edit.DeselectAll); } }
+			public static Command Find { get { return GetCommandForEnum(StockCommands.Edit.Find); } }
+			public static Command FindNext { get { return GetCommandForEnum(StockCommands.Edit.FindNext); } }
+			public static Command FindPrevious { get { return GetCommandForEnum(StockCommands.Edit.FindPrevious); } }
+			public static Command Paste { get { return GetCommandForEnum(StockCommands.Edit.Paste); } }
+			public static Command PasteAsText { get { return GetCommandForEnum(StockCommands.Edit.PasteAsText); } }
+			public static Command Redo { get { return GetCommandForEnum(StockCommands.Edit.Redo); } }
+			public static Command Replace { get { return GetCommandForEnum(StockCommands.Edit.Replace); } }
+			public static Command SelectAll { get { return GetCommandForEnum(StockCommands.Edit.SelectAll); } }
+			public static Command Undo { get { return GetCommandForEnum(StockCommands.Edit.Undo); } }
 		}
 
 		/// <summary>Stock Window commands</summary>
@@ -243,8 +291,8 @@ namespace Xwt.Commands
 		/// </remarks>
 		public static class Window
 		{
-			public static Command Maximize { get { return GetCommandForId(StockCommands.Window.Maximize); } }
-			public static Command Minimize { get { return GetCommandForId(StockCommands.Window.Minimize); } }
+			public static Command Maximize { get { return GetCommandForEnum(StockCommands.Window.Maximize); } }
+			public static Command Minimize { get { return GetCommandForEnum(StockCommands.Window.Minimize); } }
 		}
 
 		/// <summary>Stock Dialog commands</summary>
@@ -254,11 +302,11 @@ namespace Xwt.Commands
 		/// </remarks>
 		public static class Dialog
 		{
-			public static Command Apply { get { return GetCommandForId(StockCommands.Dialog.Apply); } }
-			public static Command Cancel { get { return GetCommandForId(StockCommands.Dialog.Cancel); } }
-			public static Command No { get { return GetCommandForId(StockCommands.Dialog.No); } }
-			public static Command Ok { get { return GetCommandForId(StockCommands.Dialog.Ok); } }
-			public static Command Yes { get { return GetCommandForId(StockCommands.Dialog.Yes); } }
+			public static Command Apply { get { return GetCommandForEnum(StockCommands.Dialog.Apply); } }
+			public static Command Cancel { get { return GetCommandForEnum(StockCommands.Dialog.Cancel); } }
+			public static Command No { get { return GetCommandForEnum(StockCommands.Dialog.No); } }
+			public static Command Ok { get { return GetCommandForEnum(StockCommands.Dialog.Ok); } }
+			public static Command Yes { get { return GetCommandForEnum(StockCommands.Dialog.Yes); } }
 		}
 
 		/// <summary>Miscellaneous stock commands</summary>
@@ -267,11 +315,11 @@ namespace Xwt.Commands
 		/// </remarks>
 		public static class Misc
 		{
-			public static Command Add { get { return GetCommandForId(StockCommands.Misc.Add); } }
-			public static Command Help { get { return GetCommandForId(StockCommands.Misc.Help); } }
-			public static Command Properties { get { return GetCommandForId(StockCommands.Misc.Properties); } }
-			public static Command Remove { get { return GetCommandForId(StockCommands.Misc.Remove); } }
-			public static Command Stop { get { return GetCommandForId(StockCommands.Misc.Stop); } }
+			public static Command Add { get { return GetCommandForEnum(StockCommands.Misc.Add); } }
+			public static Command Help { get { return GetCommandForEnum(StockCommands.Misc.Help); } }
+			public static Command Properties { get { return GetCommandForEnum(StockCommands.Misc.Properties); } }
+			public static Command Remove { get { return GetCommandForEnum(StockCommands.Misc.Remove); } }
+			public static Command Stop { get { return GetCommandForEnum(StockCommands.Misc.Stop); } }
 		}
 	}
 }

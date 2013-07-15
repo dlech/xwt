@@ -30,6 +30,7 @@ namespace Xwt.Backends
 		void Initalize (ICommandEventSink backendHost);
 
 		IMenuItemBackend CreateMenuItem ();
+		IMenuItemBackend CreateListMenuItem (int index, string label);
 		IButtonBackend CreateButton ();
 	}
 

@@ -68,7 +68,7 @@ namespace Samples
 				d.Content = t;
 
 				// FIXME
-				Command custom = Command.GetCommandForId ("Custom");
+//				Command custom = Command.GetCommandForEnum ("Custom");
 //				d.Buttons.Add (new DialogButton (custom));
 //				d.Buttons.Add (new DialogButton ("Custom OK", Command.Ok));
 //				d.Buttons.Add (new DialogButton (Command.Cancel));

@@ -54,31 +54,16 @@ namespace Xwt.Backends
 			// TODO : add Name and ShortName property to Xwt.Application
 			var appName = System.Diagnostics.Process.GetCurrentProcess ().ProcessName;
 
-			IterateCommandAttribute<DefaultKeyboardShortcutAttribute> (command, (attribute) =>
+			command.IterateAttributes<DefaultKeyboardShortcutAttribute> ((attribute) =>
 			{
 				if (attribute.DesktopType.HasFlag (Desktop.DesktopType)) 
 					DefaultKeyboardShortcut = attribute.Shortcut;
 			});
-			IterateCommandAttribute<LabelAttribute> (command, (attribute) =>
+			command.IterateAttributes<LabelAttribute> ((attribute) =>
 			{
 				if (attribute.DesktopType.HasFlag (Desktop.DesktopType)) 
 					Label = string.Format(attribute.Label, appName);
 			});
-		}
-
-		protected void IterateCommandAttribute<T>(Command command, Action<T> action)
-		{
-			var commandTypeName = command.Id.Substring(0, command.Id.LastIndexOf('.'));
-			var commandType = Type.GetType (commandTypeName, false);
-			if (commandType != null) {
-				var commandField = commandType.GetField (command.ShortId);
-				if (commandField != null) {
-					var attributeList = commandField.GetCustomAttributes (typeof(T), true);
-					foreach (T shortcutAttribute in attributeList) {
-						action.Invoke (shortcutAttribute);
-					}
-				}
-			}
 		}
 
 		public virtual string Label { get; set; }
@@ -92,6 +77,7 @@ namespace Xwt.Backends
 		public virtual bool Visible { get; set; }
 
 		public abstract IMenuItemBackend CreateMenuItem ();
+		public abstract IMenuItemBackend CreateListMenuItem (int index, string Label);
 		public abstract IButtonBackend CreateButton ();
 
 		public virtual void InitializeBackend(object frontend, ApplicationContext context)

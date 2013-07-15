@@ -87,6 +87,26 @@ namespace Xwt.Mac
 					Runtime.ConnectMethod (methodInfo, commandBackend.action);
 					ActivationHandlers.Add (backend, commandBackend.action, nativeHandler);
 				}
+				var listCommandHandlerDelegate = Delegate.CreateDelegate (typeof(ListCommandHandler), frontend, method, false);
+				foreach (ListCommandHandlerAttribute attribute in method.GetCustomAttributes(typeof(ListCommandHandlerAttribute), true)) {
+					if (listCommandHandlerDelegate == null)
+						throw new ArgumentException ("method with ListCommandHandlerAttribute must implement ListCommandHandler delegate");
+					var commandBackend = attribute.Command.GetBackend () as CommandBackend;
+					var key = new Tuple<NSObject, string> (backend, commandBackend.action.Name);
+					if (ActivationHandlers.ContainsKey (key))
+						throw new ArgumentException ("command handler already exists");
+					var methodInfo = backend.GetType ().GetMethod ("OnCommandActivated");
+					if (methodInfo == null)
+						throw new ArgumentException ("backend must have public method void OnCommandActivated(NSObject)");
+					Action<NSObject> nativeHandler = (sender) => {
+						var senderType = sender.GetType ();
+						var senderTagProperty = senderType.GetProperty ("Tag");
+						var index = senderTagProperty.GetValue (sender, null);
+						listCommandHandlerDelegate.DynamicInvoke (index);
+					};
+					Runtime.ConnectMethod (methodInfo, commandBackend.action);
+					ActivationHandlers.Add (backend, commandBackend.action, nativeHandler);
+				}
 				var commandStatusRequestHandlerDelegate = Delegate.CreateDelegate (typeof(CommandStatusRequestHandler), frontend, method, false);
 				foreach (CommandStatusRequestHandlerAttribute attribute in method.GetCustomAttributes(typeof(CommandStatusRequestHandlerAttribute), true)) {
 					if (commandStatusRequestHandlerDelegate == null)
@@ -95,9 +115,6 @@ namespace Xwt.Mac
 					var key = new Tuple<NSObject, string> (backend, commandBackend.action.Name);
 					if (StatusRequestHandlers.ContainsKey (key))
 						throw new ArgumentException ("command handler already exists");
-					var methodInfo = backend.GetType ().GetMethod ("OnCommandActivated");
-					if (methodInfo == null)
-						throw new ArgumentException ("backend must have public method void OnCommandActivated(NSObject)");
 					Func<NSObject, bool> nativeHandler = (sender) => {
 						return (bool)commandStatusRequestHandlerDelegate.DynamicInvoke (null);
 					};

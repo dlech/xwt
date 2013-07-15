@@ -431,6 +431,9 @@
     <Compile Include="Xwt.Commands\CocoaActionAttribute.cs" />
     <Compile Include="Xwt.Commands\WindowsCommandAttribute.cs" />
     <Compile Include="Xwt.Commands\GtkStockIdAttribute.cs" />
+    <Compile Include="Xwt.Commands\ListCommandAttribute.cs" />
+    <Compile Include="Xwt.Commands\ListCommandHandlerAttribute.cs" />
+    <Compile Include="Xwt.Commands\BaseCommandHandlerAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

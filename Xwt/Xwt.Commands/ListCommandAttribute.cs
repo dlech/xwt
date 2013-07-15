@@ -1,5 +1,5 @@
 //
-// CommandHandlerAttribute.cs
+// ListCommandAttribute.cs
 //
 // Author:
 //       David Lechner <david@lechnology.com>
@@ -25,26 +25,24 @@
 // THE SOFTWARE.
 
 using System;
+using Xwt;
 
 namespace Xwt.Commands
 {
-	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandHandlerAttribute : BaseCommandHandlerAttribute
+	/// <summary>
+	/// Inicates that a <see cref="Xwt.Commands.Command"/> is a list command.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+	public class ListCommandAttribute : Attribute
 	{
-		public CommandHandlerAttribute (object command) : base (command)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Xwt.Commands.ListCommandAttribute"/> class.
+		/// </summary>
+		/// <param name="label">Label.</param>
+		/// <param name="desktop">Desktop.</param>
+		public ListCommandAttribute ()
 		{
 		}
 	}
-
-	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandStatusRequestHandlerAttribute : BaseCommandHandlerAttribute
-	{
-		public CommandStatusRequestHandlerAttribute (object command) : base (command)
-		{
-		}
-	}
-
-	public delegate void CommandHandler();
-	public delegate bool CommandStatusRequestHandler();
 }
 

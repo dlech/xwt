@@ -20,7 +20,14 @@ namespace Samples
 		DataField<Image> iconCol = new DataField<Image> ();
 		
 		StatusIcon statusIcon;
-		
+
+		public enum CustomCommands
+		{
+			[Label ("Open _Recent")]
+			[ListCommand]
+			OpenRecent,
+		}
+
 		public MainWindow ()
 		{
 			/* Basic Window Appearance Properties */
@@ -40,6 +47,9 @@ namespace Samples
 			} catch {
 				Console.WriteLine ("Status icon could not be shown");
 			}
+
+			/* Custom Commands */
+			var openRecentCommand = Command.GetCommandForEnum (CustomCommands.OpenRecent);
 
 			/* Main Menu */
 
@@ -95,9 +105,8 @@ namespace Samples
 			fileMenu.SubMenu = new Menu ();
 			fileMenu.SubMenu.Items.Add (Command.File.New);
 			fileMenu.SubMenu.Items.Add (Command.File.Open);
-			var openRecent = new MenuItem ("Open Recent");
-			openRecent.SubMenu = new Menu ();
-			fileMenu.SubMenu.Items.Add (openRecent);
+
+			fileMenu.SubMenu.Items.Add (openRecentCommand);
 			fileMenu.SubMenu.Items.AddSeparator ();
 			fileMenu.SubMenu.Items.Add (Command.File.Close);
 			fileMenu.SubMenu.Items.Add (Command.File.CloseAll);
@@ -257,14 +266,14 @@ namespace Samples
 
 		class TreeViewEx : TreeView
 		{
-			[CommandHandler (StockCommands.File.Close)]
-			public void OnCloseCommand ()
+			[ListCommandHandler (CustomCommands.OpenRecent)]
+			public void OnOpenRecentCommand (int index)
 			{
-				MessageDialog.ShowMessage ("Tree View!");
+				MessageDialog.ShowMessage (string.Format("Opened {0}!", index));
 			}
 
-			[CommandStatusRequestHandler (StockCommands.File.Close)]
-			public bool OnCloseCommandStatusRequested ()
+			[CommandStatusRequestHandler (CustomCommands.OpenRecent)]
+			public bool OnOpenRecentCommandStatusRequested ()
 			{
 				return SelectedRow != null;
 			}

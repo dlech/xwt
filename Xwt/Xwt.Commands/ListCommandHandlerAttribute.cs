@@ -1,5 +1,5 @@
 //
-// CommandHandlerAttribute.cs
+// ListCommandHandlerAttribute.cs
 //
 // Author:
 //       David Lechner <david@lechnology.com>
@@ -25,26 +25,18 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 
 namespace Xwt.Commands
 {
 	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandHandlerAttribute : BaseCommandHandlerAttribute
+	public class ListCommandHandlerAttribute : BaseCommandHandlerAttribute
 	{
-		public CommandHandlerAttribute (object command) : base (command)
+		public ListCommandHandlerAttribute (object command) : base (command)
 		{
 		}
 	}
 
-	[AttributeUsage (AttributeTargets.Method, AllowMultiple = true)]
-	public class CommandStatusRequestHandlerAttribute : BaseCommandHandlerAttribute
-	{
-		public CommandStatusRequestHandlerAttribute (object command) : base (command)
-		{
-		}
-	}
-
-	public delegate void CommandHandler();
-	public delegate bool CommandStatusRequestHandler();
+	public delegate void ListCommandHandler(int index);
 }
 
